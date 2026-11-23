@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_amethyst_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": "minecraft:amethyst_shard" } ] }
+    },
+    "has_deepslate_bricks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": { "items": [ { "items": "minecraft:deepslate_bricks" } ] }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": { "recipe": "sanctumcraft:rune_stone" }
+    }
+  },
+  "requirements": [ [ "has_the_recipe", "has_amethyst_shard", "has_deepslate_bricks" ] ],
+  "rewards": { "recipes": [ "sanctumcraft:rune_stone" ] }
+}

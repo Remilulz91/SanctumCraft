@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ public class SanctumCraft implements ModInitializer {
     public static final String MOD_ID = "sanctumcraft";
     public static final Logger LOGGER = LoggerFactory.getLogger("SanctumCraft");
 
-    /** True when the jar was built with -PbuildType=debug. */
+    /** True when the jar was built with -PbuildType=debug, or when running from the IDE / gradlew runClient. */
     public static boolean DEBUG_BUILD = false;
     public static String VERSION = "unknown";
 
@@ -34,6 +35,9 @@ public class SanctumCraft implements ModInitializer {
     @Override
     public void onInitialize() {
         loadBuildProperties();
+        if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+            DEBUG_BUILD = true;
+        }
         SanctumConfig.load();
 
         ModBlocks.register();

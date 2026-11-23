@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.0-alpha.2] - Fixes
+
+### Fixed
+- **Recipes missing from the recipe book**: Rune Stone and Sanctum Shard recipes are now unlocked as soon as you pick up an amethyst shard (or deepslate bricks / an ender pearl), like vanilla recipes.
+- **`/sanctum debug` missing when launched with `gradlew runClient`**: debug commands are now always enabled in the development environment, whatever the build type.
+
 ## [0.1.0-alpha.1] - Foundations: dimension, portal, sanctum lifecycle
 
 ### Added
