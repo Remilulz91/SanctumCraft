@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "axis=x": { "model": "sanctumcraft:block/sanctum_portal_ns" },
+    "axis=z": { "model": "sanctumcraft:block/sanctum_portal_ew" }
+  }
+}

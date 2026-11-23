@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "sanctumcraft",
+  "version": "${version}",
+  "name": "SanctumCraft",
+  "description": "Raid an ancient sanctum floating in the void. Build a rune portal, enter a freshly generated dungeon, find a rare egg and get out before the timer runs out. Inspired by Aniimo's egg hunt mode.",
+  "authors": [
+    "Remilulz_91"
+  ],
+  "contact": {
+    "sources": "https://github.com/Remilulz91/SanctumCraft",
+    "issues": "https://github.com/Remilulz91/SanctumCraft/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/sanctumcraft/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "fr.sanctumcraft.SanctumCraft"
+    ],
+    "client": [
+      "fr.sanctumcraft.client.SanctumCraftClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=21"
+  }
+}
