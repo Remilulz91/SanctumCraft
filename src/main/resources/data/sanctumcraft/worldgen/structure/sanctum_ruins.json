@@ -3,7 +3,7 @@
   "biomes": "#sanctumcraft:has_structure/sanctum_ruins",
   "step": "surface_structures",
   "spawn_overrides": {},
-  "terrain_adaptation": "beard_thin",
+  "terrain_adaptation": "beard_box",
   "start_pool": "sanctumcraft:ruins/start",
   "size": 1,
   "start_height": {

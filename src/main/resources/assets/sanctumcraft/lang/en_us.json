@@ -89,5 +89,8 @@
   "message.sanctumcraft.chest.searching": "Searching %s",
   "menu.sanctumcraft.chest.searching": "Searching…",
   "message.sanctumcraft.vault.locked": "Locked: you need a %s.",
-  "message.sanctumcraft.vault.opened": "The room opens…"
+  "message.sanctumcraft.vault.opened": "The room opens…",
+  "message.sanctumcraft.closing_soon": "The Sanctum collapses in %s: you can't enter it anymore.",
+  "message.sanctumcraft.left": "The Sanctum will collapse in %s.",
+  "message.sanctumcraft.portal.status_open": "Sanctum open (%s) — collapses in %s — %s/%s players"
 }

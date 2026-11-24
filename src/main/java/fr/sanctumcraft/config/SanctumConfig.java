@@ -36,6 +36,8 @@ public final class SanctumConfig {
     public static int nestHits = 10;
     /** Locked vault rooms per sanctum (opened with the run's key). */
     public static int vaultRooms = 2;
+    /** Nobody can (re)enter a sanctum during its last N seconds. */
+    public static int reentryLockSeconds = 60;
     /** Time to activate the destination mechanism, in seconds. */
     public static int destinationActivationSeconds = 5;
     /** Rooms placed per server tick during generation. */
@@ -78,6 +80,7 @@ public final class SanctumConfig {
         nestCandidates = getInt(p, "nestCandidates", nestCandidates, 1, 12);
         activeNestsMin = getInt(p, "activeNestsMin", activeNestsMin, 1, 12);
         activeNestsMax = getInt(p, "activeNestsMax", activeNestsMax, 1, 12);
+        reentryLockSeconds = getInt(p, "reentryLockSeconds", reentryLockSeconds, 0, 600);
         vaultRooms = getInt(p, "vaultRooms", vaultRooms, 0, 6);
         nestHits = getInt(p, "nestHits", nestHits, 1, 100);
         destinationActivationSeconds = getInt(p, "destinationActivationSeconds", destinationActivationSeconds, 0, 60);
@@ -111,6 +114,7 @@ public final class SanctumConfig {
         p.setProperty("nestCandidates", String.valueOf(nestCandidates));
         p.setProperty("activeNestsMin", String.valueOf(activeNestsMin));
         p.setProperty("activeNestsMax", String.valueOf(activeNestsMax));
+        p.setProperty("reentryLockSeconds", String.valueOf(reentryLockSeconds));
         p.setProperty("vaultRooms", String.valueOf(vaultRooms));
         p.setProperty("nestHits", String.valueOf(nestHits));
         p.setProperty("destinationActivationSeconds", String.valueOf(destinationActivationSeconds));

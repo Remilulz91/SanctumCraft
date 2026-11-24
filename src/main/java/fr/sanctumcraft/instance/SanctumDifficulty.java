@@ -9,8 +9,8 @@ import net.minecraft.util.Formatting;
  */
 public enum SanctumDifficulty {
     NORMAL(Formatting.GREEN, 1.0F, 1.0F, 1.0F, 1.0F),
-    NIGHTMARE(Formatting.DARK_PURPLE, 1.75F, 1.5F, 1.5F, 1.75F),
-    CHAOS(Formatting.DARK_RED, 2.75F, 2.25F, 2.0F, 2.75F);
+    NIGHTMARE(Formatting.DARK_PURPLE, 1.75F, 1.5F, 1.5F, 1.5F),
+    CHAOS(Formatting.DARK_RED, 2.75F, 2.25F, 2.0F, 2.0F);
 
     public final Formatting color;
     /** Mob max health multiplier (0.4). */

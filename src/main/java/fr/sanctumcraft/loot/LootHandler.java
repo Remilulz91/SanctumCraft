@@ -38,7 +38,9 @@ public final class LootHandler {
 
     /** Percent of loot spots that stay empty. */
     private static final int EMPTY_SPOT_CHANCE = 30;
-    private static final int FIRST_REVEAL_DELAY = 10;
+    private static final int FIRST_REVEAL_DELAY = 20;
+    /** Max items in one chest (difficulty rolls included). */
+    private static final int MAX_ITEMS = 14;
 
     private LootHandler() {}
 
@@ -141,7 +143,8 @@ public final class LootHandler {
         if (world.getRandom().nextInt(100) < tier.keyChance) {
             items.add(new ItemStack(ModItems.keyFor(KeyTier.forDifficulty(inst.difficulty))));
         }
-        while (items.size() > 27) items.remove(items.size() - 1);
+        Collections.shuffle(items, new java.util.Random(world.getRandom().nextLong()));
+        while (items.size() > MAX_ITEMS) items.remove(items.size() - 1);
 
         List<Integer> slots = new ArrayList<>();
         for (int i = 0; i < 27; i++) slots.add(i);
@@ -173,7 +176,7 @@ public final class LootHandler {
                     case EPIC -> 1.7F;
                 };
                 world.playSound(null, pos, SoundEvents.BLOCK_NOTE_BLOCK_CHIME.value(), SoundCategory.BLOCKS, 0.6F, pitch);
-                chest.timer = chest.pending.isEmpty() ? 0 : LootChest.revealTicks(chest.pending.get(0));
+                chest.timer = chest.pending.isEmpty() ? 0 : LootChest.revealTicks(chest.pending.get(0), chest.tier);
             }
         }
         int filled = chest.total == 0 ? 10 : Math.round(10f * chest.revealed() / chest.total);

@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0-alpha.2] - Balancing and portal safety
+
+### Changed
+- **Slower chest reveal**: 1 s for a common item in a basic chest, up to ~6 s for an epic item in a legendary chest (item rarity × chest rarity), first item after 1 s.
+- **Less loot in Nightmare / Chaos**: loot multiplier 1.75 → 1.5 (Nightmare) and 2.75 → 2.0 (Chaos); a chest holds 14 items max.
+- **Ruins** sit on a filled foundation (`beard_box`) instead of floating over cliffs.
+
+### Added
+- Standing near a portal shows its state in the action bar: open sanctum (difficulty, time before collapse, players) or recharge time.
+- Leaving a sanctum tells you when it will collapse.
+- **No (re)entry during the last minute** of a sanctum (`reentryLockSeconds`, default 60), so nobody walks in just before the collapse.
+
 ## [0.3.0-alpha.1] - Chests, keys, vaults and ruins
 
 ### Added

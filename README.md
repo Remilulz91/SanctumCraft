@@ -54,6 +54,7 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | `activeNestsMin` / `activeNestsMax` | 1 / 3 | Nests that actually hold an egg |
 | `nestHits` | 10 | Hits to dig an egg out |
 | `vaultRooms` | 2 | Locked vault rooms per sanctum |
+| `reentryLockSeconds` | 60 | Nobody can enter a sanctum during its last N seconds |
 | `destinationActivationSeconds` | 5 | Time to activate the destination mechanism |
 | `roomsPlacedPerTick` | 1 | Generation speed |
 | `blocksClearedPerTick` | 12000 | Cleanup speed |

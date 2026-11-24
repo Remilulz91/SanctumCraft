@@ -89,5 +89,8 @@
   "message.sanctumcraft.chest.searching": "Fouille %s",
   "menu.sanctumcraft.chest.searching": "Fouille en cours…",
   "message.sanctumcraft.vault.locked": "Verrouillé : il faut une %s.",
-  "message.sanctumcraft.vault.opened": "La salle s'ouvre…"
+  "message.sanctumcraft.vault.opened": "La salle s'ouvre…",
+  "message.sanctumcraft.closing_soon": "Le Sanctum s'effondre dans %s : impossible d'y entrer.",
+  "message.sanctumcraft.left": "Le Sanctum s'effondrera dans %s.",
+  "message.sanctumcraft.portal.status_open": "Sanctum ouvert (%s) — effondrement dans %s — %s/%s joueurs"
 }

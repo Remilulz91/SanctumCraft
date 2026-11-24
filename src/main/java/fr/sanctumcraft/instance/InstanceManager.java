@@ -208,6 +208,12 @@ public final class InstanceManager {
         if (portal.activeInstance != null) {
             SanctumInstance inst = state.instances.get(portal.activeInstance);
             if (inst != null && inst.status != SanctumInstance.Status.CLOSING) {
+                if (inst.status == SanctumInstance.Status.ACTIVE
+                        && inst.endTick - now(server) <= SanctumConfig.reentryLockSeconds * 20L) {
+                    player.sendMessage(Text.translatable("message.sanctumcraft.closing_soon",
+                            formatTime(inst.endTick - now(server))).formatted(Formatting.RED), true);
+                    return;
+                }
                 if (!inst.members.contains(player.getUuid()) && inst.members.size() >= SanctumConfig.maxPlayersPerSanctum) {
                     player.sendMessage(Text.translatable("message.sanctumcraft.full",
                             SanctumConfig.maxPlayersPerSanctum).formatted(Formatting.RED), true);
@@ -324,6 +330,10 @@ public final class InstanceManager {
         SanctumInstance inst = instanceOf(player);
         if (inst != null && player.isAlive()) {
             EggHandler.extract(player, inst);
+            if (inst.status == SanctumInstance.Status.ACTIVE) {
+                player.sendMessage(Text.translatable("message.sanctumcraft.left",
+                        formatTime(inst.endTick - now(server))).formatted(Formatting.GRAY));
+            }
         }
         ReturnPoint rp = inst != null ? inst.returns.get(player.getUuid()) : null;
         if (inst != null && inst.bossBar != null) inst.bossBar.removePlayer(player);
@@ -425,6 +435,7 @@ public final class InstanceManager {
         ServerWorld world = sanctumWorld(server);
         if (world == null) return;
         SanctumState state = state(server);
+        if (server.getTicks() % 20 == 0) showPortalStatus(server, state);
         if (state.instances.isEmpty()) return;
 
         List<UUID> finished = new ArrayList<>();
@@ -442,6 +453,31 @@ public final class InstanceManager {
             SanctumCraft.LOGGER.info("Sanctum {} removed", id);
         }
         if (!finished.isEmpty()) state.markDirty();
+    }
+
+    /** Action bar for players standing near a portal: open sanctum time left, or recharge time. */
+    private static void showPortalStatus(MinecraftServer server, SanctumState state) {
+        for (PortalRecord portal : state.portals.values()) {
+            SanctumInstance inst = portal.activeInstance != null ? state.instances.get(portal.activeInstance) : null;
+            Text text;
+            if (inst != null && inst.status == SanctumInstance.Status.ACTIVE) {
+                long left = inst.endTick - now(server);
+                text = Text.translatable("message.sanctumcraft.portal.status_open",
+                        Text.translatable(inst.difficulty.key()).formatted(inst.difficulty.color), formatTime(left),
+                        inst.members.size(), SanctumConfig.maxPlayersPerSanctum)
+                        .formatted(left <= SanctumConfig.reentryLockSeconds * 20L ? Formatting.RED : Formatting.LIGHT_PURPLE);
+            } else if (portal.cooldownUntil > now(server)) {
+                text = Text.translatable("message.sanctumcraft.cooldown", formatTime(portal.cooldownUntil - now(server)))
+                        .formatted(Formatting.GOLD);
+            } else {
+                continue;
+            }
+            ServerWorld world = server.getWorld(RegistryKey.of(RegistryKeys.WORLD, Identifier.of(portal.dimension)));
+            if (world == null) continue;
+            for (ServerPlayerEntity p : world.getPlayers()) {
+                if (portal.box.getCenter().getSquaredDistance(p.getPos()) <= 64) p.sendMessage(text, true);
+            }
+        }
     }
 
     private static void tickGenerating(MinecraftServer server, ServerWorld world, SanctumInstance inst) {

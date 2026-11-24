@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Rarity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,14 +50,24 @@ public final class LootChest {
         return data != null && data.copyNbt().getBoolean(PLACEHOLDER);
     }
 
-    /** Search time of an item, in ticks: rarer items take longer (like the blue gauge of the original). */
-    static int revealTicks(ItemStack stack) {
-        Rarity r = stack.getRarity();
-        return switch (r) {
-            case COMMON -> 8;
-            case UNCOMMON -> 14;
-            case RARE -> 22;
-            case EPIC -> 32;
+    /**
+     * Search time of an item, in ticks: rarer items and rarer chests take longer
+     * (like the search gauge of the original). Basic chest + common item = 1 s.
+     */
+    static int revealTicks(ItemStack stack, ChestTier tier) {
+        int base = switch (stack.getRarity()) {
+            case COMMON -> 20;
+            case UNCOMMON -> 30;
+            case RARE -> 45;
+            case EPIC -> 60;
         };
+        float chestFactor = switch (tier) {
+            case BASIC -> 1.0F;
+            case FINE -> 1.2F;
+            case RARE -> 1.45F;
+            case EPIC -> 1.75F;
+            case LEGENDARY -> 2.1F;
+        };
+        return Math.round(base * chestFactor);
     }
 }
