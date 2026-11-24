@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.0-alpha.4] - No explosives in the Sanctum
+
+### Changed
+- Also forbidden inside the Sanctum: TNT, TNT minecarts, beds, respawn anchors and creeper spawn eggs.
+- Creepers are removed as soon as they appear in the Sanctum (spawners, commands, anything).
+
 ## [0.1.0-alpha.3] - Survival lock and block rules
 
 ### Added
