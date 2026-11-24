@@ -15,8 +15,12 @@ import java.util.Properties;
  */
 public final class SanctumConfig {
 
-    /** Raid duration in seconds (timer inside the sanctum). */
+    /** Raid duration in seconds, Normal difficulty. */
     public static int raidDurationSeconds = 1800;
+    /** Raid duration in seconds, Nightmare difficulty. */
+    public static int raidDurationNightmareSeconds = 1500;
+    /** Raid duration in seconds, Chaos difficulty. */
+    public static int raidDurationChaosSeconds = 1200;
     /** Cooldown of a portal after its sanctum collapsed, in seconds. */
     public static int portalCooldownSeconds = 1800;
     /** Max different players that can join one sanctum. */
@@ -39,6 +43,9 @@ public final class SanctumConfig {
     /** Players inside a sanctum are put in survival and can't change game mode (except in the dev environment). */
     public static boolean forceSurvival = true;
 
+    /** Players who die inside a sanctum keep their inventory and XP (does not touch the keepInventory gamerule). */
+    public static boolean sanctumKeepInventory = false;
+
     private static final String FILE = "sanctumcraft.properties";
 
     private SanctumConfig() {}
@@ -54,6 +61,8 @@ public final class SanctumConfig {
             }
         }
         raidDurationSeconds = getInt(p, "raidDurationSeconds", raidDurationSeconds, 60, 7200);
+        raidDurationNightmareSeconds = getInt(p, "raidDurationNightmareSeconds", raidDurationNightmareSeconds, 60, 7200);
+        raidDurationChaosSeconds = getInt(p, "raidDurationChaosSeconds", raidDurationChaosSeconds, 60, 7200);
         portalCooldownSeconds = getInt(p, "portalCooldownSeconds", portalCooldownSeconds, 0, 86400);
         maxPlayersPerSanctum = getInt(p, "maxPlayersPerSanctum", maxPlayersPerSanctum, 1, 16);
         roomsPerSanctum = getInt(p, "roomsPerSanctum", roomsPerSanctum, 4, 40);
@@ -64,6 +73,7 @@ public final class SanctumConfig {
         maxSimultaneousSanctums = getInt(p, "maxSimultaneousSanctums", maxSimultaneousSanctums, 1, 128);
         loopChancePercent = getInt(p, "loopChancePercent", loopChancePercent, 0, 100);
         forceSurvival = Boolean.parseBoolean(p.getProperty("forceSurvival", String.valueOf(forceSurvival)).trim());
+        sanctumKeepInventory = Boolean.parseBoolean(p.getProperty("sanctumKeepInventory", String.valueOf(sanctumKeepInventory)).trim());
         save(path);
     }
 
@@ -79,6 +89,8 @@ public final class SanctumConfig {
     private static void save(Path path) {
         Properties p = new Properties();
         p.setProperty("raidDurationSeconds", String.valueOf(raidDurationSeconds));
+        p.setProperty("raidDurationNightmareSeconds", String.valueOf(raidDurationNightmareSeconds));
+        p.setProperty("raidDurationChaosSeconds", String.valueOf(raidDurationChaosSeconds));
         p.setProperty("portalCooldownSeconds", String.valueOf(portalCooldownSeconds));
         p.setProperty("maxPlayersPerSanctum", String.valueOf(maxPlayersPerSanctum));
         p.setProperty("roomsPerSanctum", String.valueOf(roomsPerSanctum));
@@ -88,6 +100,7 @@ public final class SanctumConfig {
         p.setProperty("minGenerationTicks", String.valueOf(minGenerationTicks));
         p.setProperty("maxSimultaneousSanctums", String.valueOf(maxSimultaneousSanctums));
         p.setProperty("loopChancePercent", String.valueOf(loopChancePercent));
+        p.setProperty("sanctumKeepInventory", String.valueOf(sanctumKeepInventory));
         p.setProperty("forceSurvival", String.valueOf(forceSurvival));
         try {
             Files.createDirectories(path.getParent());

@@ -3,6 +3,7 @@ package fr.sanctumcraft;
 import fr.sanctumcraft.command.SanctumCommand;
 import fr.sanctumcraft.config.SanctumConfig;
 import fr.sanctumcraft.instance.InstanceManager;
+import fr.sanctumcraft.instance.KeepInventoryHandler;
 import fr.sanctumcraft.instance.SanctumProtection;
 import fr.sanctumcraft.registry.ModBlocks;
 import fr.sanctumcraft.registry.ModItems;
@@ -60,6 +61,7 @@ public class SanctumCraft implements ModInitializer {
                 InstanceManager.onPlayerLeave(handler.player));
 
         SanctumProtection.register();
+        KeepInventoryHandler.register();
 
         LOGGER.info("SanctumCraft v{} loaded (build: {})", VERSION, DEBUG_BUILD ? "debug" : "public");
     }

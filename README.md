@@ -32,7 +32,7 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | `/sanctum status` | Time left (inside) or state of the nearest portal | Everyone |
 | `/sanctum leave` | Leave the sanctum (same as the exit portal) | Everyone |
 | `/sanctum list` | List portals and sanctums | OP |
-| `/sanctum debug generate` | Open a sanctum without portal | OP, debug build |
+| `/sanctum debug generate [normal\|nightmare\|chaos]` | Open a sanctum without portal | OP, debug build |
 | `/sanctum debug close` / `closeall` | Collapse your sanctum / all sanctums | OP, debug build |
 | `/sanctum debug time <seconds>` | Set the time left of your sanctum | OP, debug build |
 | `/sanctum debug cooldown reset` | Reset every portal cooldown | OP, debug build |
@@ -43,7 +43,10 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 
 | Key | Default | |
 |-----|---------|-|
-| `raidDurationSeconds` | 1800 | Sanctum timer |
+| `raidDurationSeconds` | 1800 | Sanctum timer, Normal |
+| `raidDurationNightmareSeconds` | 1500 | Sanctum timer, Nightmare |
+| `raidDurationChaosSeconds` | 1200 | Sanctum timer, Chaos |
+| `sanctumKeepInventory` | false | Keep inventory and XP when dying inside a sanctum only |
 | `portalCooldownSeconds` | 1800 | Portal recharge after a collapse |
 | `maxPlayersPerSanctum` | 3 | Different players per sanctum |
 | `roomsPerSanctum` | 12 | Rooms per sanctum |

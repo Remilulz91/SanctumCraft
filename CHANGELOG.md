@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.0-alpha.5] - Difficulties and sanctum-only keep inventory
+
+### Added
+- **Difficulty menu**: entering a free portal opens a menu (chest style): **Normal** (30 min), **Nightmare** (25 min), **Chaos** (20 min). The difficulty is shown in the boss bar, the entry title and `/sanctum status`. Mob and loot multipliers are already defined per difficulty and will be applied when mobs (0.4) and loot (0.3) arrive.
+- **Chaos Ticket** item: required (and consumed) to open a Chaos sanctum. For now only obtainable in creative / with commands; it will be earned by leveling up or bought in the shop (0.5).
+- **`sanctumKeepInventory`** option (default `false`): players who die inside a sanctum keep their inventory and XP, without changing the `keepInventory` gamerule for the rest of the world.
+- `/sanctum debug generate [normal|nightmare|chaos]`.
+- Config: `raidDurationNightmareSeconds` (1500), `raidDurationChaosSeconds` (1200), `sanctumKeepInventory` (false).
+
 ## [0.1.0-alpha.4] - No explosives in the Sanctum
 
 ### Changed

@@ -2,6 +2,8 @@ package fr.sanctumcraft.instance;
 
 import fr.sanctumcraft.SanctumCraft;
 import fr.sanctumcraft.config.SanctumConfig;
+import fr.sanctumcraft.menu.DifficultyMenu;
+import fr.sanctumcraft.registry.ModItems;
 import fr.sanctumcraft.portal.PortalHandler;
 import fr.sanctumcraft.portal.PortalShape;
 import fr.sanctumcraft.registry.ModDimensions;
@@ -207,7 +209,40 @@ public final class InstanceManager {
             return;
         }
 
-        SanctumInstance inst = create(server, portal.id);
+        // Free portal: the player picks a difficulty first.
+        DifficultyMenu.open(player, portal.id);
+    }
+
+    /** Called by the difficulty menu. Re-checks everything: the world may have changed meanwhile. */
+    public static void openFromPortal(ServerPlayerEntity player, UUID portalId, SanctumDifficulty difficulty) {
+        MinecraftServer server = player.getServer();
+        if (server == null) return;
+        SanctumState state = state(server);
+        PortalRecord portal = state.portals.get(portalId);
+        if (portal == null || !portal.dimension.equals(dimId(player.getWorld()))
+                || portal.box.getCenter().getSquaredDistance(player.getPos()) > 36) {
+            player.sendMessage(Text.translatable("message.sanctumcraft.portal.too_far").formatted(Formatting.RED), true);
+            return;
+        }
+        if (portal.activeInstance != null && state.instances.containsKey(portal.activeInstance)) {
+            // Someone opened it in the meantime: join theirs.
+            SanctumInstance inst = state.instances.get(portal.activeInstance);
+            if (inst.status != SanctumInstance.Status.CLOSING
+                    && (inst.members.contains(player.getUuid()) || inst.members.size() < SanctumConfig.maxPlayersPerSanctum)) {
+                join(server, inst, player);
+            }
+            return;
+        }
+        long remaining = portal.cooldownUntil - now(server);
+        if (remaining > 0) {
+            player.sendMessage(Text.translatable("message.sanctumcraft.cooldown", formatTime(remaining)).formatted(Formatting.GOLD), true);
+            return;
+        }
+        if (difficulty == SanctumDifficulty.CHAOS && !consumeChaosTicket(player)) {
+            player.sendMessage(Text.translatable("message.sanctumcraft.chaos_locked").formatted(Formatting.RED), true);
+            return;
+        }
+        SanctumInstance inst = create(server, portal.id, difficulty);
         if (inst == null) {
             player.sendMessage(Text.translatable("message.sanctumcraft.no_slot").formatted(Formatting.RED), true);
             return;
@@ -215,6 +250,22 @@ public final class InstanceManager {
         portal.activeInstance = inst.id;
         state.markDirty();
         join(server, inst, player);
+    }
+
+    public static boolean hasChaosTicket(ServerPlayerEntity player) {
+        return player.getAbilities().creativeMode || player.getInventory().count(ModItems.CHAOS_TICKET) > 0;
+    }
+
+    private static boolean consumeChaosTicket(ServerPlayerEntity player) {
+        if (player.getAbilities().creativeMode) return true;
+        var inv = player.getInventory();
+        for (int i = 0; i < inv.size(); i++) {
+            if (inv.getStack(i).isOf(ModItems.CHAOS_TICKET)) {
+                inv.getStack(i).decrement(1);
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Adds a player to a sanctum: frozen while generating, teleported in when active. */
@@ -242,7 +293,9 @@ public final class InstanceManager {
         PortalHandler.markContact(player);
         long remaining = inst.endTick - now(server);
         title(player, Text.translatable("title.sanctumcraft.entered").formatted(Formatting.DARK_PURPLE, Formatting.BOLD),
-                Text.translatable("subtitle.sanctumcraft.time_left", formatTime(remaining)).formatted(Formatting.GRAY),
+                Text.translatable("subtitle.sanctumcraft.time_left_difficulty",
+                        Text.translatable(inst.difficulty.key()).formatted(inst.difficulty.color),
+                        formatTime(remaining)).formatted(Formatting.GRAY),
                 10, 50, 20);
         world.playSound(null, player.getBlockPos(), SoundEvents.BLOCK_END_PORTAL_SPAWN, SoundCategory.PLAYERS, 0.5F, 1.4F);
     }
@@ -280,7 +333,7 @@ public final class InstanceManager {
     // ------------------------------------------------------------------------------------------
 
     /** Creates a sanctum in a free slot (generation starts on the next ticks). Null if no slot. */
-    public static SanctumInstance create(MinecraftServer server, UUID portalId) {
+    public static SanctumInstance create(MinecraftServer server, UUID portalId, SanctumDifficulty difficulty) {
         SanctumState state = state(server);
         ServerWorld world = sanctumWorld(server);
         if (world == null) return null;
@@ -291,6 +344,7 @@ public final class InstanceManager {
         BlockPos origin = new BlockPos(slot * SLOT_SPACING, BASE_Y, 0);
         SanctumInstance inst = new SanctumInstance(UUID.randomUUID(), portalId, slot, origin, rooms);
         inst.generationStartTick = now(server);
+        inst.difficulty = difficulty;
 
         for (PlacedRoom r : rooms) {
             if (r.kind() == RoomKind.ENTRANCE) {
@@ -398,7 +452,7 @@ public final class InstanceManager {
 
         if (inst.roomsPlaced >= inst.rooms.size() && elapsed >= SanctumConfig.minGenerationTicks) {
             inst.status = SanctumInstance.Status.ACTIVE;
-            inst.endTick = now(server) + SanctumConfig.raidDurationSeconds * 20L;
+            inst.endTick = now(server) + inst.difficulty.durationSeconds() * 20L;
             state(server).markDirty();
             for (UUID uuid : new ArrayList<>(inst.waiting.keySet())) {
                 ServerPlayerEntity p = server.getPlayerManager().getPlayer(uuid);
@@ -464,8 +518,9 @@ public final class InstanceManager {
                 if (p.interactionManager.getGameMode() != GameMode.SURVIVAL) p.changeGameMode(GameMode.SURVIVAL);
             }
         }
-        bar.setName(Text.translatable("bossbar.sanctumcraft.timer", formatTime(remaining)));
-        bar.setPercent(Math.max(0.0F, Math.min(1.0F, remaining / (SanctumConfig.raidDurationSeconds * 20.0F))));
+        bar.setName(Text.translatable("bossbar.sanctumcraft.timer",
+                Text.translatable(inst.difficulty.key()).formatted(inst.difficulty.color), formatTime(remaining)));
+        bar.setPercent(Math.max(0.0F, Math.min(1.0F, remaining / (inst.difficulty.durationSeconds() * 20.0F))));
         bar.setColor(remaining <= 60 * 20 ? BossBar.Color.RED : BossBar.Color.PURPLE);
 
         // Warnings at 5 min, 1 min and the last 10 seconds.
@@ -567,10 +622,10 @@ public final class InstanceManager {
     // ------------------------------------------------------------------------------------------
 
     /** Opens a sanctum without portal; the player is sent back to their current position on exit. */
-    public static boolean debugGenerate(ServerPlayerEntity player) {
+    public static boolean debugGenerate(ServerPlayerEntity player, SanctumDifficulty difficulty) {
         MinecraftServer server = player.getServer();
         if (server == null) return false;
-        SanctumInstance inst = create(server, null);
+        SanctumInstance inst = create(server, null, difficulty);
         if (inst == null) return false;
         join(server, inst, player);
         return true;

@@ -22,6 +22,7 @@ public final class SanctumInstance {
     public final BlockPos origin;
     public final List<PlacedRoom> rooms;
     public Status status;
+    public SanctumDifficulty difficulty = SanctumDifficulty.NORMAL;
     /** Overworld game time at which the sanctum collapses. */
     public long endTick;
     public BlockPos spawn;
@@ -75,6 +76,7 @@ public final class SanctumInstance {
         tag.putIntArray("origin", new int[]{origin.getX(), origin.getY(), origin.getZ()});
         // A sanctum that was still generating when the server stopped is closed on restart.
         tag.putString("status", status.name());
+        tag.putString("difficulty", difficulty.name());
         tag.putLong("endTick", endTick);
         if (spawn != null) tag.putIntArray("spawn", new int[]{spawn.getX(), spawn.getY(), spawn.getZ()});
         tag.putFloat("spawnYaw", spawnYaw);
@@ -108,6 +110,7 @@ public final class SanctumInstance {
             inst.status = Status.CLOSING;
         }
         inst.endTick = tag.getLong("endTick");
+        inst.difficulty = SanctumDifficulty.byName(tag.getString("difficulty"));
         if (tag.contains("spawn")) {
             int[] s = tag.getIntArray("spawn");
             inst.spawn = new BlockPos(s[0], s[1], s[2]);

@@ -7,6 +7,7 @@ import com.mojang.brigadier.context.CommandContext;
 import fr.sanctumcraft.SanctumCraft;
 import fr.sanctumcraft.instance.InstanceManager;
 import fr.sanctumcraft.instance.PortalRecord;
+import fr.sanctumcraft.instance.SanctumDifficulty;
 import fr.sanctumcraft.instance.SanctumInstance;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandManager;
@@ -35,7 +36,10 @@ public final class SanctumCommand {
 
         if (SanctumCraft.DEBUG_BUILD) {
             root.then(CommandManager.literal("debug").requires(s -> s.hasPermissionLevel(2))
-                    .then(CommandManager.literal("generate").executes(SanctumCommand::debugGenerate))
+                    .then(CommandManager.literal("generate").executes(ctx -> debugGenerate(ctx, SanctumDifficulty.NORMAL))
+                            .then(CommandManager.literal("normal").executes(ctx -> debugGenerate(ctx, SanctumDifficulty.NORMAL)))
+                            .then(CommandManager.literal("nightmare").executes(ctx -> debugGenerate(ctx, SanctumDifficulty.NIGHTMARE)))
+                            .then(CommandManager.literal("chaos").executes(ctx -> debugGenerate(ctx, SanctumDifficulty.CHAOS))))
                     .then(CommandManager.literal("close").executes(SanctumCommand::debugClose))
                     .then(CommandManager.literal("closeall").executes(SanctumCommand::debugCloseAll))
                     .then(CommandManager.literal("time")
@@ -56,6 +60,7 @@ public final class SanctumCommand {
         if (inst != null) {
             long remaining = InstanceManager.remainingTicks(server, inst);
             src.sendFeedback(() -> Text.translatable("command.sanctumcraft.status.inside",
+                    Text.translatable(inst.difficulty.key()).formatted(inst.difficulty.color),
                     InstanceManager.formatTime(remaining), inst.members.size()).formatted(Formatting.LIGHT_PURPLE), false);
             return 1;
         }
@@ -97,19 +102,19 @@ public final class SanctumCommand {
             String time = inst.status == SanctumInstance.Status.ACTIVE
                     ? InstanceManager.formatTime(InstanceManager.remainingTicks(server, inst)) : "-";
             src.sendFeedback(() -> Text.literal(" - " + id + "  slot " + inst.slot + "  " + inst.status
-                    + "  " + time + "  " + inst.members.size() + "p").formatted(Formatting.GRAY), false);
+                    + "  " + inst.difficulty + "  " + time + "  " + inst.members.size() + "p").formatted(Formatting.GRAY), false);
         }
         return 1;
     }
 
-    private static int debugGenerate(CommandContext<ServerCommandSource> ctx) {
+    private static int debugGenerate(CommandContext<ServerCommandSource> ctx, SanctumDifficulty difficulty) {
         ServerPlayerEntity player = ctx.getSource().getPlayer();
         if (player == null) return 0;
         if (InstanceManager.instanceOf(player) != null) {
             ctx.getSource().sendError(Text.translatable("command.sanctumcraft.already_inside"));
             return 0;
         }
-        if (!InstanceManager.debugGenerate(player)) {
+        if (!InstanceManager.debugGenerate(player, difficulty)) {
             ctx.getSource().sendError(Text.translatable("message.sanctumcraft.no_slot"));
             return 0;
         }

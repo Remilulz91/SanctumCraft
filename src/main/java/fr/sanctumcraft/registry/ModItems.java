@@ -17,6 +17,10 @@ public final class ModItems {
     public static final Item SANCTUM_SHARD = Registry.register(Registries.ITEM, SanctumCraft.id("sanctum_shard"),
             new SanctumShardItem(new Item.Settings().maxCount(16).rarity(Rarity.RARE)));
 
+    /** Unlocks one Chaos sanctum. Consumed when the Chaos difficulty is chosen. */
+    public static final Item CHAOS_TICKET = Registry.register(Registries.ITEM, SanctumCraft.id("chaos_ticket"),
+            new Item(new Item.Settings().maxCount(16).rarity(Rarity.EPIC)));
+
     public static final ItemGroup GROUP = Registry.register(Registries.ITEM_GROUP, SanctumCraft.id("main"),
             FabricItemGroup.builder()
                     .icon(() -> new ItemStack(SANCTUM_SHARD))
@@ -24,6 +28,7 @@ public final class ModItems {
                     .entries((context, entries) -> {
                         entries.add(ModBlocks.RUNE_STONE);
                         entries.add(SANCTUM_SHARD);
+                        entries.add(CHAOS_TICKET);
                     })
                     .build());
 
