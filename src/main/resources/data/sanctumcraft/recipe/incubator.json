@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "AGA",
+    "GHG",
+    "RRR"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "H": {
+      "item": "minecraft:hay_block"
+    },
+    "R": {
+      "item": "sanctumcraft:rune_stone"
+    }
+  },
+  "result": {
+    "id": "sanctumcraft:incubator",
+    "count": 1
+  }
+}

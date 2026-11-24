@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.6.0-alpha.1] - Talents, incubator, companions and showcase
+
+### Added
+- **Talents** (Altar > Talents): 1 point per Hunter level, 3 branches × 4 talents × 3 ranks. Bonuses apply inside the sanctum only.
+  - Survival: Vitality (+2 hearts/rank), Toughness (+2 armor/rank), Fleet Foot (+5 % speed/rank), Second Wind (regeneration below 30 % health, once a minute).
+  - Exploration: Quick Hands (-15 % chest search/rank), Digger (-2 nest hits/rank), Strong Back (-1 egg slowness level/rank), Night Eyes (night vision; rank 2+: direction of the nearest active nest every 30 s).
+  - Loot: Greed (+10 % Shells/rank), Keysmith (+5 % key chance/rank), Treasure Hunter (10 %/rank extra loot roll), Collector (+3 % collector relic chance/rank).
+  - Reset for 300 × level Shells.
+- **Incubator** (craft: amethyst shard / glass / amethyst shard, glass / hay bale / glass, 3 Rune Stones): put a **secured** egg in it; it hatches after 10 / 20 / 40 / 60 min of game time (common → legendary), even if the player is offline (not while the server is off). Breaking it gives the egg back.
+- **Companions**: hatching gives a tamed wolf (75 %) or cat (25 %), with health/damage ×1 / ×1.3 / ×1.7 / ×2.2 by rarity, a wolf coat by rarity, and 1 / 1 / 2 / 3 traits: Ferocious (+25 % damage), Sturdy (+50 % health), Swift (+20 % speed), Healer (heals its owner 1 heart / 10 s), Tracker (points to the nearest active nest every 20 s), Guardian (owner gets Resistance I). Healer / Tracker / Guardian work in the sanctum.
+- **Companions travel with you**: a companion standing (not sitting) within 10 blocks follows you into the sanctum and back out (`maxCompanionsInSanctum`, default 1). A companion left behind is lost when the sanctum collapses.
+- **Relics**: 12 relics in 3 collections (Ruins, Depths, Nest), found in epic (8 %) and legendary (20 %) chests; 10 % of them are **collector** versions (glinting, gold name). Normal relics sell for 150 Shells; collector relics can't be sold.
+- **Showcase** (Altar > Showcase): display collector relics permanently. Each relic: +2 % Shells. Full rows: Ruins +2 hearts, Depths +4 armor (in the sanctum), Nest +25 % Shells.
+- Config: `incubationTimePercent` (100), `maxCompanionsInSanctum` (1).
+
 ## [0.5.0-alpha.1] - Altar, Shells, Hunter levels and shop
 
 ### Added

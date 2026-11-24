@@ -4,6 +4,8 @@ import fr.sanctumcraft.SanctumCraft;
 import fr.sanctumcraft.egg.EggRarity;
 import fr.sanctumcraft.egg.SanctumEggItem;
 import fr.sanctumcraft.loot.KeyTier;
+import fr.sanctumcraft.relic.Relic;
+import fr.sanctumcraft.relic.RelicItem;
 import fr.sanctumcraft.loot.SanctumKeyItem;
 import fr.sanctumcraft.portal.SanctumShardItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -34,6 +36,8 @@ public final class ModItems {
     public static final SanctumKeyItem SILVER_KEY = key("silver_key", KeyTier.SILVER);
     public static final SanctumKeyItem GILDED_KEY = key("gilded_key", KeyTier.GILDED);
 
+    public static final java.util.Map<Relic, RelicItem> RELICS = registerRelics();
+
     public static final ItemGroup GROUP = Registry.register(Registries.ITEM_GROUP, SanctumCraft.id("main"),
             FabricItemGroup.builder()
                     .icon(() -> new ItemStack(SANCTUM_SHARD))
@@ -50,6 +54,11 @@ public final class ModItems {
                         entries.add(RUSTED_KEY);
                         entries.add(SILVER_KEY);
                         entries.add(GILDED_KEY);
+                        entries.add(ModBlocks.INCUBATOR);
+                        for (RelicItem r : RELICS.values()) {
+                            entries.add(r);
+                            entries.add(RelicItem.collector(new ItemStack(r)));
+                        }
                         entries.add(ModBlocks.LOOT_SPOT);
                     })
                     .build());
@@ -59,6 +68,15 @@ public final class ModItems {
     private static SanctumEggItem egg(String name, EggRarity rarity) {
         return Registry.register(Registries.ITEM, SanctumCraft.id(name),
                 new SanctumEggItem(rarity, new Item.Settings().maxCount(1).fireproof()));
+    }
+
+    private static java.util.Map<Relic, RelicItem> registerRelics() {
+        java.util.Map<Relic, RelicItem> map = new java.util.EnumMap<>(Relic.class);
+        for (Relic r : Relic.values()) {
+            map.put(r, Registry.register(Registries.ITEM, SanctumCraft.id(r.id()),
+                    new RelicItem(r, new Item.Settings().maxCount(1).rarity(Rarity.RARE))));
+        }
+        return map;
     }
 
     private static SanctumKeyItem key(String name, KeyTier tier) {

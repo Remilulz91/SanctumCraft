@@ -8,6 +8,10 @@ import fr.sanctumcraft.instance.RoomLayout;
 import fr.sanctumcraft.instance.SanctumInstance;
 import fr.sanctumcraft.registry.ModBlocks;
 import fr.sanctumcraft.registry.ModItems;
+import fr.sanctumcraft.profile.Profiles;
+import fr.sanctumcraft.profile.Talent;
+import fr.sanctumcraft.relic.Relic;
+import fr.sanctumcraft.relic.RelicItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -137,11 +141,23 @@ public final class LootHandler {
         // Difficulty multiplier: 1.75 = one roll + 75 % chance of a second one, etc.
         float mult = inst.difficulty.loot;
         int rolls = (int) mult + (world.getRandom().nextFloat() < (mult - (int) mult) ? 1 : 0);
+        // Treasure talent: 10 % per rank for one extra roll.
+        if (world.getRandom().nextInt(100) < 10 * Profiles.rank(player, Talent.TREASURE)) rolls++;
         for (int i = 0; i < Math.max(1, rolls); i++) {
             table.generateLoot(params, items::add);
         }
-        if (world.getRandom().nextInt(100) < tier.keyChance) {
+        if (world.getRandom().nextInt(100) < tier.keyChance + 5 * Profiles.rank(player, Talent.KEYSMITH)) {
             items.add(new ItemStack(ModItems.keyFor(KeyTier.forDifficulty(inst.difficulty))));
+        }
+        // Relics in epic / legendary chests; rarely the collector version.
+        int relicChance = tier == ChestTier.LEGENDARY ? 20 : tier == ChestTier.EPIC ? 8 : 0;
+        if (world.getRandom().nextInt(100) < relicChance) {
+            Relic relic = Relic.values()[world.getRandom().nextInt(Relic.values().length)];
+            ItemStack stack = new ItemStack(ModItems.RELICS.get(relic));
+            if (world.getRandom().nextInt(100) < 10 + 3 * Profiles.rank(player, Talent.COLLECTOR)) {
+                RelicItem.collector(stack);
+            }
+            items.add(stack);
         }
         Collections.shuffle(items, new java.util.Random(world.getRandom().nextLong()));
         while (items.size() > MAX_ITEMS) items.remove(items.size() - 1);
@@ -176,7 +192,8 @@ public final class LootHandler {
                     case EPIC -> 1.7F;
                 };
                 world.playSound(null, pos, SoundEvents.BLOCK_NOTE_BLOCK_CHIME.value(), SoundCategory.BLOCKS, 0.6F, pitch);
-                chest.timer = chest.pending.isEmpty() ? 0 : LootChest.revealTicks(chest.pending.get(0), chest.tier);
+                int base = chest.pending.isEmpty() ? 0 : LootChest.revealTicks(chest.pending.get(0), chest.tier);
+                chest.timer = Math.round(base * (1.0F - 0.15F * Profiles.rank(viewer, Talent.QUICK_HANDS)));
             }
         }
         int filled = chest.total == 0 ? 10 : Math.round(10f * chest.revealed() / chest.total);

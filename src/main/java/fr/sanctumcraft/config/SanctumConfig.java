@@ -45,6 +45,10 @@ public final class SanctumConfig {
     public static int chaosTicketPrice = 2500;
     public static double chaosTicketPriceMultiplier = 1.5;
     public static String dailyResetZone = "Europe/Paris";
+    /** Incubation time in percent of the default (10 / 20 / 40 / 60 min). */
+    public static int incubationTimePercent = 100;
+    /** Companions a player can bring into a sanctum. */
+    public static int maxCompanionsInSanctum = 1;
     /** Nobody can (re)enter a sanctum during its last N seconds. */
     public static int reentryLockSeconds = 60;
     /** Time to activate the destination mechanism, in seconds. */
@@ -100,6 +104,8 @@ public final class SanctumConfig {
         } catch (NumberFormatException ignored) {
         }
         dailyResetZone = p.getProperty("dailyResetZone", dailyResetZone).trim();
+        incubationTimePercent = getInt(p, "incubationTimePercent", incubationTimePercent, 1, 1000);
+        maxCompanionsInSanctum = getInt(p, "maxCompanionsInSanctum", maxCompanionsInSanctum, 0, 5);
         reentryLockSeconds = getInt(p, "reentryLockSeconds", reentryLockSeconds, 0, 600);
         vaultRooms = getInt(p, "vaultRooms", vaultRooms, 0, 6);
         nestHits = getInt(p, "nestHits", nestHits, 1, 100);
@@ -141,6 +147,8 @@ public final class SanctumConfig {
         p.setProperty("chaosTicketPrice", String.valueOf(chaosTicketPrice));
         p.setProperty("chaosTicketPriceMultiplier", String.valueOf(chaosTicketPriceMultiplier));
         p.setProperty("dailyResetZone", dailyResetZone);
+        p.setProperty("incubationTimePercent", String.valueOf(incubationTimePercent));
+        p.setProperty("maxCompanionsInSanctum", String.valueOf(maxCompanionsInSanctum));
         p.setProperty("reentryLockSeconds", String.valueOf(reentryLockSeconds));
         p.setProperty("vaultRooms", String.valueOf(vaultRooms));
         p.setProperty("nestHits", String.valueOf(nestHits));

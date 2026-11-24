@@ -79,7 +79,8 @@ public final class EggHandler {
         LAST_HIT.put(player.getUuid(), now);
 
         int hits = inst.nestHits.merge(pos.asLong(), 1, Integer::sum);
-        int needed = Math.max(1, SanctumConfig.nestHits);
+        int needed = Math.max(Math.min(3, SanctumConfig.nestHits),
+                SanctumConfig.nestHits - 2 * fr.sanctumcraft.profile.Profiles.rank(player, fr.sanctumcraft.profile.Talent.DIGGER));
         world.spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.ROOTED_DIRT.getDefaultState()),
                 pos.getX() + 0.5, pos.getY() + 0.6, pos.getZ() + 0.5, 12, 0.3, 0.2, 0.3, 0.1);
         world.playSound(null, pos, SoundEvents.BLOCK_ROOTED_DIRT_BREAK, SoundCategory.BLOCKS, 1.0F,
@@ -129,7 +130,9 @@ public final class EggHandler {
             }
         }
         if (eggs == 0) return;
-        int amplifier = Math.min(3, weight + eggs - 1);
+        int amplifier = Math.min(3, weight + eggs - 1)
+                - fr.sanctumcraft.profile.Profiles.rank(player, fr.sanctumcraft.profile.Talent.STRONG_BACK);
+        if (amplifier < 0) return;
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 40, amplifier, true, false, true));
     }
 

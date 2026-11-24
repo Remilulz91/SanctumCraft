@@ -56,6 +56,7 @@ public class SanctumCraft implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register(InstanceManager::onServerStarted);
         ServerLifecycleEvents.SERVER_STOPPING.register(InstanceManager::onServerStopping);
         ServerTickEvents.END_SERVER_TICK.register(InstanceManager::tick);
+        ServerTickEvents.END_SERVER_TICK.register(fr.sanctumcraft.profile.SanctumBonuses::tick);
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
                 InstanceManager.onPlayerJoin(handler.player));
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->

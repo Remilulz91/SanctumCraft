@@ -42,6 +42,10 @@ public final class SellPrices {
     /** Total value of a stack, or 0 if the altar doesn't buy it. */
     public static long value(ItemStack stack) {
         if (stack.isEmpty() || stack.getItem() instanceof SanctumEggItem) return 0;
+        if (stack.getItem() instanceof fr.sanctumcraft.relic.RelicItem) {
+            // Collector relics belong in the showcase: never bought.
+            return fr.sanctumcraft.relic.RelicItem.isCollector(stack) ? 0 : 150L * stack.getCount();
+        }
         Integer p = PRICES.get(stack.getItem());
         return p == null ? 0 : (long) p * stack.getCount();
     }

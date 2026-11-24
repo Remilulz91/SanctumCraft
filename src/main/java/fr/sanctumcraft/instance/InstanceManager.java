@@ -328,6 +328,8 @@ public final class InstanceManager {
         if (SanctumConfig.forceSurvival && player.interactionManager.getGameMode() != GameMode.SURVIVAL) {
             player.changeGameMode(GameMode.SURVIVAL);
         }
+        var pets = fr.sanctumcraft.companion.Companions.near(player, 10);
+        fr.sanctumcraft.companion.Companions.bringAlong(pets, world, inst.spawn.toCenterPos());
         player.teleport(world, inst.spawn.getX() + 0.5, inst.spawn.getY(), inst.spawn.getZ() + 0.5, inst.spawnYaw, 0.0F);
         PortalHandler.markContact(player);
         long remaining = inst.endTick - now(server);
@@ -357,6 +359,8 @@ public final class InstanceManager {
             RegistryKey<World> key = RegistryKey.of(RegistryKeys.WORLD, Identifier.of(rp.dimension()));
             ServerWorld target = server.getWorld(key);
             if (target != null) {
+                var pets = fr.sanctumcraft.companion.Companions.near(player, 10);
+                fr.sanctumcraft.companion.Companions.bringAlong(pets, target, new Vec3d(rp.x(), rp.y(), rp.z()));
                 player.teleport(target, rp.x(), rp.y(), rp.z(), rp.yaw(), rp.pitch());
                 PortalHandler.markContact(player);
                 return;

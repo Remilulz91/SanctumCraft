@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "stage=0": {
+      "model": "sanctumcraft:block/incubator_0"
+    },
+    "stage=1": {
+      "model": "sanctumcraft:block/incubator_1"
+    },
+    "stage=2": {
+      "model": "sanctumcraft:block/incubator_2"
+    }
+  }
+}

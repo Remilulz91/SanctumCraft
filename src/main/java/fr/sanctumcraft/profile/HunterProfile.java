@@ -14,6 +14,25 @@ public final class HunterProfile {
     /** Chaos tickets bought on {@link #chaosDay} (price grows with each purchase). */
     public int chaosBought;
     public String chaosDay = "";
+    /** Talent ranks (name -> rank). */
+    public final java.util.Map<String, Integer> talents = new java.util.HashMap<>();
+    /** Collector relics placed in the showcase (relic names). */
+    public final java.util.Set<String> showcase = new java.util.HashSet<>();
+
+    public int rank(Talent t) {
+        return talents.getOrDefault(t.name(), 0);
+    }
+
+    public int spentPoints() {
+        int n = 0;
+        for (int v : talents.values()) n += v;
+        return n;
+    }
+
+    /** One talent point per level above 1. */
+    public int freePoints() {
+        return Math.max(0, (level - 1) - spentPoints());
+    }
 
     /** Hunter XP needed to go from {@code level} to {@code level + 1}. */
     public static int xpForNext(int level) {
@@ -30,6 +49,12 @@ public final class HunterProfile {
         t.putInt("eggs", eggs);
         t.putInt("chaosBought", chaosBought);
         t.putString("chaosDay", chaosDay);
+        net.minecraft.nbt.NbtCompound tal = new net.minecraft.nbt.NbtCompound();
+        talents.forEach(tal::putInt);
+        t.put("talents", tal);
+        net.minecraft.nbt.NbtList show = new net.minecraft.nbt.NbtList();
+        for (String r : showcase) show.add(net.minecraft.nbt.NbtString.of(r));
+        t.put("showcase", show);
         return t;
     }
 
@@ -43,6 +68,10 @@ public final class HunterProfile {
         p.eggs = t.getInt("eggs");
         p.chaosBought = t.getInt("chaosBought");
         p.chaosDay = t.getString("chaosDay");
+        net.minecraft.nbt.NbtCompound tal = t.getCompound("talents");
+        for (String k : tal.getKeys()) p.talents.put(k, tal.getInt(k));
+        net.minecraft.nbt.NbtList show = t.getList("showcase", net.minecraft.nbt.NbtElement.STRING_TYPE);
+        for (int i = 0; i < show.size(); i++) p.showcase.add(show.getString(i));
         return p;
     }
 }

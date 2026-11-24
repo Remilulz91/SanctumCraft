@@ -3,6 +3,9 @@ package fr.sanctumcraft.altar;
 import fr.sanctumcraft.config.SanctumConfig;
 import fr.sanctumcraft.profile.HunterProfile;
 import fr.sanctumcraft.profile.Profiles;
+import fr.sanctumcraft.profile.Talent;
+import fr.sanctumcraft.relic.Relic;
+import fr.sanctumcraft.relic.RelicItem;
 import fr.sanctumcraft.registry.ModItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -30,14 +33,121 @@ public final class AltarMenus {
     public static void openMain(ServerPlayerEntity player) {
         HunterProfile prof = Profiles.of(player);
         ButtonMenu.Builder b = new ButtonMenu.Builder(3);
-        b.set(11, ButtonMenu.icon(Items.EMERALD, Text.translatable("menu.sanctumcraft.shop").formatted(Formatting.GREEN),
-                List.of(Text.translatable("menu.sanctumcraft.shop.desc").formatted(Formatting.GRAY))), AltarMenus::openShop);
-        b.set(13, ButtonMenu.icon(Items.GOLD_INGOT, Text.translatable("menu.sanctumcraft.sell").formatted(Formatting.GOLD),
-                List.of(Text.translatable("menu.sanctumcraft.sell.desc").formatted(Formatting.GRAY))), AltarMenus::openSell);
-        b.set(15, ButtonMenu.icon(Items.WRITABLE_BOOK, Text.translatable("menu.sanctumcraft.profile").formatted(Formatting.AQUA),
+        b.set(4, ButtonMenu.icon(Items.WRITABLE_BOOK, Text.translatable("menu.sanctumcraft.profile").formatted(Formatting.AQUA),
                 profileLore(prof)), null);
+        b.set(10, ButtonMenu.icon(Items.EMERALD, Text.translatable("menu.sanctumcraft.shop").formatted(Formatting.GREEN),
+                List.of(Text.translatable("menu.sanctumcraft.shop.desc").formatted(Formatting.GRAY))), AltarMenus::openShop);
+        b.set(12, ButtonMenu.icon(Items.GOLD_INGOT, Text.translatable("menu.sanctumcraft.sell").formatted(Formatting.GOLD),
+                List.of(Text.translatable("menu.sanctumcraft.sell.desc").formatted(Formatting.GRAY))), AltarMenus::openSell);
+        b.set(14, ButtonMenu.icon(Items.NETHER_STAR, Text.translatable("menu.sanctumcraft.talents").formatted(Formatting.LIGHT_PURPLE),
+                List.of(Text.translatable("menu.sanctumcraft.talents.points", prof.freePoints()).formatted(Formatting.GRAY))),
+                AltarMenus::openTalents);
+        b.set(16, ButtonMenu.icon(Items.ITEM_FRAME, Text.translatable("menu.sanctumcraft.showcase").formatted(Formatting.YELLOW),
+                List.of(Text.translatable("menu.sanctumcraft.showcase.count", prof.showcase.size(), Relic.values().length)
+                        .formatted(Formatting.GRAY))), AltarMenus::openShowcase);
         b.set(22, ButtonMenu.icon(Items.SUNFLOWER, shellsLine(player), List.of()), null);
         open(player, b, Text.translatable("menu.sanctumcraft.altar.title"));
+    }
+
+    // ------------------------------------------------------------------ talents
+
+    public static void openTalents(ServerPlayerEntity player) {
+        HunterProfile prof = Profiles.of(player);
+        ButtonMenu.Builder b = new ButtonMenu.Builder(6);
+        for (Talent.Branch branch : Talent.Branch.values()) {
+            int row = branch.ordinal() + 1;
+            b.set(row * 9 + 1, ButtonMenu.icon(branch.icon, Text.translatable(branch.key()).formatted(branch.color, Formatting.BOLD),
+                    List.of()), null);
+            int col = 3;
+            for (Talent t : Talent.values()) {
+                if (t.branch != branch) continue;
+                int rank = prof.rank(t);
+                List<Text> lore = new ArrayList<>();
+                lore.add(Text.translatable(t.key() + ".desc").formatted(Formatting.GRAY));
+                lore.add(Text.translatable("menu.sanctumcraft.talents.rank", rank, Talent.MAX_RANK)
+                        .formatted(rank > 0 ? Formatting.GREEN : Formatting.DARK_GRAY));
+                lore.add(Text.translatable(rank >= Talent.MAX_RANK ? "menu.sanctumcraft.talents.max"
+                        : "menu.sanctumcraft.talents.learn").formatted(Formatting.DARK_GRAY));
+                ItemStack icon = ButtonMenu.icon(t.icon, Text.translatable(t.key()).formatted(branch.color), lore);
+                icon.setCount(Math.max(1, rank));
+                b.set(row * 9 + col++, icon, p -> {
+                    if (Profiles.learn(p, t)) {
+                        p.playSoundToPlayer(SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.MASTER, 0.6F, 1.6F);
+                    } else {
+                        p.playSoundToPlayer(SoundEvents.ENTITY_VILLAGER_NO, SoundCategory.MASTER, 1.0F, 1.0F);
+                    }
+                    openTalents(p);
+                });
+            }
+        }
+        b.set(45, ButtonMenu.icon(Items.ARROW, Text.translatable("menu.sanctumcraft.back").formatted(Formatting.GRAY), List.of()),
+                AltarMenus::openMain);
+        b.set(49, ButtonMenu.icon(Items.NETHER_STAR, Text.translatable("menu.sanctumcraft.talents.points", prof.freePoints())
+                .formatted(Formatting.LIGHT_PURPLE), List.of(Text.translatable("menu.sanctumcraft.talents.points_rule")
+                .formatted(Formatting.GRAY))), null);
+        long price = Profiles.respecPrice(player);
+        b.set(53, ButtonMenu.icon(Items.BARRIER, Text.translatable("menu.sanctumcraft.talents.respec").formatted(Formatting.RED),
+                List.of(Text.translatable("menu.sanctumcraft.price", price).formatted(Formatting.GOLD))), p -> {
+            if (Profiles.respec(p)) {
+                p.playSoundToPlayer(SoundEvents.BLOCK_GRINDSTONE_USE, SoundCategory.MASTER, 1.0F, 1.0F);
+            } else {
+                p.playSoundToPlayer(SoundEvents.ENTITY_VILLAGER_NO, SoundCategory.MASTER, 1.0F, 1.0F);
+            }
+            openTalents(p);
+        });
+        open(player, b, Text.translatable("menu.sanctumcraft.talents"));
+    }
+
+    // ------------------------------------------------------------------ showcase
+
+    public static void openShowcase(ServerPlayerEntity player) {
+        HunterProfile prof = Profiles.of(player);
+        ButtonMenu.Builder b = new ButtonMenu.Builder(6);
+        for (int row = 0; row < 3; row++) {
+            int menuRow = row + 1;
+            int col = 2;
+            for (Relic relic : Relic.values()) {
+                if (relic.row != row) continue;
+                boolean placed = prof.showcase.contains(relic.name());
+                ItemStack icon;
+                if (placed) {
+                    icon = RelicItem.collector(new ItemStack(ModItems.RELICS.get(relic)));
+                    ButtonMenu.icon(icon, Text.translatable("item.sanctumcraft." + relic.id()).formatted(Formatting.GOLD),
+                            List.of(Text.translatable("menu.sanctumcraft.showcase.placed").formatted(Formatting.GREEN)));
+                } else {
+                    icon = ButtonMenu.icon(Items.GRAY_DYE, Text.translatable("item.sanctumcraft." + relic.id()).formatted(Formatting.DARK_GRAY),
+                            List.of(Text.translatable("menu.sanctumcraft.showcase.empty").formatted(Formatting.GRAY)));
+                }
+                b.set(menuRow * 9 + col++, icon, placed ? null : p -> place(p, relic));
+            }
+            boolean complete = Relic.rowComplete(prof, row);
+            b.set(menuRow * 9 + 7, ButtonMenu.icon(complete ? Items.LIME_DYE : Items.LIGHT_GRAY_DYE,
+                    Text.translatable("menu.sanctumcraft.showcase.row" + row).formatted(complete ? Formatting.GREEN : Formatting.GRAY),
+                    List.of(Text.translatable("menu.sanctumcraft.showcase.row" + row + ".bonus").formatted(Formatting.GRAY))), null);
+        }
+        b.set(45, ButtonMenu.icon(Items.ARROW, Text.translatable("menu.sanctumcraft.back").formatted(Formatting.GRAY), List.of()),
+                AltarMenus::openMain);
+        b.set(49, ButtonMenu.icon(Items.ITEM_FRAME, Text.translatable("menu.sanctumcraft.showcase.count", prof.showcase.size(),
+                Relic.values().length).formatted(Formatting.YELLOW), List.of(Text.translatable("menu.sanctumcraft.showcase.rule")
+                .formatted(Formatting.GRAY))), null);
+        open(player, b, Text.translatable("menu.sanctumcraft.showcase"));
+    }
+
+    private static void place(ServerPlayerEntity player, Relic relic) {
+        var inv = player.getInventory();
+        for (int i = 0; i < inv.size(); i++) {
+            ItemStack st = inv.getStack(i);
+            if (st.getItem() instanceof RelicItem ri && ri.relic == relic && RelicItem.isCollector(st)) {
+                st.decrement(1);
+                Profiles.of(player).showcase.add(relic.name());
+                Profiles.dirty(player);
+                player.playSoundToPlayer(SoundEvents.UI_TOAST_CHALLENGE_COMPLETE, SoundCategory.MASTER, 0.8F, 1.2F);
+                openShowcase(player);
+                return;
+            }
+        }
+        player.sendMessage(Text.translatable("menu.sanctumcraft.showcase.missing").formatted(Formatting.RED), true);
+        player.playSoundToPlayer(SoundEvents.ENTITY_VILLAGER_NO, SoundCategory.MASTER, 1.0F, 1.0F);
     }
 
     private static List<Text> profileLore(HunterProfile p) {

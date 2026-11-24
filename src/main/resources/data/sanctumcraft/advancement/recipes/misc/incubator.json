@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_rune": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "sanctumcraft:rune_stone"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "sanctumcraft:incubator"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rune"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "sanctumcraft:incubator"
+    ]
+  }
+}

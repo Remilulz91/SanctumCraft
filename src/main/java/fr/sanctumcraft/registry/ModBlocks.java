@@ -4,6 +4,9 @@ import fr.sanctumcraft.SanctumCraft;
 import fr.sanctumcraft.altar.SanctumAltarBlock;
 import fr.sanctumcraft.block.DestinationMechanismBlock;
 import fr.sanctumcraft.block.EggNestBlock;
+import fr.sanctumcraft.incubator.IncubatorBlock;
+import fr.sanctumcraft.incubator.IncubatorBlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import fr.sanctumcraft.loot.ChestTier;
 import fr.sanctumcraft.loot.KeyTier;
 import fr.sanctumcraft.loot.LootSpotBlock;
@@ -86,6 +89,20 @@ public final class ModBlocks {
                     .sounds(BlockSoundGroup.LODESTONE)
                     .luminance(state -> 7)),
             true);
+
+    /** Incubator: hatches secured eggs into companions. */
+    public static final IncubatorBlock INCUBATOR = register("incubator",
+            new IncubatorBlock(AbstractBlock.Settings.create()
+                    .strength(2.5F, 6.0F)
+                    .requiresTool()
+                    .sounds(BlockSoundGroup.DEEPSLATE_BRICKS)
+                    .nonOpaque()
+                    .luminance(state -> state.get(IncubatorBlock.STAGE) == 0 ? 3 : 9)),
+            true);
+
+    public static final BlockEntityType<IncubatorBlockEntity> INCUBATOR_ENTITY = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE, SanctumCraft.id("incubator"),
+            BlockEntityType.Builder.create(IncubatorBlockEntity::new, INCUBATOR).build(null));
 
     /** Rift (sanctum only): triggers monster waves, then becomes a chest. */
     public static final RiftBlock RIFT = register("rift",

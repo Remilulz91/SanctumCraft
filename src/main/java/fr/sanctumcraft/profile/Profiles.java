@@ -56,8 +56,9 @@ public final class Profiles {
         HunterProfile p = of(player);
         long shells = 0;
         int xp = 0;
+        double bonus = shellBonus(p);
         for (EggRarity r : eggs) {
-            shells += Math.round(eggShells(r) * difficulty.loot);
+            shells += Math.round(eggShells(r) * difficulty.loot * bonus);
             xp += Math.round(eggHunterXp(r) * difficulty.loot);
         }
         p.shells += shells;
@@ -66,6 +67,37 @@ public final class Profiles {
         dirty(player);
         addHunterXp(player, xp);
         return shells;
+    }
+
+    /** Shells multiplier: Greed talent, +2 % per showcased relic, +25 % for the complete "Nest" row. */
+    public static double shellBonus(HunterProfile p) {
+        double b = 1.0 + 0.10 * p.rank(Talent.GREED) + 0.02 * p.showcase.size();
+        if (fr.sanctumcraft.relic.Relic.rowComplete(p, 2)) b += 0.25;
+        return b;
+    }
+
+    public static int rank(ServerPlayerEntity player, Talent t) {
+        return of(player).rank(t);
+    }
+
+    public static boolean learn(ServerPlayerEntity player, Talent t) {
+        HunterProfile p = of(player);
+        if (p.freePoints() <= 0 || p.rank(t) >= Talent.MAX_RANK) return false;
+        p.talents.put(t.name(), p.rank(t) + 1);
+        dirty(player);
+        return true;
+    }
+
+    public static long respecPrice(ServerPlayerEntity player) {
+        return 300L * of(player).level;
+    }
+
+    public static boolean respec(ServerPlayerEntity player) {
+        HunterProfile p = of(player);
+        if (p.talents.isEmpty() || !spend(player, respecPrice(player))) return false;
+        p.talents.clear();
+        dirty(player);
+        return true;
     }
 
     public static void addShells(ServerPlayerEntity player, long amount) {
