@@ -43,6 +43,11 @@ public final class SanctumInstance {
     public int clearIndex;
     public boolean entitiesCleared;
     public long lastWarnSecond = -1;
+    /** Nest digging progress (packed pos -> hits). */
+    public final Map<Long, Integer> nestHits = new HashMap<>();
+    /** Player currently activating the destination mechanism, and since when. */
+    public UUID activatingPlayer;
+    public long activationStart;
 
     public SanctumInstance(UUID id, UUID portalId, int slot, BlockPos origin, List<PlacedRoom> rooms) {
         this.id = id;
@@ -51,6 +56,11 @@ public final class SanctumInstance {
         this.origin = origin;
         this.rooms = rooms;
         this.status = Status.GENERATING;
+    }
+
+    public PlacedRoom destinationRoom() {
+        for (PlacedRoom r : rooms) if (r.kind() == RoomKind.DESTINATION) return r;
+        return null;
     }
 
     public BlockPos roomOrigin(PlacedRoom room) {
@@ -62,6 +72,11 @@ public final class SanctumInstance {
         int size = RoomLayout.GRID * RoomLayout.CELL;
         return new BlockBox(origin.getX() - 2, origin.getY() - 64, origin.getZ() - 2,
                 origin.getX() + size + 1, origin.getY() + RoomLayout.ROOM_HEIGHT + 32, origin.getZ() + size + 1);
+    }
+
+    /** Volume (in blocks) of a room, as cleared on collapse. */
+    public static int volume(PlacedRoom r) {
+        return r.w() * RoomLayout.CELL * r.h() * RoomLayout.CELL * RoomLayout.ROOM_HEIGHT;
     }
 
     public boolean contains(BlockPos pos) {

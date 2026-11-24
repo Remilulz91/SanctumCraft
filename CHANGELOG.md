@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.2.0-alpha.1] - The raid loop: nests, eggs, extraction
+
+### Added
+- **Rooms of different sizes**: 2x2 **great halls** (50×50, 14 high), **corridors** built toward their doors only, **small rooms** at dead ends. 18 rooms per sanctum by default on a 10×10 grid.
+- **New room templates**: `small_shrine`, `small_storage`, `great_hall_columns`, `great_hall_crypt`.
+- **Nest candidates**: 5 nest rooms per sanctum, only 1 to 3 of them hold an egg (configurable). You never know in advance which ones.
+- **Sanctum Nest** block: hit an active nest 10 times to dig its egg out. Everyone inside is told who found what.
+- **Sanctum Eggs** in 4 rarities (common, rare, epic, legendary). Rarer eggs are more likely in Nightmare and Chaos.
+- **Egg weight**: carrying eggs inside the sanctum slows you down (more eggs / rarer eggs = slower).
+- **Eggs are always lost on death in the sanctum**, even with `keepInventory` or `sanctumKeepInventory`: they fall on the ground where teammates can pick them up.
+- **Destination Mechanism** in the farthest room: right-click and stay close for 5 s to open a second exit portal.
+- **Extraction**: leaving the sanctum alive (any exit portal or `/sanctum leave`) secures your eggs and grants XP (by rarity × difficulty). Secured eggs show it in their tooltip. Hatching comes in 0.6.
+- Ender chests can't be used or placed in the sanctum (no stashing eggs).
+- Config: `nestCandidates` (5), `activeNestsMin` (1), `activeNestsMax` (3), `nestHits` (10), `destinationActivationSeconds` (5). `roomsPerSanctum` now defaults to 18; `nestRooms` is replaced by `nestCandidates`.
+
 ## [0.1.0-alpha.5] - Difficulties and sanctum-only keep inventory
 
 ### Added

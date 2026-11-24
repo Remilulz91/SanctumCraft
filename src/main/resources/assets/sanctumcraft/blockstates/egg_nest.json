@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "sanctumcraft:block/egg_nest_empty"
+    },
+    "active=true": {
+      "model": "sanctumcraft:block/egg_nest_active"
+    }
+  }
+}

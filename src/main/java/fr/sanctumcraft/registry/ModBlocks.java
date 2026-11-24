@@ -1,6 +1,8 @@
 package fr.sanctumcraft.registry;
 
 import fr.sanctumcraft.SanctumCraft;
+import fr.sanctumcraft.block.DestinationMechanismBlock;
+import fr.sanctumcraft.block.EggNestBlock;
 import fr.sanctumcraft.portal.SanctumPortalBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -29,6 +31,27 @@ public final class ModBlocks {
                     .strength(-1.0F, 3600000.0F)
                     .sounds(BlockSoundGroup.GLASS)
                     .luminance(state -> 11)
+                    .pistonBehavior(PistonBehavior.BLOCK)
+                    .dropsNothing()),
+            false);
+
+    /** Egg nest (sanctum only). */
+    public static final EggNestBlock EGG_NEST = register("egg_nest",
+            new EggNestBlock(AbstractBlock.Settings.create()
+                    .strength(-1.0F, 3600000.0F)
+                    .sounds(BlockSoundGroup.ROOTED_DIRT)
+                    .nonOpaque()
+                    .luminance(state -> state.get(EggNestBlock.ACTIVE) ? 6 : 0)
+                    .pistonBehavior(PistonBehavior.BLOCK)
+                    .dropsNothing()),
+            false);
+
+    /** Destination mechanism (sanctum only). */
+    public static final DestinationMechanismBlock DESTINATION_MECHANISM = register("destination_mechanism",
+            new DestinationMechanismBlock(AbstractBlock.Settings.create()
+                    .strength(-1.0F, 3600000.0F)
+                    .sounds(BlockSoundGroup.LODESTONE)
+                    .luminance(state -> state.get(DestinationMechanismBlock.ACTIVE) ? 15 : 5)
                     .pistonBehavior(PistonBehavior.BLOCK)
                     .dropsNothing()),
             false);

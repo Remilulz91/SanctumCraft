@@ -1,7 +1,12 @@
 package fr.sanctumcraft.instance;
 
 import fr.sanctumcraft.SanctumCraft;
+import fr.sanctumcraft.block.DestinationMechanismBlock;
+import fr.sanctumcraft.block.EggNestBlock;
 import fr.sanctumcraft.config.SanctumConfig;
+import fr.sanctumcraft.egg.EggHandler;
+import fr.sanctumcraft.portal.SanctumPortalBlock;
+import fr.sanctumcraft.registry.ModBlocks;
 import fr.sanctumcraft.menu.DifficultyMenu;
 import fr.sanctumcraft.registry.ModItems;
 import fr.sanctumcraft.portal.PortalHandler;
@@ -52,6 +57,11 @@ public final class InstanceManager {
     private static final int BASE_Y = 64;
 
     private static final BlockState SEAL = Blocks.DEEPSLATE_BRICKS.getDefaultState();
+    /** Position of the nest block in a nest room, of the mechanism in the destination room. */
+    private static final BlockPos NEST_OFFSET = new BlockPos(12, 3, 12);
+    private static final BlockPos MECHANISM_OFFSET = new BlockPos(12, 3, 12);
+    /** Exit portal of the destination room: interior 3 wide (x 11..13) x 4 tall (y 2..5) at z = 20. */
+    private static final BlockPos EXIT_FRAME_OFFSET = new BlockPos(11, 2, 20);
     private static final int CLEAR_FLAGS = Block.NOTIFY_LISTENERS | Block.FORCE_STATE | Block.SKIP_DROPS;
 
     private InstanceManager() {}
@@ -88,7 +98,7 @@ public final class InstanceManager {
     }
 
     /** Online players currently standing inside the given sanctum. */
-    private static List<ServerPlayerEntity> playersInside(MinecraftServer server, SanctumInstance inst) {
+    public static List<ServerPlayerEntity> playersInside(MinecraftServer server, SanctumInstance inst) {
         ServerWorld world = sanctumWorld(server);
         List<ServerPlayerEntity> list = new ArrayList<>();
         if (world == null) return list;
@@ -96,6 +106,11 @@ public final class InstanceManager {
             if (inst.contains(p.getBlockPos())) list.add(p);
         }
         return list;
+    }
+
+    public static SanctumInstance instanceAt(ServerWorld world, BlockPos pos) {
+        if (!ModDimensions.isSanctum(world)) return null;
+        return state(world.getServer()).findInstanceAt(pos);
     }
 
     public static SanctumInstance instanceOf(ServerPlayerEntity player) {
@@ -305,6 +320,9 @@ public final class InstanceManager {
         MinecraftServer server = player.getServer();
         if (server == null) return;
         SanctumInstance inst = instanceOf(player);
+        if (inst != null && player.isAlive()) {
+            EggHandler.extract(player, inst);
+        }
         ReturnPoint rp = inst != null ? inst.returns.get(player.getUuid()) : null;
         if (inst != null && inst.bossBar != null) inst.bossBar.removePlayer(player);
         if (rp != null) {
@@ -340,7 +358,7 @@ public final class InstanceManager {
         int slot = state.freeSlot(SanctumConfig.maxSimultaneousSanctums);
         if (slot < 0) return null;
 
-        List<PlacedRoom> rooms = RoomLayout.generate(world.getRandom());
+        List<PlacedRoom> rooms = RoomLayout.generate(world.getRandom(), difficulty);
         BlockPos origin = new BlockPos(slot * SLOT_SPACING, BASE_Y, 0);
         SanctumInstance inst = new SanctumInstance(UUID.randomUUID(), portalId, slot, origin, rooms);
         inst.generationStartTick = now(server);
@@ -464,6 +482,10 @@ public final class InstanceManager {
 
     private static void placeRoom(MinecraftServer server, ServerWorld world, SanctumInstance inst, PlacedRoom room) {
         BlockPos base = inst.roomOrigin(room);
+        if (room.kind() == RoomKind.CORRIDOR) {
+            CorridorBuilder.build(world, base, room);
+            return;
+        }
         Identifier id = SanctumCraft.id(room.template());
         Optional<StructureTemplate> template = server.getStructureTemplateManager().getTemplate(id);
         if (template.isPresent()) {
@@ -471,29 +493,48 @@ public final class InstanceManager {
             template.get().place(world, base, base, data, world.getRandom(), Block.NOTIFY_LISTENERS);
         } else {
             SanctumCraft.LOGGER.error("Missing room template {}, placing a fallback floor", id);
-            for (int x = 0; x < RoomLayout.CELL; x++) {
-                for (int z = 0; z < RoomLayout.CELL; z++) {
+            for (int x = 0; x < room.w() * RoomLayout.CELL; x++) {
+                for (int z = 0; z < room.h() * RoomLayout.CELL; z++) {
                     world.setBlockState(base.add(x, 0, z), Blocks.DEEPSLATE_TILES.getDefaultState(), Block.NOTIFY_LISTENERS);
                 }
             }
         }
         sealDoors(world, base, room);
+
+        if (room.kind() == RoomKind.NEST) {
+            BlockPos nest = base.add(NEST_OFFSET);
+            BlockState nestState = ModBlocks.EGG_NEST.getDefaultState().with(EggNestBlock.ACTIVE, room.nestActive());
+            world.setBlockState(nest, nestState, Block.NOTIFY_LISTENERS);
+        } else if (room.kind() == RoomKind.DESTINATION) {
+            world.setBlockState(base.add(MECHANISM_OFFSET), ModBlocks.DESTINATION_MECHANISM.getDefaultState(), Block.NOTIFY_LISTENERS);
+        }
     }
 
-    /** Fills the doorways that do not lead to a neighbour room. Doorway: 3 wide (11..13), 4 tall (y 1..4). */
+    /** Fills every doorway of the room that does not lead to a neighbour. Doorway: 3 wide (11..13), 4 tall (y 1..4). */
     private static void sealDoors(ServerWorld world, BlockPos base, PlacedRoom room) {
-        int last = RoomLayout.CELL - 1;
-        for (Direction dir : new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST}) {
-            if (room.doors().contains(dir)) continue;
-            for (int w = 11; w <= 13; w++) {
-                for (int y = 1; y <= 4; y++) {
-                    BlockPos p = switch (dir) {
-                        case NORTH -> base.add(w, y, 0);
-                        case SOUTH -> base.add(w, y, last);
-                        case WEST -> base.add(0, y, w);
-                        default -> base.add(last, y, w);
+        for (int lx = 0; lx < room.w(); lx++) {
+            for (int lz = 0; lz < room.h(); lz++) {
+                BlockPos cell = base.add(lx * RoomLayout.CELL, 0, lz * RoomLayout.CELL);
+                int last = RoomLayout.CELL - 1;
+                for (Direction dir : new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST}) {
+                    boolean edge = switch (dir) {
+                        case NORTH -> lz == 0;
+                        case SOUTH -> lz == room.h() - 1;
+                        case WEST -> lx == 0;
+                        default -> lx == room.w() - 1;
                     };
-                    world.setBlockState(p, SEAL, Block.NOTIFY_LISTENERS);
+                    if (!edge || room.hasDoor(lx, lz, dir)) continue;
+                    for (int w = 11; w <= 13; w++) {
+                        for (int y = 1; y <= 4; y++) {
+                            BlockPos p = switch (dir) {
+                                case NORTH -> cell.add(w, y, 0);
+                                case SOUTH -> cell.add(w, y, last);
+                                case WEST -> cell.add(0, y, w);
+                                default -> cell.add(last, y, w);
+                            };
+                            world.setBlockState(p, SEAL, Block.NOTIFY_LISTENERS);
+                        }
+                    }
                 }
             }
         }
@@ -513,6 +554,10 @@ public final class InstanceManager {
         for (ServerPlayerEntity p : inside) {
             if (!bar.getPlayers().contains(p)) bar.addPlayer(p);
         }
+        if (now(server) % 20 == 0) {
+            for (ServerPlayerEntity p : inside) EggHandler.applyWeight(p);
+        }
+        tickDestinationActivation(server, inst, inside);
         if (SanctumConfig.forceSurvival && !SanctumCraft.isDevEnvironment() && now(server) % 20 == 0) {
             for (ServerPlayerEntity p : inside) {
                 if (p.interactionManager.getGameMode() != GameMode.SURVIVAL) p.changeGameMode(GameMode.SURVIVAL);
@@ -554,16 +599,20 @@ public final class InstanceManager {
             inst.entitiesCleared = true;
         }
         int budget = SanctumConfig.blocksClearedPerTick;
-        int volume = RoomLayout.CELL * RoomLayout.CELL * RoomLayout.ROOM_HEIGHT;
         BlockState air = Blocks.AIR.getDefaultState();
         BlockPos.Mutable m = new BlockPos.Mutable();
         while (budget > 0 && inst.clearRoom < inst.rooms.size()) {
-            BlockPos base = inst.roomOrigin(inst.rooms.get(inst.clearRoom));
+            PlacedRoom room = inst.rooms.get(inst.clearRoom);
+            BlockPos base = inst.roomOrigin(room);
+            int sx = room.w() * RoomLayout.CELL;
+            int sz = room.h() * RoomLayout.CELL;
+            int layer = sx * sz;
+            int volume = SanctumInstance.volume(room);
             while (budget > 0 && inst.clearIndex < volume) {
                 int i = inst.clearIndex++;
-                int y = i / (RoomLayout.CELL * RoomLayout.CELL);
-                int rest = i % (RoomLayout.CELL * RoomLayout.CELL);
-                m.set(base.getX() + rest % RoomLayout.CELL, base.getY() + y, base.getZ() + rest / RoomLayout.CELL);
+                int y = i / layer;
+                int rest = i % layer;
+                m.set(base.getX() + rest % sx, base.getY() + y, base.getZ() + rest / sx);
                 if (!world.getBlockState(m).isAir()) {
                     world.setBlockState(m, air, CLEAR_FLAGS);
                 }
@@ -588,6 +637,80 @@ public final class InstanceManager {
         for (Entity e : world.getEntitiesByClass(Entity.class, box, e -> !(e instanceof PlayerEntity))) {
             e.discard();
         }
+    }
+
+    // ------------------------------------------------------------------------------------------
+    // Destination mechanism
+    // ------------------------------------------------------------------------------------------
+
+    public static void startDestinationActivation(ServerPlayerEntity player, BlockPos pos) {
+        MinecraftServer server = player.getServer();
+        if (server == null || !(player.getWorld() instanceof ServerWorld world)) return;
+        SanctumInstance inst = instanceAt(world, pos);
+        if (inst == null || inst.status != SanctumInstance.Status.ACTIVE) return;
+        if (inst.activatingPlayer != null) {
+            if (!inst.activatingPlayer.equals(player.getUuid())) {
+                player.sendMessage(Text.translatable("message.sanctumcraft.destination.busy").formatted(Formatting.GRAY), true);
+            }
+            return;
+        }
+        inst.activatingPlayer = player.getUuid();
+        inst.activationStart = now(server);
+        world.playSound(null, pos, SoundEvents.BLOCK_BEACON_POWER_SELECT, SoundCategory.BLOCKS, 1.0F, 1.2F);
+    }
+
+    private static void tickDestinationActivation(MinecraftServer server, SanctumInstance inst, List<ServerPlayerEntity> inside) {
+        if (inst.activatingPlayer == null) return;
+        PlacedRoom room = inst.destinationRoom();
+        ServerWorld world = sanctumWorld(server);
+        ServerPlayerEntity player = server.getPlayerManager().getPlayer(inst.activatingPlayer);
+        if (room == null || world == null) {
+            inst.activatingPlayer = null;
+            return;
+        }
+        BlockPos mechanism = inst.roomOrigin(room).add(MECHANISM_OFFSET);
+        if (player == null || !player.isAlive() || !inside.contains(player)
+                || player.getPos().squaredDistanceTo(mechanism.toCenterPos()) > 16) {
+            if (player != null) {
+                player.sendMessage(Text.translatable("message.sanctumcraft.destination.cancelled").formatted(Formatting.RED), true);
+            }
+            inst.activatingPlayer = null;
+            return;
+        }
+        long needed = Math.max(1, SanctumConfig.destinationActivationSeconds * 20L);
+        long elapsed = now(server) - inst.activationStart;
+        if (elapsed < needed) {
+            if (elapsed % 5 == 0) {
+                int filled = (int) (10 * elapsed / needed);
+                player.sendMessage(Text.translatable("message.sanctumcraft.destination.activating",
+                        "■".repeat(filled) + "□".repeat(10 - filled)).formatted(Formatting.AQUA), true);
+                world.spawnParticles(net.minecraft.particle.ParticleTypes.END_ROD,
+                        mechanism.getX() + 0.5, mechanism.getY() + 1.2, mechanism.getZ() + 0.5, 3, 0.3, 0.3, 0.3, 0.02);
+            }
+            return;
+        }
+        inst.activatingPlayer = null;
+        openDestinationPortal(world, inst, room);
+        for (ServerPlayerEntity p : inside) {
+            title(p, Text.empty(), Text.translatable("subtitle.sanctumcraft.destination.open").formatted(Formatting.AQUA), 5, 50, 15);
+        }
+    }
+
+    private static void openDestinationPortal(ServerWorld world, SanctumInstance inst, PlacedRoom room) {
+        BlockPos base = inst.roomOrigin(room);
+        BlockPos mechanism = base.add(MECHANISM_OFFSET);
+        BlockState ms = world.getBlockState(mechanism);
+        if (ms.isOf(ModBlocks.DESTINATION_MECHANISM)) {
+            world.setBlockState(mechanism, ms.with(DestinationMechanismBlock.ACTIVE, true), Block.NOTIFY_LISTENERS);
+        }
+        BlockState portal = ModBlocks.SANCTUM_PORTAL.getDefaultState().with(SanctumPortalBlock.AXIS, Direction.Axis.X);
+        BlockPos frame = base.add(EXIT_FRAME_OFFSET);
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 4; y++) {
+                world.setBlockState(frame.add(x, y, 0), portal, Block.NOTIFY_LISTENERS | Block.FORCE_STATE);
+            }
+        }
+        world.playSound(null, frame, SoundEvents.BLOCK_END_PORTAL_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
     }
 
     // ------------------------------------------------------------------------------------------

@@ -1,13 +1,19 @@
 package fr.sanctumcraft.instance;
 
-/** Role of a room in the sanctum graph. */
+/** Role / shape of a room in the sanctum graph. */
 public enum RoomKind {
-    /** Start room: spawn point + exit portal. Always on the north edge of the grid. */
+    /** Start room (1x1): spawn point + exit portal. Always on the north edge of the grid. */
     ENTRANCE,
-    /** Contains an egg nest (gameplay in 0.2). */
+    /** Nest candidate (1x1): may or may not hold an active egg nest. */
     NEST,
-    /** Farthest room: destination mechanism / extraction (gameplay in 0.2). */
+    /** Destination (1x1): mechanism that opens a second exit portal. Farthest room. */
     DESTINATION,
-    /** Filler room. */
-    HALL
+    /** Regular room (1x1). */
+    HALL,
+    /** Great hall (2x2 cells). */
+    GREAT_HALL,
+    /** Small room at a dead end (1x1 cell, smaller interior). */
+    SMALL,
+    /** Corridor (1x1 cell), built by code, only toward its doors. */
+    CORRIDOR
 }

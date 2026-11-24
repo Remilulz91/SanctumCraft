@@ -49,8 +49,11 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | `sanctumKeepInventory` | false | Keep inventory and XP when dying inside a sanctum only |
 | `portalCooldownSeconds` | 1800 | Portal recharge after a collapse |
 | `maxPlayersPerSanctum` | 3 | Different players per sanctum |
-| `roomsPerSanctum` | 12 | Rooms per sanctum |
-| `nestRooms` | 2 | Nest rooms |
+| `roomsPerSanctum` | 18 | Rooms per sanctum (corridors and great halls count as one) |
+| `nestCandidates` | 5 | Nest rooms |
+| `activeNestsMin` / `activeNestsMax` | 1 / 3 | Nests that actually hold an egg |
+| `nestHits` | 10 | Hits to dig an egg out |
+| `destinationActivationSeconds` | 5 | Time to activate the destination mechanism |
 | `roomsPlacedPerTick` | 1 | Generation speed |
 | `blocksClearedPerTick` | 12000 | Cleanup speed |
 | `minGenerationTicks` | 40 | Min time of the "Generating…" screen |
@@ -60,7 +63,7 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 
 ## 🧱 Editing rooms
 
-Rooms live in `src/main/resources/data/sanctumcraft/structure/room/` (25×10×25, a doorway in the middle of each side: x/z 11–13, y 1–4).
+Rooms live in `src/main/resources/data/sanctumcraft/structure/room/` (1x1 rooms 25×10×25, small rooms 25×7×25, great halls 50×14×50; a doorway in the middle of each cell side: offset 11–13, y 1–4). Fixed spots used by the mod are listed at the top of `tools/gen_rooms.py`.
 To retouch one in game (debug build, creative): place a structure block in **Load** mode, name `sanctumcraft:room/hall_pillars`, load it, edit, switch to **Save** mode with the same name and size, save, then copy `saves/<world>/generated/sanctumcraft/structures/room/hall_pillars.nbt` back into the mod.
 `tools/gen_rooms.py` regenerates the placeholder rooms (`pip install nbtlib`).
 
@@ -76,7 +79,7 @@ Requires JDK 21. See MurderCraft's SETUP.md for the IntelliJ steps, they are ide
 ## 🎯 Roadmap
 
 - [x] 0.1: dimension, rune portal, sanctum lifecycle (generation, timer, collapse, cooldown), room assembler
-- [ ] 0.2: raid loop: nests, eggs (item), extraction through the destination room
+- [x] 0.2: varied rooms (great halls, corridors, small rooms), nest candidates, eggs, egg weight, destination portal, extraction
 - [ ] 0.3: rarity-colored chests with progressive reveal, loot tables, keys and locked rooms, natural portal ruins
 - [ ] 0.4: mobs, rift events, traps, rolling egg, difficulties (Normal / Nightmare / Chaos)
 - [ ] 0.5: Sanctum Altar: levels, shells currency, shop, selling, Chaos ticket with daily reset

@@ -40,7 +40,7 @@ public final class SanctumProtection {
 
     private static boolean isForbiddenBlock(Block block) {
         return block == Blocks.PISTON || block == Blocks.STICKY_PISTON
-                || block == Blocks.TNT || block == Blocks.RESPAWN_ANCHOR
+                || block == Blocks.TNT || block == Blocks.RESPAWN_ANCHOR || block == Blocks.ENDER_CHEST
                 || block instanceof BedBlock;
     }
 
@@ -67,6 +67,12 @@ public final class SanctumProtection {
                 if (!(world instanceof ServerWorld sw) || !InstanceManager.isPlayerPlaced(sw, hit.getBlockPos())) {
                     return ActionResult.FAIL;
                 }
+            }
+
+            if (world.getBlockState(hit.getBlockPos()).isOf(Blocks.ENDER_CHEST)) {
+                // An ender chest would let players stash eggs and skip the extraction.
+                player.sendMessage(Text.translatable("message.sanctumcraft.forbidden_item").formatted(Formatting.GRAY), true);
+                return ActionResult.FAIL;
             }
 
             if (stack.isOf(Items.TNT_MINECART)

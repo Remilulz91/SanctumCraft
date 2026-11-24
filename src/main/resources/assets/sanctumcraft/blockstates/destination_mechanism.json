@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "sanctumcraft:block/destination_mechanism"
+    },
+    "active=true": {
+      "model": "sanctumcraft:block/destination_mechanism_active"
+    }
+  }
+}

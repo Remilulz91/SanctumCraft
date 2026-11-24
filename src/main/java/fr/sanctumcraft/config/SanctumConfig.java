@@ -25,10 +25,17 @@ public final class SanctumConfig {
     public static int portalCooldownSeconds = 1800;
     /** Max different players that can join one sanctum. */
     public static int maxPlayersPerSanctum = 3;
-    /** Number of rooms in a sanctum (including entrance, nests and destination). */
-    public static int roomsPerSanctum = 12;
-    /** Number of nest rooms. */
-    public static int nestRooms = 2;
+    /** Number of rooms in a sanctum (corridors and great halls count as one room each). */
+    public static int roomsPerSanctum = 18;
+    /** Number of nest rooms (candidates). */
+    public static int nestCandidates = 5;
+    /** Min / max number of nests that actually hold an egg. */
+    public static int activeNestsMin = 1;
+    public static int activeNestsMax = 3;
+    /** Hits needed to dig an egg out of a nest. */
+    public static int nestHits = 10;
+    /** Time to activate the destination mechanism, in seconds. */
+    public static int destinationActivationSeconds = 5;
     /** Rooms placed per server tick during generation. */
     public static int roomsPlacedPerTick = 1;
     /** Block positions cleared per server tick when a sanctum collapses. */
@@ -65,8 +72,12 @@ public final class SanctumConfig {
         raidDurationChaosSeconds = getInt(p, "raidDurationChaosSeconds", raidDurationChaosSeconds, 60, 7200);
         portalCooldownSeconds = getInt(p, "portalCooldownSeconds", portalCooldownSeconds, 0, 86400);
         maxPlayersPerSanctum = getInt(p, "maxPlayersPerSanctum", maxPlayersPerSanctum, 1, 16);
-        roomsPerSanctum = getInt(p, "roomsPerSanctum", roomsPerSanctum, 4, 40);
-        nestRooms = getInt(p, "nestRooms", nestRooms, 1, 6);
+        roomsPerSanctum = getInt(p, "roomsPerSanctum", roomsPerSanctum, 6, 60);
+        nestCandidates = getInt(p, "nestCandidates", nestCandidates, 1, 12);
+        activeNestsMin = getInt(p, "activeNestsMin", activeNestsMin, 1, 12);
+        activeNestsMax = getInt(p, "activeNestsMax", activeNestsMax, 1, 12);
+        nestHits = getInt(p, "nestHits", nestHits, 1, 100);
+        destinationActivationSeconds = getInt(p, "destinationActivationSeconds", destinationActivationSeconds, 0, 60);
         roomsPlacedPerTick = getInt(p, "roomsPlacedPerTick", roomsPlacedPerTick, 1, 10);
         blocksClearedPerTick = getInt(p, "blocksClearedPerTick", blocksClearedPerTick, 1000, 200000);
         minGenerationTicks = getInt(p, "minGenerationTicks", minGenerationTicks, 0, 400);
@@ -94,7 +105,11 @@ public final class SanctumConfig {
         p.setProperty("portalCooldownSeconds", String.valueOf(portalCooldownSeconds));
         p.setProperty("maxPlayersPerSanctum", String.valueOf(maxPlayersPerSanctum));
         p.setProperty("roomsPerSanctum", String.valueOf(roomsPerSanctum));
-        p.setProperty("nestRooms", String.valueOf(nestRooms));
+        p.setProperty("nestCandidates", String.valueOf(nestCandidates));
+        p.setProperty("activeNestsMin", String.valueOf(activeNestsMin));
+        p.setProperty("activeNestsMax", String.valueOf(activeNestsMax));
+        p.setProperty("nestHits", String.valueOf(nestHits));
+        p.setProperty("destinationActivationSeconds", String.valueOf(destinationActivationSeconds));
         p.setProperty("roomsPlacedPerTick", String.valueOf(roomsPlacedPerTick));
         p.setProperty("blocksClearedPerTick", String.valueOf(blocksClearedPerTick));
         p.setProperty("minGenerationTicks", String.valueOf(minGenerationTicks));

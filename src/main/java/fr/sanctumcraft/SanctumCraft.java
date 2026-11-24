@@ -2,6 +2,7 @@ package fr.sanctumcraft;
 
 import fr.sanctumcraft.command.SanctumCommand;
 import fr.sanctumcraft.config.SanctumConfig;
+import fr.sanctumcraft.egg.EggHandler;
 import fr.sanctumcraft.instance.InstanceManager;
 import fr.sanctumcraft.instance.KeepInventoryHandler;
 import fr.sanctumcraft.instance.SanctumProtection;
@@ -62,6 +63,7 @@ public class SanctumCraft implements ModInitializer {
 
         SanctumProtection.register();
         KeepInventoryHandler.register();
+        EggHandler.register();
 
         LOGGER.info("SanctumCraft v{} loaded (build: {})", VERSION, DEBUG_BUILD ? "debug" : "public");
     }
