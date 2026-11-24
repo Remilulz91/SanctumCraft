@@ -38,6 +38,10 @@ public final class ModItems {
 
     public static final java.util.Map<Relic, RelicItem> RELICS = registerRelics();
 
+    /** Summons / recalls the active companion. */
+    public static final Item COMPANION_WHISTLE = Registry.register(Registries.ITEM, SanctumCraft.id("companion_whistle"),
+            new fr.sanctumcraft.companion.CompanionWhistleItem(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON)));
+
     public static final ItemGroup GROUP = Registry.register(Registries.ITEM_GROUP, SanctumCraft.id("main"),
             FabricItemGroup.builder()
                     .icon(() -> new ItemStack(SANCTUM_SHARD))
@@ -55,6 +59,7 @@ public final class ModItems {
                         entries.add(SILVER_KEY);
                         entries.add(GILDED_KEY);
                         entries.add(ModBlocks.INCUBATOR);
+                        entries.add(COMPANION_WHISTLE);
                         for (RelicItem r : RELICS.values()) {
                             entries.add(r);
                             entries.add(RelicItem.collector(new ItemStack(r)));

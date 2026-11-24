@@ -18,6 +18,12 @@ public final class HunterProfile {
     public final java.util.Map<String, Integer> talents = new java.util.HashMap<>();
     /** Collector relics placed in the showcase (relic names). */
     public final java.util.Set<String> showcase = new java.util.HashSet<>();
+    /** Classic relics placed in the showcase (relic names). */
+    public final java.util.Set<String> showcaseClassic = new java.util.HashSet<>();
+    /** Companion collection and the active one. */
+    public final java.util.List<fr.sanctumcraft.companion.CompanionData> companions = new java.util.ArrayList<>();
+    public java.util.UUID activeCompanion;
+    public boolean whistleGiven;
 
     public int rank(Talent t) {
         return talents.getOrDefault(t.name(), 0);
@@ -55,6 +61,14 @@ public final class HunterProfile {
         net.minecraft.nbt.NbtList show = new net.minecraft.nbt.NbtList();
         for (String r : showcase) show.add(net.minecraft.nbt.NbtString.of(r));
         t.put("showcase", show);
+        net.minecraft.nbt.NbtList classic = new net.minecraft.nbt.NbtList();
+        for (String r : showcaseClassic) classic.add(net.minecraft.nbt.NbtString.of(r));
+        t.put("showcaseClassic", classic);
+        net.minecraft.nbt.NbtList comps = new net.minecraft.nbt.NbtList();
+        for (fr.sanctumcraft.companion.CompanionData c : companions) comps.add(c.toNbt());
+        t.put("companions", comps);
+        if (activeCompanion != null) t.putUuid("activeCompanion", activeCompanion);
+        t.putBoolean("whistleGiven", whistleGiven);
         return t;
     }
 
@@ -72,6 +86,14 @@ public final class HunterProfile {
         for (String k : tal.getKeys()) p.talents.put(k, tal.getInt(k));
         net.minecraft.nbt.NbtList show = t.getList("showcase", net.minecraft.nbt.NbtElement.STRING_TYPE);
         for (int i = 0; i < show.size(); i++) p.showcase.add(show.getString(i));
+        net.minecraft.nbt.NbtList classic = t.getList("showcaseClassic", net.minecraft.nbt.NbtElement.STRING_TYPE);
+        for (int i = 0; i < classic.size(); i++) p.showcaseClassic.add(classic.getString(i));
+        // 0.6.0 placed collector relics directly: they count as classic too.
+        p.showcaseClassic.addAll(p.showcase);
+        net.minecraft.nbt.NbtList comps = t.getList("companions", net.minecraft.nbt.NbtElement.COMPOUND_TYPE);
+        for (int i = 0; i < comps.size(); i++) p.companions.add(fr.sanctumcraft.companion.CompanionData.fromNbt(comps.getCompound(i)));
+        if (t.containsUuid("activeCompanion")) p.activeCompanion = t.getUuid("activeCompanion");
+        p.whistleGiven = t.getBoolean("whistleGiven");
         return p;
     }
 }

@@ -35,6 +35,27 @@ public class SanctumEggItem extends Item {
         NbtComponent.set(DataComponentTypes.CUSTOM_DATA, stack, nbt -> nbt.putBoolean(SECURED, true));
     }
 
+    /** Secures the egg and binds it to the player who extracted it. */
+    public static void secure(ItemStack stack, net.minecraft.entity.player.PlayerEntity owner) {
+        NbtComponent.set(DataComponentTypes.CUSTOM_DATA, stack, nbt -> {
+            nbt.putBoolean(SECURED, true);
+            nbt.putUuid("owner", owner.getUuid());
+            nbt.putString("ownerName", owner.getName().getString());
+        });
+    }
+
+    public static java.util.UUID owner(ItemStack stack) {
+        NbtComponent data = stack.get(DataComponentTypes.CUSTOM_DATA);
+        if (data == null) return null;
+        var nbt = data.copyNbt();
+        return nbt.containsUuid("owner") ? nbt.getUuid("owner") : null;
+    }
+
+    public static String ownerName(ItemStack stack) {
+        NbtComponent data = stack.get(DataComponentTypes.CUSTOM_DATA);
+        return data == null ? "" : data.copyNbt().getString("ownerName");
+    }
+
     @Override
     public Text getName(ItemStack stack) {
         return Text.translatable(getTranslationKey()).formatted(rarity.color);
@@ -50,6 +71,9 @@ public class SanctumEggItem extends Item {
         tooltip.add(Text.translatable(rarity.key()).formatted(rarity.color));
         if (isSecured(stack)) {
             tooltip.add(Text.translatable("tooltip.sanctumcraft.egg.secured").formatted(Formatting.GREEN));
+            if (!ownerName(stack).isEmpty()) {
+                tooltip.add(Text.translatable("tooltip.sanctumcraft.egg.owner", ownerName(stack)).formatted(Formatting.GRAY));
+            }
         } else {
             tooltip.add(Text.translatable("tooltip.sanctumcraft.egg.unsecured").formatted(Formatting.RED));
         }

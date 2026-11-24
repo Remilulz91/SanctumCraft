@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.6.1-alpha.1] - Companion collection, two-level showcase, egg ownership
+
+### Changed
+- **Companions are now a collection** (Altar > Companions, 10 slots, `companionSlots`): hatching adds the companion to the collection instead of spawning a pet. One companion is active.
+  - **Companion Whistle** (given at the first hatching, craft: gold ingot + amethyst shard + string): right-click to summon the active companion next to you, again to call it back.
+  - The summoned companion **follows you through every dimension change** (sanctum portals included): no more pushing pets through the portal.
+  - A defeated companion is **knocked out**, not lost: back after 3 / 4 / 6 / 8 min (common → legendary). No drops.
+  - **Species**: Wolf (fighter), Fox (fast, fighter), Allay (support, flies), Iron Golem (tank, epic and legendary eggs only).
+  - **Random stats** at every hatching: health, damage and speed rolled in a range per rarity (common −20 %…+20 %, legendary +10 %…+60 %); traits have a random power (50–150 %). Two common wolves can be very different: keep the best one.
+  - **Release** a companion (right-click twice in the menu) for Shells and Hunter XP.
+  - Wolves and cats hatched in 0.6.0 stay as normal tamed pets.
+- **Showcase with two levels per relic**: display the **classic** version first (+1 % Shells), then the **collector** version on top (+3 % more). Row bonuses: 4 classics (+1 heart / +2 armor / +10 % Shells), 4 collectors (+2 hearts / +4 armor / +25 % Shells). Collector relics placed in 0.6.0 count for both levels.
+- **Relics can drop from every chest**, by chest rarity only (difficulty only changes the number of items): 1 / 2 / 4 / 8 / 15 % (basic → legendary), with 3 / 5 / 8 / 12 / 18 % of collector versions.
+- **Eggs belong to the player who extracts them** (owner shown in the tooltip). Anyone can incubate an egg, but the companion always joins the **owner's** collection, even if the owner is offline.
+
+### Fixed
+- **Incubator**: it now switches to "ready" by itself as soon as the time is up (green top, sound, particles, message to the owner), and **one click** hatches the egg.
+
 ## [0.6.0-alpha.1] - Talents, incubator, companions and showcase
 
 ### Added

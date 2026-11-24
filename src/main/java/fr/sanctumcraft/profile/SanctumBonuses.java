@@ -39,15 +39,19 @@ public final class SanctumBonuses {
         if (ticks % 20 != 0) return;
         for (ServerPlayerEntity p : server.getPlayerManager().getPlayerList()) {
             SanctumInstance inst = InstanceManager.instanceOf(p);
-            if (inst == null || inst.status != SanctumInstance.Status.ACTIVE || !p.isAlive()) {
+            boolean inside = inst != null && inst.status == SanctumInstance.Status.ACTIVE && p.isAlive();
+            Companions.tick(p, inside ? inst : null, ticks);
+            if (!inside) {
                 set(p, EntityAttributes.GENERIC_MAX_HEALTH, HEALTH_ID, 0, EntityAttributeModifier.Operation.ADD_VALUE);
                 set(p, EntityAttributes.GENERIC_ARMOR, ARMOR_ID, 0, EntityAttributeModifier.Operation.ADD_VALUE);
                 set(p, EntityAttributes.GENERIC_MOVEMENT_SPEED, SPEED_ID, 0, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE);
                 continue;
             }
             HunterProfile prof = Profiles.of(p);
-            double health = 4.0 * prof.rank(Talent.VITALITY) + (Relic.rowComplete(prof, 0) ? 4.0 : 0.0);
-            double armor = 2.0 * prof.rank(Talent.TOUGHNESS) + (Relic.rowComplete(prof, 1) ? 4.0 : 0.0);
+            double health = 4.0 * prof.rank(Talent.VITALITY) + (Relic.classicRowComplete(prof, 0) ? 2.0 : 0.0)
+                    + (Relic.rowComplete(prof, 0) ? 4.0 : 0.0);
+            double armor = 2.0 * prof.rank(Talent.TOUGHNESS) + (Relic.classicRowComplete(prof, 1) ? 2.0 : 0.0)
+                    + (Relic.rowComplete(prof, 1) ? 4.0 : 0.0);
             double speed = 0.05 * prof.rank(Talent.FLEET);
             set(p, EntityAttributes.GENERIC_MAX_HEALTH, HEALTH_ID, health, EntityAttributeModifier.Operation.ADD_VALUE);
             set(p, EntityAttributes.GENERIC_ARMOR, ARMOR_ID, armor, EntityAttributeModifier.Operation.ADD_VALUE);
@@ -66,7 +70,6 @@ public final class SanctumBonuses {
                     Companions.pointToNest(p, inst, Text.translatable("message.sanctumcraft.talent.night_eyes"));
                 }
             }
-            Companions.tickInSanctum(p, inst, ticks);
         }
     }
 

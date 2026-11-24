@@ -24,18 +24,21 @@ public class ButtonMenu extends GenericContainerScreenHandler {
 
     private final int rows;
     private final Map<Integer, Consumer<ServerPlayerEntity>> actions;
+    private final Map<Integer, Consumer<ServerPlayerEntity>> rightActions;
 
     public ButtonMenu(int syncId, PlayerInventory inv, int rows, SimpleInventory icons,
-                      Map<Integer, Consumer<ServerPlayerEntity>> actions) {
+                      Map<Integer, Consumer<ServerPlayerEntity>> actions, Map<Integer, Consumer<ServerPlayerEntity>> rightActions) {
         super(rows == 6 ? ScreenHandlerType.GENERIC_9X6 : ScreenHandlerType.GENERIC_9X3, syncId, inv, icons, rows);
         this.rows = rows;
         this.actions = actions;
+        this.rightActions = rightActions;
     }
 
     @Override
     public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
         if (slotIndex >= 0 && slotIndex < rows * 9) {
-            Consumer<ServerPlayerEntity> action = actions.get(slotIndex);
+            Consumer<ServerPlayerEntity> action = button == 1 && rightActions.containsKey(slotIndex)
+                    ? rightActions.get(slotIndex) : actions.get(slotIndex);
             if (action != null && actionType == SlotActionType.PICKUP && player instanceof ServerPlayerEntity sp) {
                 syncState();
                 action.accept(sp);
@@ -67,6 +70,7 @@ public class ButtonMenu extends GenericContainerScreenHandler {
         final int rows;
         final SimpleInventory icons;
         final Map<Integer, Consumer<ServerPlayerEntity>> actions = new HashMap<>();
+        final Map<Integer, Consumer<ServerPlayerEntity>> rightActions = new HashMap<>();
 
         public Builder(int rows) {
             this.rows = rows;
@@ -81,8 +85,15 @@ public class ButtonMenu extends GenericContainerScreenHandler {
             return this;
         }
 
+        /** Left-click and right-click actions. */
+        public Builder set(int slot, ItemStack icon, Consumer<ServerPlayerEntity> left, Consumer<ServerPlayerEntity> right) {
+            set(slot, icon, left);
+            if (right != null) rightActions.put(slot, right);
+            return this;
+        }
+
         public ButtonMenu build(int syncId, PlayerInventory inv) {
-            return new ButtonMenu(syncId, inv, rows, icons, actions);
+            return new ButtonMenu(syncId, inv, rows, icons, actions, rightActions);
         }
     }
 

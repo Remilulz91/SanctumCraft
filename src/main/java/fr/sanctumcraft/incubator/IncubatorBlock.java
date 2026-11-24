@@ -5,7 +5,10 @@ import fr.sanctumcraft.config.SanctumConfig;
 import fr.sanctumcraft.egg.EggRarity;
 import fr.sanctumcraft.egg.SanctumEggItem;
 import fr.sanctumcraft.instance.InstanceManager;
+import fr.sanctumcraft.registry.ModBlocks;
 import fr.sanctumcraft.registry.ModItems;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -13,7 +16,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -79,6 +81,9 @@ public class IncubatorBlock extends Block implements BlockEntityProvider {
             return ItemActionResult.FAIL;
         }
         if (world.getBlockEntity(pos) instanceof IncubatorBlockEntity be) {
+            java.util.UUID owner = SanctumEggItem.owner(stack);
+            be.owner = owner != null ? owner : player.getUuid();
+            be.ownerName = owner != null ? SanctumEggItem.ownerName(stack) : player.getName().getString();
             be.rarity = egg.rarity.name();
             be.start = now(world);
             be.duration = durationTicks(egg.rarity);
@@ -100,22 +105,38 @@ public class IncubatorBlock extends Block implements BlockEntityProvider {
         int stage = state.get(STAGE);
         if (stage == 0) {
             player.sendMessage(Text.translatable("message.sanctumcraft.incubator.empty").formatted(Formatting.GRAY), true);
-        } else if (stage == 1) {
-            long left = be.start + be.duration - now(world);
-            if (left <= 0) {
-                world.setBlockState(pos, state.with(STAGE, 2), Block.NOTIFY_ALL);
-            } else {
-                player.sendMessage(Text.translatable("message.sanctumcraft.incubator.waiting",
-                        InstanceManager.formatTime(left)).formatted(Formatting.YELLOW), true);
-            }
-        } else if (player instanceof ServerPlayerEntity sp) {
-            EggRarity rarity = EggRarity.valueOf(be.rarity);
-            be.rarity = "";
-            be.markDirty();
-            world.setBlockState(pos, state.with(STAGE, 0), Block.NOTIFY_ALL);
-            Companions.hatch(sp, (ServerWorld) world, pos.up(), rarity);
+            return ActionResult.SUCCESS;
         }
+        long left = be.start + be.duration - now(world);
+        if (stage == 1 && left > 0) {
+            player.sendMessage(Text.translatable("message.sanctumcraft.incubator.waiting",
+                    InstanceManager.formatTime(left), be.ownerName).formatted(Formatting.YELLOW), true);
+            return ActionResult.SUCCESS;
+        }
+        // Ready: one click hatches it, into the OWNER's collection (whoever clicks).
+        java.util.UUID owner = be.owner != null ? be.owner : player.getUuid();
+        EggRarity rarity = EggRarity.valueOf(be.rarity);
+        if (!Companions.hatchInto(world.getServer(), owner, rarity, pos, (ServerWorld) world)) {
+            world.setBlockState(pos, state.with(STAGE, 2), Block.NOTIFY_ALL);
+            player.sendMessage(Text.translatable("message.sanctumcraft.incubator.full", be.ownerName).formatted(Formatting.RED), true);
+            return ActionResult.SUCCESS;
+        }
+        if (!owner.equals(player.getUuid())) {
+            player.sendMessage(Text.translatable("message.sanctumcraft.incubator.for_owner", be.ownerName)
+                    .formatted(Formatting.GRAY), true);
+        }
+        be.rarity = "";
+        be.owner = null;
+        be.ownerName = "";
+        be.markDirty();
+        world.setBlockState(pos, state.with(STAGE, 0), Block.NOTIFY_ALL);
         return ActionResult.SUCCESS;
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        if (world.isClient || type != ModBlocks.INCUBATOR_ENTITY) return null;
+        return (w, p, s, be) -> IncubatorBlockEntity.tick(w, p, s, (IncubatorBlockEntity) be);
     }
 
     @Override
@@ -137,6 +158,14 @@ public class IncubatorBlock extends Block implements BlockEntityProvider {
             // Breaking the incubator gives the (secured) egg back.
             ItemStack egg = new ItemStack(ModItems.eggFor(EggRarity.valueOf(be.rarity)));
             SanctumEggItem.secure(egg);
+            if (be.owner != null) {
+                java.util.UUID o = be.owner;
+                String n = be.ownerName;
+                net.minecraft.component.type.NbtComponent.set(net.minecraft.component.DataComponentTypes.CUSTOM_DATA, egg, nbt -> {
+                    nbt.putUuid("owner", o);
+                    nbt.putString("ownerName", n);
+                });
+            }
             ItemScatterer.spawn(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, egg);
         }
         super.onStateReplaced(state, world, pos, newState, moved);

@@ -147,7 +147,7 @@ public final class EggHandler {
         for (int i = 0; i < inv.size(); i++) {
             ItemStack stack = inv.getStack(i);
             if (stack.getItem() instanceof SanctumEggItem egg && !SanctumEggItem.isSecured(stack)) {
-                SanctumEggItem.secure(stack);
+                SanctumEggItem.secure(stack, player);
                 count++;
                 secured.add(egg.rarity);
                 xp += Math.round(egg.rarity.extractionXp * inst.difficulty.loot);

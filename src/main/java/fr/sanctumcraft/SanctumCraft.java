@@ -59,12 +59,15 @@ public class SanctumCraft implements ModInitializer {
         ServerTickEvents.END_SERVER_TICK.register(fr.sanctumcraft.profile.SanctumBonuses::tick);
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
                 InstanceManager.onPlayerJoin(handler.player));
-        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
-                InstanceManager.onPlayerLeave(handler.player));
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            InstanceManager.onPlayerLeave(handler.player);
+            fr.sanctumcraft.companion.Companions.onDisconnect(handler.player);
+        });
 
         SanctumProtection.register();
         KeepInventoryHandler.register();
         EggHandler.register();
+        fr.sanctumcraft.companion.Companions.register();
 
         LOGGER.info("SanctumCraft v{} loaded (build: {})", VERSION, DEBUG_BUILD ? "debug" : "public");
     }

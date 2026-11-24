@@ -22,10 +22,41 @@ public enum Relic {
         return "relic_" + name().toLowerCase();
     }
 
+    /** All 4 collector relics of the row are displayed (big bonus). */
     public static boolean rowComplete(HunterProfile p, int row) {
         for (Relic r : values()) {
             if (r.row == row && !p.showcase.contains(r.name())) return false;
         }
         return true;
+    }
+
+    /** All 4 classic relics of the row are displayed (small bonus). */
+    public static boolean classicRowComplete(HunterProfile p, int row) {
+        for (Relic r : values()) {
+            if (r.row == row && !p.showcaseClassic.contains(r.name())) return false;
+        }
+        return true;
+    }
+
+    /** Relic drop chance (percent) per chest rarity. Difficulty doesn't change it: it's luck. */
+    public static int dropChance(fr.sanctumcraft.loot.ChestTier tier) {
+        return switch (tier) {
+            case BASIC -> 1;
+            case FINE -> 2;
+            case RARE -> 4;
+            case EPIC -> 8;
+            case LEGENDARY -> 15;
+        };
+    }
+
+    /** Share of collector versions (percent) per chest rarity. */
+    public static int collectorShare(fr.sanctumcraft.loot.ChestTier tier) {
+        return switch (tier) {
+            case BASIC -> 3;
+            case FINE -> 5;
+            case RARE -> 8;
+            case EPIC -> 12;
+            case LEGENDARY -> 18;
+        };
     }
 }

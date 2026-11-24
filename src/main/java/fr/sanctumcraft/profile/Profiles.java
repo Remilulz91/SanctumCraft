@@ -69,9 +69,13 @@ public final class Profiles {
         return shells;
     }
 
-    /** Shells multiplier: Greed talent, +2 % per showcased relic, +25 % for the complete "Nest" row. */
+    /**
+     * Shells multiplier: Greed talent, +1 % per classic relic and +3 % per collector relic displayed,
+     * "Nest" row: +10 % (classic) and +25 % (collector).
+     */
     public static double shellBonus(HunterProfile p) {
-        double b = 1.0 + 0.10 * p.rank(Talent.GREED) + 0.02 * p.showcase.size();
+        double b = 1.0 + 0.10 * p.rank(Talent.GREED) + 0.01 * p.showcaseClassic.size() + 0.03 * p.showcase.size();
+        if (fr.sanctumcraft.relic.Relic.classicRowComplete(p, 2)) b += 0.10;
         if (fr.sanctumcraft.relic.Relic.rowComplete(p, 2)) b += 0.25;
         return b;
     }

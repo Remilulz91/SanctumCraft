@@ -63,7 +63,7 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | `chaosTicketPriceMultiplier` | 1.5 | Price multiplier per ticket bought the same day |
 | `dailyResetZone` | Europe/Paris | Time zone of the daily reset |
 | `incubationTimePercent` | 100 | Incubation time (percent of 10/20/40/60 min) |
-| `maxCompanionsInSanctum` | 1 | Companions a player can bring into a sanctum |
+| `companionSlots` | 10 | Size of a player's companion collection |
 | `reentryLockSeconds` | 60 | Nobody can enter a sanctum during its last N seconds |
 | `destinationActivationSeconds` | 5 | Time to activate the destination mechanism |
 | `roomsPlacedPerTick` | 1 | Generation speed |
@@ -97,7 +97,8 @@ Requires JDK 21. See MurderCraft's SETUP.md for the IntelliJ steps, they are ide
 - [ ] 0.4.x: rolling egg
 - [x] 0.5: Sanctum Altar: Hunter levels, Shells, shop, selling, Chaos Ticket with daily reset
 - [x] 0.6: talents, incubator, companions, showcase with collector relics
-- [ ] 0.7: HUD, Cloth Config screen, Modrinth CI
+- [x] 0.6.1: companion collection with whistle and KO, two-level showcase, egg ownership
+- [ ] 0.7: HUD, Cloth Config screen, rolling egg
 
 ## 📜 License
 

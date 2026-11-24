@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_amethyst": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:amethyst_shard"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "sanctumcraft:companion_whistle"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_amethyst"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "sanctumcraft:companion_whistle"
+    ]
+  }
+}

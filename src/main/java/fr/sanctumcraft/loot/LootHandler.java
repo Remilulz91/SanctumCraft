@@ -149,12 +149,11 @@ public final class LootHandler {
         if (world.getRandom().nextInt(100) < tier.keyChance + 5 * Profiles.rank(player, Talent.KEYSMITH)) {
             items.add(new ItemStack(ModItems.keyFor(KeyTier.forDifficulty(inst.difficulty))));
         }
-        // Relics in epic / legendary chests; rarely the collector version.
-        int relicChance = tier == ChestTier.LEGENDARY ? 20 : tier == ChestTier.EPIC ? 8 : 0;
-        if (world.getRandom().nextInt(100) < relicChance) {
+        // Relics: chance by chest rarity only (luck); rarely the collector version.
+        if (world.getRandom().nextInt(100) < Relic.dropChance(tier)) {
             Relic relic = Relic.values()[world.getRandom().nextInt(Relic.values().length)];
             ItemStack stack = new ItemStack(ModItems.RELICS.get(relic));
-            if (world.getRandom().nextInt(100) < 10 + 3 * Profiles.rank(player, Talent.COLLECTOR)) {
+            if (world.getRandom().nextInt(100) < Relic.collectorShare(tier) + 3 * Profiles.rank(player, Talent.COLLECTOR)) {
                 RelicItem.collector(stack);
             }
             items.add(stack);
