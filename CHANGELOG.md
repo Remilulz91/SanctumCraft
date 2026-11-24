@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.3.0-alpha.1] - Chests, keys, vaults and ruins
+
+### Added
+- **Sanctum chests in 5 rarities**, each with its own color: Basic (gray), Fine (green), Rare (blue), Epic (purple), Legendary (gold). Rooms hold chest spots; about 30 % stay empty. Rarer chests are more frequent in Nightmare and Chaos, and in great halls.
+- **Progressive reveal**: opening a chest shows hidden slots; items appear one by one while someone keeps the chest open (rarer items take longer), with a sound and a search bar. Hidden slots can't be clicked. The lid stays open once searched.
+- **Loot tables** per rarity (`data/sanctumcraft/loot_table/chests/`). Difficulty adds extra rolls (Nightmare ×1.75, Chaos ×2.75 on average). Epic and Legendary loot can include Sanctum Shards; Legendary can include a Chaos Ticket.
+- **Keys**: Rusted Iron (Normal), Silver-Plated (Nightmare), Gilded (Chaos). Found in chests (chance grows with chest rarity). Keys survive outside the sanctum and can be used in a later run.
+- **Vault rooms**: 2 locked dead ends per sanctum (`vaultRooms`), closed by a locked door matching the run's difficulty. Use the key on the door to open it. Vault chests are 2 rarities higher.
+- **Sanctum ruins in the Overworld**: rare natural structure (plains, forests, taiga, jungle, desert, savanna, badlands…) with a complete, unlit Rune Stone frame and a chest guaranteeing 1-2 Sanctum Shards. Find one with `/locate structure sanctumcraft:sanctum_ruins`.
+- New room template `vault`; chest spots added to every room template (block `sanctumcraft:loot_spot`).
+
+### Known limitations
+- A chest opened before a server restart comes back empty after the restart (contents are not saved; the sanctum only lives 30 minutes).
+
 ## [0.2.0-alpha.2] - Fixes and denser sanctums
 
 ### Fixed

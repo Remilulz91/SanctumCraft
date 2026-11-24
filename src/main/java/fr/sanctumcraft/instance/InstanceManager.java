@@ -5,6 +5,8 @@ import fr.sanctumcraft.block.DestinationMechanismBlock;
 import fr.sanctumcraft.block.EggNestBlock;
 import fr.sanctumcraft.config.SanctumConfig;
 import fr.sanctumcraft.egg.EggHandler;
+import fr.sanctumcraft.loot.KeyTier;
+import fr.sanctumcraft.loot.LootHandler;
 import fr.sanctumcraft.portal.SanctumPortalBlock;
 import fr.sanctumcraft.registry.ModBlocks;
 import fr.sanctumcraft.menu.DifficultyMenu;
@@ -500,6 +502,10 @@ public final class InstanceManager {
             }
         }
         sealDoors(world, base, room);
+        if (room.kind() == RoomKind.VAULT) {
+            LootHandler.lockVault(world, base, room, KeyTier.forDifficulty(inst.difficulty));
+        }
+        LootHandler.placeChests(world, inst, room, base);
 
         if (room.kind() == RoomKind.NEST) {
             BlockPos nest = base.add(NEST_OFFSET);

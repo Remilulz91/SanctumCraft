@@ -3,6 +3,11 @@ package fr.sanctumcraft.registry;
 import fr.sanctumcraft.SanctumCraft;
 import fr.sanctumcraft.block.DestinationMechanismBlock;
 import fr.sanctumcraft.block.EggNestBlock;
+import fr.sanctumcraft.loot.ChestTier;
+import fr.sanctumcraft.loot.KeyTier;
+import fr.sanctumcraft.loot.LootSpotBlock;
+import fr.sanctumcraft.loot.SanctumChestBlock;
+import fr.sanctumcraft.loot.VaultDoorBlock;
 import fr.sanctumcraft.portal.SanctumPortalBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -56,7 +61,58 @@ public final class ModBlocks {
                     .dropsNothing()),
             false);
 
+    /** Template marker: becomes a sanctum chest when a room is placed. */
+    public static final LootSpotBlock LOOT_SPOT = register("loot_spot",
+            new LootSpotBlock(AbstractBlock.Settings.create().strength(-1.0F, 3600000.0F).dropsNothing().nonOpaque()),
+            true);
+
+    public static final SanctumChestBlock CHEST_BASIC = chest(ChestTier.BASIC);
+    public static final SanctumChestBlock CHEST_FINE = chest(ChestTier.FINE);
+    public static final SanctumChestBlock CHEST_RARE = chest(ChestTier.RARE);
+    public static final SanctumChestBlock CHEST_EPIC = chest(ChestTier.EPIC);
+    public static final SanctumChestBlock CHEST_LEGENDARY = chest(ChestTier.LEGENDARY);
+
+    public static final VaultDoorBlock VAULT_DOOR_RUSTED = vaultDoor(KeyTier.RUSTED);
+    public static final VaultDoorBlock VAULT_DOOR_SILVER = vaultDoor(KeyTier.SILVER);
+    public static final VaultDoorBlock VAULT_DOOR_GILDED = vaultDoor(KeyTier.GILDED);
+
     private ModBlocks() {}
+
+    private static SanctumChestBlock chest(ChestTier tier) {
+        return register("sanctum_chest_" + tier.id(), new SanctumChestBlock(tier, AbstractBlock.Settings.create()
+                .strength(-1.0F, 3600000.0F)
+                .sounds(BlockSoundGroup.WOOD)
+                .nonOpaque()
+                .luminance(state -> tier.ordinal() >= ChestTier.EPIC.ordinal() ? 7 : 0)
+                .pistonBehavior(PistonBehavior.BLOCK)
+                .dropsNothing()), false);
+    }
+
+    private static VaultDoorBlock vaultDoor(KeyTier tier) {
+        return register("vault_door_" + tier.name().toLowerCase(), new VaultDoorBlock(tier, AbstractBlock.Settings.create()
+                .strength(-1.0F, 3600000.0F)
+                .sounds(BlockSoundGroup.METAL)
+                .pistonBehavior(PistonBehavior.BLOCK)
+                .dropsNothing()), false);
+    }
+
+    public static SanctumChestBlock chestFor(ChestTier tier) {
+        return switch (tier) {
+            case BASIC -> CHEST_BASIC;
+            case FINE -> CHEST_FINE;
+            case RARE -> CHEST_RARE;
+            case EPIC -> CHEST_EPIC;
+            case LEGENDARY -> CHEST_LEGENDARY;
+        };
+    }
+
+    public static VaultDoorBlock vaultDoorFor(KeyTier tier) {
+        return switch (tier) {
+            case RUSTED -> VAULT_DOOR_RUSTED;
+            case SILVER -> VAULT_DOOR_SILVER;
+            case GILDED -> VAULT_DOOR_GILDED;
+        };
+    }
 
     private static <T extends Block> T register(String name, T block, boolean withItem) {
         Registry.register(Registries.BLOCK, SanctumCraft.id(name), block);

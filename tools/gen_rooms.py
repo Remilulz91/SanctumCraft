@@ -10,6 +10,8 @@ Every cell side has a doorway in its middle: offset 11..13, y 1..4. The mod seal
 doorways that don't lead anywhere. Corridors are built by the mod itself (no template).
 Air is not stored: rooms are placed in an empty void.
 
+Chest spots: block "sanctumcraft:loot_spot" (replaced by a chest of random rarity, or nothing).
+
 Fixed positions used by the mod (do not move them when editing):
   - entrance: spawn at (12, 1, 9), exit portal interior x 11..13, y 2..5, z 3
   - nest: nest block at (12, 3, 12)
@@ -32,8 +34,10 @@ OUT = os.path.join(os.path.dirname(__file__), "..", "src", "main", "resources",
 
 
 class Room:
-    def __init__(self, seed, sx=CELL, sy=10, sz=CELL):
+    def __init__(self, seed, sx=CELL, sy=10, sz=CELL, out=None):
         self.blocks = {}
+        self.nbt = {}
+        self.out = out or OUT
         self.rnd = random.Random(seed)
         self.sx, self.sy, self.sz = sx, sy, sz
 
@@ -43,6 +47,11 @@ class Room:
 
     def clear(self, x, y, z):
         self.blocks.pop((x, y, z), None)
+        self.nbt.pop((x, y, z), None)
+
+    def spot(self, x, y, z):
+        """Chest spot: the mod puts a chest of a random rarity here (or nothing)."""
+        self.set(x, y, z, "sanctumcraft:loot_spot")
 
     def fill(self, x1, y1, z1, x2, y2, z2, name, **props):
         for x in range(min(x1, x2), max(x1, x2) + 1):
@@ -60,8 +69,11 @@ class Room:
                 if props:
                     entry["Properties"] = Compound({k: String(v) for k, v in props})
                 palette.append(entry)
-            blocks.append(Compound({"pos": List[Int]([Int(pos[0]), Int(pos[1]), Int(pos[2])]),
-                                    "state": Int(index[state])}))
+            entry = Compound({"pos": List[Int]([Int(pos[0]), Int(pos[1]), Int(pos[2])]),
+                              "state": Int(index[state])})
+            if pos in self.nbt:
+                entry["nbt"] = Compound({k: String(v) for k, v in self.nbt[pos].items()})
+            blocks.append(entry)
         root = Compound({
             "DataVersion": Int(DATA_VERSION),
             "size": List[Int]([Int(self.sx), Int(self.sy), Int(self.sz)]),
@@ -69,8 +81,8 @@ class Room:
             "blocks": List[Compound](blocks),
             "entities": List[Compound]([]),
         })
-        os.makedirs(OUT, exist_ok=True)
-        path = os.path.join(OUT, name + ".nbt")
+        os.makedirs(self.out, exist_ok=True)
+        path = os.path.join(self.out, name + ".nbt")
         File(root).save(path, gzipped=True)
         print(f"{name}: {self.sx}x{self.sy}x{self.sz}, {len(blocks)} blocks, {len(palette)} states")
 
@@ -199,6 +211,7 @@ def nest():
     r.set(c, 3, c, "sanctumcraft:egg_nest", active="false")
     for (x, z) in ((c - 1, c), (c + 1, c), (c, c - 1), (c, c + 1)):
         r.set(x, 3, z, "minecraft:moss_carpet")
+    r.spot(4, 1, 20)
     r.save("nest")
 
 
@@ -217,6 +230,7 @@ def destination():
     # Exit portal frame (opened by the mechanism)
     exit_frame(r, 20)
     r.fill(9, 0, 19, 15, 0, 21, "minecraft:polished_deepslate")
+    r.spot(20, 1, 5)
     r.save("destination")
 
 
@@ -225,6 +239,8 @@ def hall_pillars():
     shell(r); cell_lanterns(r)
     for (x, z) in ((7, 7), (17, 7), (7, 17), (17, 17)):
         pillar(r, x, z)
+    for p in ((3, 1, 6), (21, 1, 18), (18, 1, 3)):
+        r.spot(*p)
     r.save("hall_pillars")
 
 
@@ -246,6 +262,8 @@ def hall_crystals():
                 elif d <= 2.3 and rnd.random() < 0.4:
                     r.set(x, 1, z, "minecraft:small_amethyst_bud", facing="up")
     r.fill(12, 5, 12, 12, 7, 12, "minecraft:tinted_glass")
+    for p in ((3, 1, 10), (21, 1, 15), (15, 1, 21)):
+        r.spot(*p)
     r.save("hall_crystals")
 
 
@@ -265,6 +283,8 @@ def hall_ruins():
         r.set(x, 8, z, "minecraft:cobweb")
     for (x, y, z) in ((2, 7, 2), (22, 7, 22), (2, 7, 22), (22, 7, 2), (3, 6, 2)):
         r.set(x, y, z, "minecraft:cobweb")
+    for p in ((3, 1, 17), (21, 1, 11), (10, 1, 21)):
+        r.spot(*p)
     r.save("hall_ruins")
 
 
@@ -310,6 +330,8 @@ def small_shrine():
     r.set(12, 3, 12, "minecraft:amethyst_cluster", facing="up")
     for (x, z) in ((8, 8), (16, 8), (8, 16), (16, 16)):
         r.set(x, 1, z, "minecraft:candle", candles="3", lit="true")
+    r.spot(9, 1, 9)
+    r.spot(15, 1, 15)
     r.save("small_shrine")
 
 
@@ -321,6 +343,8 @@ def small_storage():
     r.fill(17, 2, 17, 17, 2, 17, "minecraft:bookshelf")
     for (x, y, z) in ((7, 5, 7), (17, 5, 17), (7, 5, 17)):
         r.set(x, y, z, "minecraft:cobweb")
+    r.spot(9, 1, 15)
+    r.spot(15, 1, 9)
     r.save("small_storage")
 
 
@@ -340,6 +364,8 @@ def great_hall_columns():
     r.fill(24, 2, 24, 25, 3, 25, "minecraft:amethyst_block")
     for (x, z) in ((24, 24), (25, 24), (24, 25), (25, 25)):
         r.set(x, 4, z, "minecraft:amethyst_cluster", facing="up")
+    for p in ((4, 1, 4), (45, 1, 4), (4, 1, 45), (45, 1, 45), (24, 1, 14), (24, 1, 35)):
+        r.spot(*p)
     r.save("great_hall_columns")
 
 
@@ -360,7 +386,58 @@ def great_hall_crypt():
     for (x, z) in ((22, 22), (27, 22), (22, 27), (27, 27)):
         r.fill(x, 3, z, x, 6, z, "minecraft:polished_deepslate_wall")
         r.set(x, 7, z, "minecraft:soul_lantern")
+    for p in ((3, 1, 3), (46, 1, 3), (3, 1, 46), (46, 1, 46), (24, 1, 18), (24, 1, 31)):
+        r.spot(*p)
     r.save("great_hall_crypt")
+
+
+def vault():
+    """Locked dead end: rich chests, gold trim. The mod closes its doorway with a locked door."""
+    r = small_base(11)
+    for x in range(7, 18):
+        for z in range(7, 18):
+            if x in (7, 17) or z in (7, 17):
+                r.set(x, 0, z, "minecraft:gold_block" if (x + z) % 4 == 0 else "minecraft:polished_blackstone")
+    r.fill(11, 1, 11, 13, 1, 13, "minecraft:polished_blackstone_bricks")
+    r.set(12, 2, 12, "minecraft:gilded_blackstone")
+    for (x, z) in ((8, 8), (16, 8), (8, 16), (16, 16)):
+        r.set(x, 1, z, "minecraft:candle", candles="4", lit="true")
+    for p in ((9, 1, 12), (15, 1, 12), (12, 1, 16)):
+        r.spot(*p)
+    r.save("vault")
+
+
+RUINS_OUT = os.path.join(os.path.dirname(__file__), "..", "src", "main", "resources",
+                         "data", "sanctumcraft", "structure", "ruins")
+
+
+def portal_ruins():
+    """Overworld ruins: a complete (unlit) rune stone frame and a chest with a Sanctum Shard."""
+    r = Room(12, sx=13, sy=9, sz=11, out=RUINS_OUT)
+    rnd = r.rnd
+    for x in range(13):
+        for z in range(11):
+            d = math.hypot(x - 6, z - 5)
+            if d <= 6.2:
+                r.set(x, 0, z, rnd.choice(["minecraft:mossy_stone_bricks", "minecraft:cracked_stone_bricks",
+                                           "minecraft:stone_bricks", "minecraft:cobbled_deepslate", "minecraft:mossy_cobblestone"]))
+                # keep the space above the foundation clear of terrain
+                for y in range(1, 9):
+                    r.set(x, y, z, "minecraft:air")
+    # Frame: x 4..8, y 1..6, z 5 -> interior x 5..7, y 2..5 (air)
+    r.fill(4, 1, 5, 8, 6, 5, "sanctumcraft:rune_stone")
+    r.fill(5, 2, 5, 7, 5, 5, "minecraft:air")
+    # Broken pillars
+    for (x, z, h) in ((1, 2, 4), (11, 2, 3), (1, 8, 2), (11, 8, 5)):
+        for y in range(1, h + 1):
+            r.set(x, y, z, "minecraft:cracked_stone_bricks" if rnd.random() < 0.5 else "minecraft:mossy_stone_bricks")
+    for (x, z) in ((2, 3), (10, 7), (3, 8)):
+        r.set(x, 1, z, "minecraft:mossy_cobblestone_slab")
+    r.set(9, 1, 2, "minecraft:soul_lantern")
+    # Chest with the ruins loot table
+    r.set(2, 1, 7, "minecraft:chest", facing="east")
+    r.nbt[(2, 1, 7)] = {"id": "minecraft:chest", "LootTable": "sanctumcraft:chests/sanctum_ruins"}
+    r.save("portal_ruins")
 
 
 if __name__ == "__main__":
@@ -368,3 +445,4 @@ if __name__ == "__main__":
     hall_pillars(); hall_crystals(); hall_ruins()
     small_shrine(); small_storage()
     great_hall_columns(); great_hall_crypt()
+    vault(); portal_ruins()

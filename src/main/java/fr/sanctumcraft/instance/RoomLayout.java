@@ -34,6 +34,7 @@ public final class RoomLayout {
     public static final String[] T_SMALL = {"room/small_shrine", "room/small_storage"};
     public static final String[] T_GREAT = {"room/great_hall_columns", "room/great_hall_crypt"};
     public static final String T_CORRIDOR = "corridor";
+    public static final String T_VAULT = "room/vault";
 
     private static final Direction[] DIRS = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
     private static final int MAX_GREAT_HALLS = 2;
@@ -164,6 +165,17 @@ public final class RoomLayout {
             }
         }
 
+        // 6. Vaults: dead ends (exactly one door) among small rooms first, then halls.
+        List<Node> deadEnds = new ArrayList<>();
+        for (Node n : singles) {
+            if (n.doors.size() == 1 && (n.kind == RoomKind.SMALL || n.kind == RoomKind.HALL)) deadEnds.add(n);
+        }
+        Collections.shuffle(deadEnds, new java.util.Random(random.nextLong()));
+        deadEnds.sort((a, b) -> Boolean.compare(b.kind == RoomKind.SMALL, a.kind == RoomKind.SMALL));
+        for (int i = 0; i < Math.min(SanctumConfig.vaultRooms, deadEnds.size()); i++) {
+            deadEnds.get(i).kind = RoomKind.VAULT;
+        }
+
         List<PlacedRoom> rooms = new ArrayList<>();
         for (Node n : nodes) {
             String template = switch (n.kind) {
@@ -174,6 +186,7 @@ public final class RoomLayout {
                 case SMALL -> T_SMALL[random.nextInt(T_SMALL.length)];
                 case GREAT_HALL -> T_GREAT[random.nextInt(T_GREAT.length)];
                 case CORRIDOR -> T_CORRIDOR;
+                case VAULT -> T_VAULT;
             };
             rooms.add(new PlacedRoom(n.cx, n.cz, n.w, n.h, n.kind, template, n.doors, n.nestActive));
         }

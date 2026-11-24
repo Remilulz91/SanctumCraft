@@ -34,6 +34,8 @@ public final class SanctumConfig {
     public static int activeNestsMax = 3;
     /** Hits needed to dig an egg out of a nest. */
     public static int nestHits = 10;
+    /** Locked vault rooms per sanctum (opened with the run's key). */
+    public static int vaultRooms = 2;
     /** Time to activate the destination mechanism, in seconds. */
     public static int destinationActivationSeconds = 5;
     /** Rooms placed per server tick during generation. */
@@ -76,6 +78,7 @@ public final class SanctumConfig {
         nestCandidates = getInt(p, "nestCandidates", nestCandidates, 1, 12);
         activeNestsMin = getInt(p, "activeNestsMin", activeNestsMin, 1, 12);
         activeNestsMax = getInt(p, "activeNestsMax", activeNestsMax, 1, 12);
+        vaultRooms = getInt(p, "vaultRooms", vaultRooms, 0, 6);
         nestHits = getInt(p, "nestHits", nestHits, 1, 100);
         destinationActivationSeconds = getInt(p, "destinationActivationSeconds", destinationActivationSeconds, 0, 60);
         roomsPlacedPerTick = getInt(p, "roomsPlacedPerTick", roomsPlacedPerTick, 1, 10);
@@ -108,6 +111,7 @@ public final class SanctumConfig {
         p.setProperty("nestCandidates", String.valueOf(nestCandidates));
         p.setProperty("activeNestsMin", String.valueOf(activeNestsMin));
         p.setProperty("activeNestsMax", String.valueOf(activeNestsMax));
+        p.setProperty("vaultRooms", String.valueOf(vaultRooms));
         p.setProperty("nestHits", String.valueOf(nestHits));
         p.setProperty("destinationActivationSeconds", String.valueOf(destinationActivationSeconds));
         p.setProperty("roomsPlacedPerTick", String.valueOf(roomsPlacedPerTick));

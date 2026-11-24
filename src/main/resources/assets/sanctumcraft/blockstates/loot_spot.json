@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "sanctumcraft:block/loot_spot"
+    }
+  }
+}

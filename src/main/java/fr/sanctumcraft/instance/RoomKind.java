@@ -14,6 +14,8 @@ public enum RoomKind {
     GREAT_HALL,
     /** Small room at a dead end (1x1 cell, smaller interior). */
     SMALL,
+    /** Locked dead-end room (1x1) with rich chests; its door opens with the run's key. */
+    VAULT,
     /** Corridor (1x1 cell), built by code, only toward its doors. */
     CORRIDOR
 }

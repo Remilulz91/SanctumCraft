@@ -3,6 +3,8 @@ package fr.sanctumcraft.registry;
 import fr.sanctumcraft.SanctumCraft;
 import fr.sanctumcraft.egg.EggRarity;
 import fr.sanctumcraft.egg.SanctumEggItem;
+import fr.sanctumcraft.loot.KeyTier;
+import fr.sanctumcraft.loot.SanctumKeyItem;
 import fr.sanctumcraft.portal.SanctumShardItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.Item;
@@ -28,6 +30,10 @@ public final class ModItems {
     public static final SanctumEggItem EGG_EPIC = egg("sanctum_egg_epic", EggRarity.EPIC);
     public static final SanctumEggItem EGG_LEGENDARY = egg("sanctum_egg_legendary", EggRarity.LEGENDARY);
 
+    public static final SanctumKeyItem RUSTED_KEY = key("rusted_key", KeyTier.RUSTED);
+    public static final SanctumKeyItem SILVER_KEY = key("silver_key", KeyTier.SILVER);
+    public static final SanctumKeyItem GILDED_KEY = key("gilded_key", KeyTier.GILDED);
+
     public static final ItemGroup GROUP = Registry.register(Registries.ITEM_GROUP, SanctumCraft.id("main"),
             FabricItemGroup.builder()
                     .icon(() -> new ItemStack(SANCTUM_SHARD))
@@ -40,6 +46,10 @@ public final class ModItems {
                         entries.add(EGG_RARE);
                         entries.add(EGG_EPIC);
                         entries.add(EGG_LEGENDARY);
+                        entries.add(RUSTED_KEY);
+                        entries.add(SILVER_KEY);
+                        entries.add(GILDED_KEY);
+                        entries.add(ModBlocks.LOOT_SPOT);
                     })
                     .build());
 
@@ -48,6 +58,19 @@ public final class ModItems {
     private static SanctumEggItem egg(String name, EggRarity rarity) {
         return Registry.register(Registries.ITEM, SanctumCraft.id(name),
                 new SanctumEggItem(rarity, new Item.Settings().maxCount(1).fireproof()));
+    }
+
+    private static SanctumKeyItem key(String name, KeyTier tier) {
+        return Registry.register(Registries.ITEM, SanctumCraft.id(name),
+                new SanctumKeyItem(tier, new Item.Settings().maxCount(16).rarity(Rarity.UNCOMMON)));
+    }
+
+    public static SanctumKeyItem keyFor(KeyTier tier) {
+        return switch (tier) {
+            case RUSTED -> RUSTED_KEY;
+            case SILVER -> SILVER_KEY;
+            case GILDED -> GILDED_KEY;
+        };
     }
 
     public static SanctumEggItem eggFor(EggRarity rarity) {

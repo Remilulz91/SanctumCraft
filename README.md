@@ -53,6 +53,7 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | `nestCandidates` | 5 | Nest rooms |
 | `activeNestsMin` / `activeNestsMax` | 1 / 3 | Nests that actually hold an egg |
 | `nestHits` | 10 | Hits to dig an egg out |
+| `vaultRooms` | 2 | Locked vault rooms per sanctum |
 | `destinationActivationSeconds` | 5 | Time to activate the destination mechanism |
 | `roomsPlacedPerTick` | 1 | Generation speed |
 | `blocksClearedPerTick` | 12000 | Cleanup speed |
@@ -80,7 +81,7 @@ Requires JDK 21. See MurderCraft's SETUP.md for the IntelliJ steps, they are ide
 
 - [x] 0.1: dimension, rune portal, sanctum lifecycle (generation, timer, collapse, cooldown), room assembler
 - [x] 0.2: varied rooms (great halls, corridors, small rooms), nest candidates, eggs, egg weight, destination portal, extraction
-- [ ] 0.3: rarity-colored chests with progressive reveal, loot tables, keys and locked rooms, natural portal ruins
+- [x] 0.3: rarity-colored chests with progressive reveal, loot tables, keys and vault rooms, natural portal ruins
 - [ ] 0.4: mobs, rift events, traps, rolling egg, difficulties (Normal / Nightmare / Chaos)
 - [ ] 0.5: Sanctum Altar: levels, shells currency, shop, selling, Chaos ticket with daily reset
 - [ ] 0.6: talents, incubator, companions, showcase with collector relics
