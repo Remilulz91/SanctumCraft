@@ -8,6 +8,7 @@ import fr.sanctumcraft.loot.KeyTier;
 import fr.sanctumcraft.loot.LootSpotBlock;
 import fr.sanctumcraft.loot.SanctumChestBlock;
 import fr.sanctumcraft.loot.VaultDoorBlock;
+import fr.sanctumcraft.mob.RiftBlock;
 import fr.sanctumcraft.portal.SanctumPortalBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -75,6 +76,16 @@ public final class ModBlocks {
     public static final VaultDoorBlock VAULT_DOOR_RUSTED = vaultDoor(KeyTier.RUSTED);
     public static final VaultDoorBlock VAULT_DOOR_SILVER = vaultDoor(KeyTier.SILVER);
     public static final VaultDoorBlock VAULT_DOOR_GILDED = vaultDoor(KeyTier.GILDED);
+
+    /** Rift (sanctum only): triggers monster waves, then becomes a chest. */
+    public static final RiftBlock RIFT = register("rift",
+            new RiftBlock(AbstractBlock.Settings.create()
+                    .strength(-1.0F, 3600000.0F)
+                    .sounds(BlockSoundGroup.AMETHYST_BLOCK)
+                    .luminance(state -> state.get(RiftBlock.ACTIVE) ? 15 : 9)
+                    .pistonBehavior(PistonBehavior.BLOCK)
+                    .dropsNothing()),
+            false);
 
     private ModBlocks() {}
 

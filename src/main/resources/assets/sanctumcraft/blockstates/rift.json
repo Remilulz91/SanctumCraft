@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "sanctumcraft:block/rift"
+    },
+    "active=true": {
+      "model": "sanctumcraft:block/rift_active"
+    }
+  }
+}

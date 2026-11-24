@@ -3,7 +3,12 @@ package fr.sanctumcraft.instance;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import fr.sanctumcraft.config.SanctumConfig;
+import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.LanternBlock;
+import net.minecraft.block.entity.DispenserBlockEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -60,8 +65,38 @@ public final class CorridorBuilder {
                 default -> base.add(19, 4, 12);
             };
             world.setBlockState(lamp, LANTERN, FLAGS);
+            if (random.nextInt(100) < SanctumConfig.trapChancePercent) {
+                placeTrap(world, base, dir);
+            }
         }
         world.setBlockState(base.add(12, 4, 12), LANTERN, FLAGS);
+    }
+
+    /**
+     * Arrow trap across an arm: pressure plates on the floor, a dispenser in each wall right next to the
+     * side plates (a plate powers the blocks next to it), shooting across the corridor.
+     */
+    private static void placeTrap(ServerWorld world, BlockPos base, Direction dir) {
+        boolean alongZ = dir == Direction.NORTH || dir == Direction.SOUTH;
+        int t = switch (dir) {
+            case NORTH, WEST -> 6;
+            default -> 18;
+        };
+        BlockState plate = Blocks.POLISHED_BLACKSTONE_PRESSURE_PLATE.getDefaultState();
+        for (int w = 11; w <= 13; w++) {
+            world.setBlockState(alongZ ? base.add(w, 1, t) : base.add(t, 1, w), plate, Block.NOTIFY_ALL);
+        }
+        BlockPos d1 = alongZ ? base.add(10, 1, t) : base.add(t, 1, 10);
+        BlockPos d2 = alongZ ? base.add(14, 1, t) : base.add(t, 1, 14);
+        Direction f1 = alongZ ? Direction.EAST : Direction.SOUTH;
+        Direction f2 = f1.getOpposite();
+        for (Object[] d : new Object[][]{{d1, f1}, {d2, f2}}) {
+            BlockPos p = (BlockPos) d[0];
+            world.setBlockState(p, Blocks.DISPENSER.getDefaultState().with(DispenserBlock.FACING, (Direction) d[1]), Block.NOTIFY_ALL);
+            if (world.getBlockEntity(p) instanceof DispenserBlockEntity dispenser) {
+                dispenser.setStack(0, new ItemStack(Items.ARROW, 16));
+            }
+        }
     }
 
     /** Hollow tube: floor y=0, walls on the border y=1..4, ceiling y=5, ends left open. */

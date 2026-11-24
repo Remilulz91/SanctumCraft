@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.4.0-alpha.1] - Monsters, reinforcements, rifts and traps
+
+### Added
+- **Sanctum monsters**: vanilla mobs named "<mob> of the Sanctum", persistent, removed with the sanctum. Pool per difficulty: zombies, skeletons, spiders, husks, cave spiders; + strays, witches, vindicators in Nightmare; + wither skeletons and evokers in Chaos. Health ×1 / ×1.75 / ×2.75 and damage ×1 / ×1.5 / ×2.25 (Normal / Nightmare / Chaos); skeleton bows get Power in harder modes.
+- **Initial population** when the sanctum opens: packs in about 60 % of the rooms (2 possible packs in great halls), sometimes a lone mob in corridors, none in the entrance.
+- **Fixed guards**: in front of every vault door, in every nest room (active or not, so they don't give the egg away) and around the destination mechanism.
+- **Reinforcement waves**, timed like the original mode (relative to the end, so they work with any duration):
+  - Nightmare / Chaos: early reinforcements at 30 % of the time
+  - 5:00 left: reinforcements + monster damage +25 %
+  - 2:00 left: reinforcements + monster damage +50 %
+  Each wave is announced with a title and a raid horn; the bonus applies to monsters already in the sanctum.
+- **Rifts** (2 per sanctum, in halls): right-click to open it, survive 3 waves of monsters (every 10 s), and the rift turns into a chest (Rare or better).
+- **Arrow traps** in corridors (25 % per corridor arm): pressure plates across the corridor, a dispenser in each wall.
+- Config: `mobDensityPercent` (100), `maxMobsPerSanctum` (90), `riftsPerSanctum` (2), `trapChancePercent` (25).
+
 ## [0.3.0-alpha.2] - Balancing and portal safety
 
 ### Changed

@@ -23,6 +23,10 @@ public final class SanctumInstance {
     public final List<PlacedRoom> rooms;
     public Status status;
     public SanctumDifficulty difficulty = SanctumDifficulty.NORMAL;
+    /** Reinforcement progress: 0 = nothing yet, 1 = early wave done, 2 = 5-min wave done, 3 = 2-min wave done. */
+    public int waveStage;
+    /** Wave damage bonus level (0, 1 = +25 %, 2 = +50 %). */
+    public int damageLevel;
     /** Overworld game time at which the sanctum collapses. */
     public long endTick;
     public BlockPos spawn;
@@ -45,6 +49,8 @@ public final class SanctumInstance {
     public long lastWarnSecond = -1;
     /** Opened chests (packed pos -> contents). Not saved: a chest opened before a restart comes back empty. */
     public final Map<Long, fr.sanctumcraft.loot.LootChest> chests = new HashMap<>();
+    /** Triggered rifts (packed pos -> event). */
+    public final Map<Long, fr.sanctumcraft.mob.RiftManager.RiftEvent> rifts = new HashMap<>();
     /** Nest digging progress (packed pos -> hits). */
     public final Map<Long, Integer> nestHits = new HashMap<>();
     /** Player currently activating the destination mechanism, and since when. */
@@ -94,6 +100,8 @@ public final class SanctumInstance {
         // A sanctum that was still generating when the server stopped is closed on restart.
         tag.putString("status", status.name());
         tag.putString("difficulty", difficulty.name());
+        tag.putInt("waveStage", waveStage);
+        tag.putInt("damageLevel", damageLevel);
         tag.putLong("endTick", endTick);
         if (spawn != null) tag.putIntArray("spawn", new int[]{spawn.getX(), spawn.getY(), spawn.getZ()});
         tag.putFloat("spawnYaw", spawnYaw);
@@ -128,6 +136,8 @@ public final class SanctumInstance {
         }
         inst.endTick = tag.getLong("endTick");
         inst.difficulty = SanctumDifficulty.byName(tag.getString("difficulty"));
+        inst.waveStage = tag.getInt("waveStage");
+        inst.damageLevel = tag.getInt("damageLevel");
         if (tag.contains("spawn")) {
             int[] s = tag.getIntArray("spawn");
             inst.spawn = new BlockPos(s[0], s[1], s[2]);

@@ -54,6 +54,10 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | `activeNestsMin` / `activeNestsMax` | 1 / 3 | Nests that actually hold an egg |
 | `nestHits` | 10 | Hits to dig an egg out |
 | `vaultRooms` | 2 | Locked vault rooms per sanctum |
+| `mobDensityPercent` | 100 | Number of monsters (percent) |
+| `maxMobsPerSanctum` | 90 | Monster cap per sanctum |
+| `riftsPerSanctum` | 2 | Rifts per sanctum |
+| `trapChancePercent` | 25 | Arrow trap chance per corridor arm |
 | `reentryLockSeconds` | 60 | Nobody can enter a sanctum during its last N seconds |
 | `destinationActivationSeconds` | 5 | Time to activate the destination mechanism |
 | `roomsPlacedPerTick` | 1 | Generation speed |
@@ -83,7 +87,8 @@ Requires JDK 21. See MurderCraft's SETUP.md for the IntelliJ steps, they are ide
 - [x] 0.1: dimension, rune portal, sanctum lifecycle (generation, timer, collapse, cooldown), room assembler
 - [x] 0.2: varied rooms (great halls, corridors, small rooms), nest candidates, eggs, egg weight, destination portal, extraction
 - [x] 0.3: rarity-colored chests with progressive reveal, loot tables, keys and vault rooms, natural portal ruins
-- [ ] 0.4: mobs, rift events, traps, rolling egg, difficulties (Normal / Nightmare / Chaos)
+- [x] 0.4: difficulties, monsters with fixed guards, reinforcement waves, rifts, arrow traps
+- [ ] 0.4.x: rolling egg
 - [ ] 0.5: Sanctum Altar: levels, shells currency, shop, selling, Chaos ticket with daily reset
 - [ ] 0.6: talents, incubator, companions, showcase with collector relics
 - [ ] 0.7: HUD, Cloth Config screen, Modrinth CI

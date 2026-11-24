@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "sanctumcraft:block/rift_top",
+    "side": "sanctumcraft:block/rift_side",
+    "bottom": "minecraft:block/obsidian"
+  }
+}

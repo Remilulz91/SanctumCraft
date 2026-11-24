@@ -6,6 +6,8 @@ import fr.sanctumcraft.block.EggNestBlock;
 import fr.sanctumcraft.config.SanctumConfig;
 import fr.sanctumcraft.egg.EggHandler;
 import fr.sanctumcraft.loot.KeyTier;
+import fr.sanctumcraft.mob.RiftManager;
+import fr.sanctumcraft.mob.SanctumMobs;
 import fr.sanctumcraft.loot.LootHandler;
 import fr.sanctumcraft.portal.SanctumPortalBlock;
 import fr.sanctumcraft.registry.ModBlocks;
@@ -455,6 +457,49 @@ public final class InstanceManager {
         if (!finished.isEmpty()) state.markDirty();
     }
 
+    /**
+     * Reinforcements, timed like the original mode: an early wave at 30 % of the time (Nightmare / Chaos),
+     * then "stronger monsters" waves 5 minutes and 2 minutes before the end (+25 % then +50 % damage).
+     */
+    private static void tickWaves(MinecraftServer server, ServerWorld world, SanctumInstance inst, long remaining,
+                                  List<ServerPlayerEntity> inside) {
+        long total = inst.difficulty.durationSeconds() * 20L;
+        long elapsed = total - remaining;
+        int packs = switch (inst.difficulty) {
+            case NORMAL -> 4;
+            case NIGHTMARE -> 6;
+            case CHAOS -> 8;
+        };
+        if (inst.waveStage == 0 && elapsed >= total * 3 / 10) {
+            inst.waveStage = 1;
+            SanctumMobs.reinforce(world, inst, packs - 2);
+            announceWave(inside, "title.sanctumcraft.wave.early", "subtitle.sanctumcraft.wave.early");
+        } else if (inst.waveStage == 1 && remaining <= 300 * 20L) {
+            inst.waveStage = 2;
+            inst.damageLevel = 1;
+            SanctumMobs.upgradeAll(world, inst);
+            SanctumMobs.reinforce(world, inst, packs);
+            announceWave(inside, "title.sanctumcraft.wave.stronger", "subtitle.sanctumcraft.wave.bonus1");
+        } else if (inst.waveStage == 2 && remaining <= 120 * 20L) {
+            inst.waveStage = 3;
+            inst.damageLevel = 2;
+            SanctumMobs.upgradeAll(world, inst);
+            SanctumMobs.reinforce(world, inst, packs);
+            announceWave(inside, "title.sanctumcraft.wave.stronger", "subtitle.sanctumcraft.wave.bonus2");
+        } else {
+            return;
+        }
+        state(server).markDirty();
+    }
+
+    private static void announceWave(List<ServerPlayerEntity> inside, String titleKey, String subtitleKey) {
+        for (ServerPlayerEntity p : inside) {
+            title(p, Text.translatable(titleKey).formatted(Formatting.DARK_RED, Formatting.BOLD),
+                    Text.translatable(subtitleKey).formatted(Formatting.RED), 10, 50, 15);
+            p.playSoundToPlayer(SoundEvents.EVENT_RAID_HORN.value(), SoundCategory.HOSTILE, 1.0F, 1.0F);
+        }
+    }
+
     /** Action bar for players standing near a portal: open sanctum time left, or recharge time. */
     private static void showPortalStatus(MinecraftServer server, SanctumState state) {
         for (PortalRecord portal : state.portals.values()) {
@@ -509,6 +554,9 @@ public final class InstanceManager {
         if (inst.roomsPlaced >= inst.rooms.size() && elapsed >= SanctumConfig.minGenerationTicks) {
             inst.status = SanctumInstance.Status.ACTIVE;
             inst.endTick = now(server) + inst.difficulty.durationSeconds() * 20L;
+            RiftManager.placeRifts(world, inst);
+            SanctumMobs.populate(world, inst);
+            if (inst.difficulty == SanctumDifficulty.NORMAL) inst.waveStage = 1; // no early wave in Normal
             state(server).markDirty();
             for (UUID uuid : new ArrayList<>(inst.waiting.keySet())) {
                 ServerPlayerEntity p = server.getPlayerManager().getPlayer(uuid);
@@ -600,6 +648,11 @@ public final class InstanceManager {
             for (ServerPlayerEntity p : inside) EggHandler.applyWeight(p);
         }
         tickDestinationActivation(server, inst, inside);
+        ServerWorld sw = sanctumWorld(server);
+        if (sw != null) {
+            RiftManager.tick(sw, inst);
+            tickWaves(server, sw, inst, remaining, inside);
+        }
         if (SanctumConfig.forceSurvival && !SanctumCraft.isDevEnvironment() && now(server) % 20 == 0) {
             for (ServerPlayerEntity p : inside) {
                 if (p.interactionManager.getGameMode() != GameMode.SURVIVAL) p.changeGameMode(GameMode.SURVIVAL);

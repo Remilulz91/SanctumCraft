@@ -92,5 +92,14 @@
   "message.sanctumcraft.vault.opened": "The room opens…",
   "message.sanctumcraft.closing_soon": "The Sanctum collapses in %s: you can't enter it anymore.",
   "message.sanctumcraft.left": "The Sanctum will collapse in %s.",
-  "message.sanctumcraft.portal.status_open": "Sanctum open (%s) — collapses in %s — %s/%s players"
+  "message.sanctumcraft.portal.status_open": "Sanctum open (%s) — collapses in %s — %s/%s players",
+  "block.sanctumcraft.rift": "Rift",
+  "entity.sanctumcraft.guardian": "Sanctum %s",
+  "subtitle.sanctumcraft.rift.opened": "A rift opens: hold on!",
+  "subtitle.sanctumcraft.rift.cleared": "The rift closes and leaves a chest",
+  "title.sanctumcraft.wave.early": "Reinforcements incoming",
+  "subtitle.sanctumcraft.wave.early": "New guardians roam the Sanctum",
+  "title.sanctumcraft.wave.stronger": "The guardians grow stronger!",
+  "subtitle.sanctumcraft.wave.bonus1": "Reinforcements — monster damage +25%",
+  "subtitle.sanctumcraft.wave.bonus2": "Reinforcements — monster damage +50%"
 }

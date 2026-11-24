@@ -36,6 +36,11 @@ public final class SanctumConfig {
     public static int nestHits = 10;
     /** Locked vault rooms per sanctum (opened with the run's key). */
     public static int vaultRooms = 2;
+    /** Mobs: density (100 = default), cap per sanctum, rifts per sanctum, trap chance per corridor arm. */
+    public static int mobDensityPercent = 100;
+    public static int maxMobsPerSanctum = 90;
+    public static int riftsPerSanctum = 2;
+    public static int trapChancePercent = 25;
     /** Nobody can (re)enter a sanctum during its last N seconds. */
     public static int reentryLockSeconds = 60;
     /** Time to activate the destination mechanism, in seconds. */
@@ -80,6 +85,10 @@ public final class SanctumConfig {
         nestCandidates = getInt(p, "nestCandidates", nestCandidates, 1, 12);
         activeNestsMin = getInt(p, "activeNestsMin", activeNestsMin, 1, 12);
         activeNestsMax = getInt(p, "activeNestsMax", activeNestsMax, 1, 12);
+        mobDensityPercent = getInt(p, "mobDensityPercent", mobDensityPercent, 0, 400);
+        maxMobsPerSanctum = getInt(p, "maxMobsPerSanctum", maxMobsPerSanctum, 0, 400);
+        riftsPerSanctum = getInt(p, "riftsPerSanctum", riftsPerSanctum, 0, 8);
+        trapChancePercent = getInt(p, "trapChancePercent", trapChancePercent, 0, 100);
         reentryLockSeconds = getInt(p, "reentryLockSeconds", reentryLockSeconds, 0, 600);
         vaultRooms = getInt(p, "vaultRooms", vaultRooms, 0, 6);
         nestHits = getInt(p, "nestHits", nestHits, 1, 100);
@@ -114,6 +123,10 @@ public final class SanctumConfig {
         p.setProperty("nestCandidates", String.valueOf(nestCandidates));
         p.setProperty("activeNestsMin", String.valueOf(activeNestsMin));
         p.setProperty("activeNestsMax", String.valueOf(activeNestsMax));
+        p.setProperty("mobDensityPercent", String.valueOf(mobDensityPercent));
+        p.setProperty("maxMobsPerSanctum", String.valueOf(maxMobsPerSanctum));
+        p.setProperty("riftsPerSanctum", String.valueOf(riftsPerSanctum));
+        p.setProperty("trapChancePercent", String.valueOf(trapChancePercent));
         p.setProperty("reentryLockSeconds", String.valueOf(reentryLockSeconds));
         p.setProperty("vaultRooms", String.valueOf(vaultRooms));
         p.setProperty("nestHits", String.valueOf(nestHits));

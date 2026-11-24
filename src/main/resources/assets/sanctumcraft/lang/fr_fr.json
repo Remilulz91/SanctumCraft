@@ -92,5 +92,14 @@
   "message.sanctumcraft.vault.opened": "La salle s'ouvre…",
   "message.sanctumcraft.closing_soon": "Le Sanctum s'effondre dans %s : impossible d'y entrer.",
   "message.sanctumcraft.left": "Le Sanctum s'effondrera dans %s.",
-  "message.sanctumcraft.portal.status_open": "Sanctum ouvert (%s) — effondrement dans %s — %s/%s joueurs"
+  "message.sanctumcraft.portal.status_open": "Sanctum ouvert (%s) — effondrement dans %s — %s/%s joueurs",
+  "block.sanctumcraft.rift": "Faille",
+  "entity.sanctumcraft.guardian": "%s du Sanctum",
+  "subtitle.sanctumcraft.rift.opened": "Une faille s'ouvre : tenez bon !",
+  "subtitle.sanctumcraft.rift.cleared": "La faille se referme et laisse un coffre",
+  "title.sanctumcraft.wave.early": "Des renforts arrivent",
+  "subtitle.sanctumcraft.wave.early": "De nouveaux gardiens rôdent dans le Sanctum",
+  "title.sanctumcraft.wave.stronger": "Les gardiens se renforcent !",
+  "subtitle.sanctumcraft.wave.bonus1": "Renforts — dégâts des monstres +25 %",
+  "subtitle.sanctumcraft.wave.bonus2": "Renforts — dégâts des monstres +50 %"
 }
