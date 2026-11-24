@@ -112,6 +112,18 @@ public final class InstanceManager {
         return list;
     }
 
+    /**
+     * Players currently taking part: alive and inside the sanctum, or waiting for it to generate.
+     * Dead players and players who left don't count (and free their slot).
+     */
+    public static int occupancy(MinecraftServer server, SanctumInstance inst) {
+        int n = inst.waiting.size();
+        for (ServerPlayerEntity p : playersInside(server, inst)) {
+            if (p.isAlive() && !p.isSpectator()) n++;
+        }
+        return n;
+    }
+
     public static SanctumInstance instanceAt(ServerWorld world, BlockPos pos) {
         if (!ModDimensions.isSanctum(world)) return null;
         return state(world.getServer()).findInstanceAt(pos);
@@ -216,7 +228,7 @@ public final class InstanceManager {
                             formatTime(inst.endTick - now(server))).formatted(Formatting.RED), true);
                     return;
                 }
-                if (!inst.members.contains(player.getUuid()) && inst.members.size() >= SanctumConfig.maxPlayersPerSanctum) {
+                if (occupancy(server, inst) >= SanctumConfig.maxPlayersPerSanctum) {
                     player.sendMessage(Text.translatable("message.sanctumcraft.full",
                             SanctumConfig.maxPlayersPerSanctum).formatted(Formatting.RED), true);
                     return;
@@ -253,7 +265,7 @@ public final class InstanceManager {
             // Someone opened it in the meantime: join theirs.
             SanctumInstance inst = state.instances.get(portal.activeInstance);
             if (inst.status != SanctumInstance.Status.CLOSING
-                    && (inst.members.contains(player.getUuid()) || inst.members.size() < SanctumConfig.maxPlayersPerSanctum)) {
+                    && occupancy(server, inst) < SanctumConfig.maxPlayersPerSanctum) {
                 join(server, inst, player);
             }
             return;
@@ -494,6 +506,7 @@ public final class InstanceManager {
 
     private static void announceWave(List<ServerPlayerEntity> inside, String titleKey, String subtitleKey) {
         for (ServerPlayerEntity p : inside) {
+            p.sendMessage(Text.translatable(subtitleKey).formatted(Formatting.RED));
             title(p, Text.translatable(titleKey).formatted(Formatting.DARK_RED, Formatting.BOLD),
                     Text.translatable(subtitleKey).formatted(Formatting.RED), 10, 50, 15);
             p.playSoundToPlayer(SoundEvents.EVENT_RAID_HORN.value(), SoundCategory.HOSTILE, 1.0F, 1.0F);
@@ -509,7 +522,7 @@ public final class InstanceManager {
                 long left = inst.endTick - now(server);
                 text = Text.translatable("message.sanctumcraft.portal.status_open",
                         Text.translatable(inst.difficulty.key()).formatted(inst.difficulty.color), formatTime(left),
-                        inst.members.size(), SanctumConfig.maxPlayersPerSanctum)
+                        occupancy(server, inst), SanctumConfig.maxPlayersPerSanctum)
                         .formatted(left <= SanctumConfig.reentryLockSeconds * 20L ? Formatting.RED : Formatting.LIGHT_PURPLE);
             } else if (portal.cooldownUntil > now(server)) {
                 text = Text.translatable("message.sanctumcraft.cooldown", formatTime(portal.cooldownUntil - now(server)))

@@ -61,7 +61,7 @@ public final class SanctumCommand {
             long remaining = InstanceManager.remainingTicks(server, inst);
             src.sendFeedback(() -> Text.translatable("command.sanctumcraft.status.inside",
                     Text.translatable(inst.difficulty.key()).formatted(inst.difficulty.color),
-                    InstanceManager.formatTime(remaining), inst.members.size()).formatted(Formatting.LIGHT_PURPLE), false);
+                    InstanceManager.formatTime(remaining), InstanceManager.occupancy(server, inst)).formatted(Formatting.LIGHT_PURPLE), false);
             return 1;
         }
         PortalRecord portal = InstanceManager.nearestPortal(player, 32);
@@ -102,7 +102,7 @@ public final class SanctumCommand {
             String time = inst.status == SanctumInstance.Status.ACTIVE
                     ? InstanceManager.formatTime(InstanceManager.remainingTicks(server, inst)) : "-";
             src.sendFeedback(() -> Text.literal(" - " + id + "  slot " + inst.slot + "  " + inst.status
-                    + "  " + inst.difficulty + "  " + time + "  " + inst.members.size() + "p").formatted(Formatting.GRAY), false);
+                    + "  " + inst.difficulty + "  " + time + "  " + InstanceManager.occupancy(server, inst) + "p").formatted(Formatting.GRAY), false);
         }
         return 1;
     }

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.0-alpha.2] - Fixes
+
+### Fixed
+- **Player count**: the portal status, the player cap and `/sanctum status` now count players actually taking part (alive inside, or waiting for generation). Dead players and players who left no longer count and free their slot.
+- **Titles too long**: wave, rift, destination and collapse titles are shorter so they fit on screen; the full wave message is also sent in the chat.
+
 ## [0.4.0-alpha.1] - Monsters, reinforcements, rifts and traps
 
 ### Added
