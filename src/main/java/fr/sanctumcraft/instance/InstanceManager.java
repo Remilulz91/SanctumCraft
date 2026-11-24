@@ -690,6 +690,9 @@ public final class InstanceManager {
             return;
         }
         inst.activatingPlayer = null;
+        // Show the bar full before the portal opens (the 5-tick refresh never reaches 100 %).
+        player.sendMessage(Text.translatable("message.sanctumcraft.destination.activating",
+                "■".repeat(10)).formatted(Formatting.AQUA), true);
         openDestinationPortal(world, inst, room);
         for (ServerPlayerEntity p : inside) {
             title(p, Text.empty(), Text.translatable("subtitle.sanctumcraft.destination.open").formatted(Formatting.AQUA), 5, 50, 15);

@@ -26,7 +26,7 @@ public final class SanctumConfig {
     /** Max different players that can join one sanctum. */
     public static int maxPlayersPerSanctum = 3;
     /** Number of rooms in a sanctum (corridors and great halls count as one room each). */
-    public static int roomsPerSanctum = 18;
+    public static int roomsPerSanctum = 26;
     /** Number of nest rooms (candidates). */
     public static int nestCandidates = 5;
     /** Min / max number of nests that actually hold an egg. */
@@ -45,7 +45,7 @@ public final class SanctumConfig {
     /** Max sanctums existing at the same time on the server. */
     public static int maxSimultaneousSanctums = 16;
     /** Chance (0-100) to add an extra door between two adjacent rooms, creating loops. */
-    public static int loopChancePercent = 15;
+    public static int loopChancePercent = 25;
 
     /** Players inside a sanctum are put in survival and can't change game mode (except in the dev environment). */
     public static boolean forceSurvival = true;

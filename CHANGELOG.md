@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.0-alpha.2] - Fixes and denser sanctums
+
+### Fixed
+- Destination mechanism: the progress bar stopped at 9/10 before the portal opened. It now shows full first. Same for nest digging.
+
+### Changed
+- Denser sanctums, closer to the original mode: `roomsPerSanctum` 18 → 26, `loopChancePercent` 15 → 25 (more alternative routes).
+
 ## [0.2.0-alpha.1] - The raid loop: nests, eggs, extraction
 
 ### Added

@@ -49,7 +49,7 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | `sanctumKeepInventory` | false | Keep inventory and XP when dying inside a sanctum only |
 | `portalCooldownSeconds` | 1800 | Portal recharge after a collapse |
 | `maxPlayersPerSanctum` | 3 | Different players per sanctum |
-| `roomsPerSanctum` | 18 | Rooms per sanctum (corridors and great halls count as one) |
+| `roomsPerSanctum` | 26 | Rooms per sanctum (corridors and great halls count as one) |
 | `nestCandidates` | 5 | Nest rooms |
 | `activeNestsMin` / `activeNestsMax` | 1 / 3 | Nests that actually hold an egg |
 | `nestHits` | 10 | Hits to dig an egg out |
@@ -58,7 +58,7 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | `blocksClearedPerTick` | 12000 | Cleanup speed |
 | `minGenerationTicks` | 40 | Min time of the "Generating…" screen |
 | `maxSimultaneousSanctums` | 16 | Sanctums open at the same time |
-| `loopChancePercent` | 15 | Extra doors between rooms |
+| `loopChancePercent` | 25 | Extra doors between rooms |
 | `forceSurvival` | true | Survival forced and game mode locked inside the Sanctum (not in dev environment) |
 
 ## 🧱 Editing rooms

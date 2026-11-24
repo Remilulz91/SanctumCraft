@@ -91,6 +91,8 @@ public final class EggHandler {
             return;
         }
 
+        player.sendMessage(Text.translatable("message.sanctumcraft.nest.digging", bar(needed, needed))
+                .formatted(Formatting.YELLOW), true);
         inst.nestHits.remove(pos.asLong());
         world.setBlockState(pos, world.getBlockState(pos).with(EggNestBlock.ACTIVE, false));
         EggRarity rarity = EggRarity.roll(world.getRandom(), inst.difficulty);
