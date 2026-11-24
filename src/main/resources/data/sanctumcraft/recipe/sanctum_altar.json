@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " S ",
+    "RLR",
+    "RRR"
+  ],
+  "key": {
+    "S": {
+      "item": "sanctumcraft:sanctum_shard"
+    },
+    "R": {
+      "item": "sanctumcraft:rune_stone"
+    },
+    "L": {
+      "item": "minecraft:lodestone"
+    }
+  },
+  "result": {
+    "id": "sanctumcraft:sanctum_altar",
+    "count": 1
+  }
+}

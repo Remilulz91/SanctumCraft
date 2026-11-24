@@ -1,1 +1,7 @@
-{ "replace": false, "values": [ "sanctumcraft:rune_stone" ] }
+{
+  "replace": false,
+  "values": [
+    "sanctumcraft:rune_stone",
+    "sanctumcraft:sanctum_altar"
+  ]
+}

@@ -1,6 +1,7 @@
 package fr.sanctumcraft.registry;
 
 import fr.sanctumcraft.SanctumCraft;
+import fr.sanctumcraft.altar.SanctumAltarBlock;
 import fr.sanctumcraft.block.DestinationMechanismBlock;
 import fr.sanctumcraft.block.EggNestBlock;
 import fr.sanctumcraft.loot.ChestTier;
@@ -76,6 +77,15 @@ public final class ModBlocks {
     public static final VaultDoorBlock VAULT_DOOR_RUSTED = vaultDoor(KeyTier.RUSTED);
     public static final VaultDoorBlock VAULT_DOOR_SILVER = vaultDoor(KeyTier.SILVER);
     public static final VaultDoorBlock VAULT_DOOR_GILDED = vaultDoor(KeyTier.GILDED);
+
+    /** Sanctum Altar: shop, sell, profile. */
+    public static final SanctumAltarBlock ALTAR = register("sanctum_altar",
+            new SanctumAltarBlock(AbstractBlock.Settings.create()
+                    .strength(3.5F, 9.0F)
+                    .requiresTool()
+                    .sounds(BlockSoundGroup.LODESTONE)
+                    .luminance(state -> 7)),
+            true);
 
     /** Rift (sanctum only): triggers monster waves, then becomes a chest. */
     public static final RiftBlock RIFT = register("rift",

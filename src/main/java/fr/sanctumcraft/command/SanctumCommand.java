@@ -8,6 +8,8 @@ import fr.sanctumcraft.SanctumCraft;
 import fr.sanctumcraft.instance.InstanceManager;
 import fr.sanctumcraft.instance.PortalRecord;
 import fr.sanctumcraft.instance.SanctumDifficulty;
+import fr.sanctumcraft.profile.HunterProfile;
+import fr.sanctumcraft.profile.Profiles;
 import fr.sanctumcraft.instance.SanctumInstance;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandManager;
@@ -32,6 +34,7 @@ public final class SanctumCommand {
         LiteralArgumentBuilder<ServerCommandSource> root = CommandManager.literal("sanctum")
                 .then(CommandManager.literal("status").executes(SanctumCommand::status))
                 .then(CommandManager.literal("leave").executes(SanctumCommand::leave))
+                .then(CommandManager.literal("profile").executes(SanctumCommand::profile))
                 .then(CommandManager.literal("list").requires(s -> s.hasPermissionLevel(2)).executes(SanctumCommand::list));
 
         if (SanctumCraft.DEBUG_BUILD) {
@@ -45,6 +48,12 @@ public final class SanctumCommand {
                     .then(CommandManager.literal("time")
                             .then(CommandManager.argument("seconds", IntegerArgumentType.integer(0, 7200))
                                     .executes(ctx -> debugTime(ctx, IntegerArgumentType.getInteger(ctx, "seconds")))))
+                    .then(CommandManager.literal("shells")
+                            .then(CommandManager.argument("amount", IntegerArgumentType.integer(-1000000, 1000000))
+                                    .executes(ctx -> debugShells(ctx, IntegerArgumentType.getInteger(ctx, "amount")))))
+                    .then(CommandManager.literal("hunterxp")
+                            .then(CommandManager.argument("amount", IntegerArgumentType.integer(0, 1000000))
+                                    .executes(ctx -> debugHunterXp(ctx, IntegerArgumentType.getInteger(ctx, "amount")))))
                     .then(CommandManager.literal("cooldown")
                             .then(CommandManager.literal("reset").executes(SanctumCommand::debugCooldownReset))));
         }
@@ -78,6 +87,30 @@ public final class SanctumCommand {
         } else {
             src.sendFeedback(() -> Text.translatable("command.sanctumcraft.status.portal_ready").formatted(Formatting.GREEN), false);
         }
+        return 1;
+    }
+
+    private static int profile(CommandContext<ServerCommandSource> ctx) {
+        ServerPlayerEntity player = ctx.getSource().getPlayer();
+        if (player == null) return 0;
+        HunterProfile p = Profiles.of(player);
+        ctx.getSource().sendFeedback(() -> Text.translatable("command.sanctumcraft.profile", p.level, p.xp,
+                HunterProfile.xpForNext(p.level), p.shells, p.raids, p.extractions, p.eggs).formatted(Formatting.GOLD), false);
+        return 1;
+    }
+
+    private static int debugShells(CommandContext<ServerCommandSource> ctx, int amount) {
+        ServerPlayerEntity player = ctx.getSource().getPlayer();
+        if (player == null) return 0;
+        Profiles.addShells(player, amount);
+        ctx.getSource().sendFeedback(() -> Text.translatable("menu.sanctumcraft.shells", Profiles.of(player).shells), false);
+        return 1;
+    }
+
+    private static int debugHunterXp(CommandContext<ServerCommandSource> ctx, int amount) {
+        ServerPlayerEntity player = ctx.getSource().getPlayer();
+        if (player == null) return 0;
+        Profiles.addHunterXp(player, amount);
         return 1;
     }
 

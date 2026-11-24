@@ -31,6 +31,7 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 |---------|-------------|------------|
 | `/sanctum status` | Time left (inside) or state of the nearest portal | Everyone |
 | `/sanctum leave` | Leave the sanctum (same as the exit portal) | Everyone |
+| `/sanctum profile` | Hunter level, Shells and stats | Everyone |
 | `/sanctum list` | List portals and sanctums | OP |
 | `/sanctum debug generate [normal\|nightmare\|chaos]` | Open a sanctum without portal | OP, debug build |
 | `/sanctum debug close` / `closeall` | Collapse your sanctum / all sanctums | OP, debug build |
@@ -58,6 +59,9 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | `maxMobsPerSanctum` | 90 | Monster cap per sanctum |
 | `riftsPerSanctum` | 2 | Rifts per sanctum |
 | `trapChancePercent` | 25 | Arrow trap chance per corridor arm |
+| `chaosTicketPrice` | 2500 | Chaos Ticket base price |
+| `chaosTicketPriceMultiplier` | 1.5 | Price multiplier per ticket bought the same day |
+| `dailyResetZone` | Europe/Paris | Time zone of the daily reset |
 | `reentryLockSeconds` | 60 | Nobody can enter a sanctum during its last N seconds |
 | `destinationActivationSeconds` | 5 | Time to activate the destination mechanism |
 | `roomsPlacedPerTick` | 1 | Generation speed |
@@ -89,7 +93,7 @@ Requires JDK 21. See MurderCraft's SETUP.md for the IntelliJ steps, they are ide
 - [x] 0.3: rarity-colored chests with progressive reveal, loot tables, keys and vault rooms, natural portal ruins
 - [x] 0.4: difficulties, monsters with fixed guards, reinforcement waves, rifts, arrow traps
 - [ ] 0.4.x: rolling egg
-- [ ] 0.5: Sanctum Altar: levels, shells currency, shop, selling, Chaos ticket with daily reset
+- [x] 0.5: Sanctum Altar: Hunter levels, Shells, shop, selling, Chaos Ticket with daily reset
 - [ ] 0.6: talents, incubator, companions, showcase with collector relics
 - [ ] 0.7: HUD, Cloth Config screen, Modrinth CI
 

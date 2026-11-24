@@ -307,7 +307,9 @@ public final class InstanceManager {
 
     /** Adds a player to a sanctum: frozen while generating, teleported in when active. */
     private static void join(MinecraftServer server, SanctumInstance inst, ServerPlayerEntity player) {
-        inst.members.add(player.getUuid());
+        if (inst.members.add(player.getUuid())) {
+            fr.sanctumcraft.profile.Profiles.onRaidJoined(player);
+        }
         inst.returns.put(player.getUuid(), ReturnPoint.of(player));
         state(server).markDirty();
         if (inst.status == SanctumInstance.Status.GENERATING) {

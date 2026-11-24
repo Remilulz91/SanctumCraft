@@ -40,6 +40,7 @@ public final class ModItems {
                     .displayName(Text.translatable("itemGroup.sanctumcraft.main"))
                     .entries((context, entries) -> {
                         entries.add(ModBlocks.RUNE_STONE);
+                        entries.add(ModBlocks.ALTAR);
                         entries.add(SANCTUM_SHARD);
                         entries.add(CHAOS_TICKET);
                         entries.add(EGG_COMMON);

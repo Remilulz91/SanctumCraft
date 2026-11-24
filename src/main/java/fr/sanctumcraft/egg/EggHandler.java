@@ -140,16 +140,21 @@ public final class EggHandler {
         PlayerInventory inv = player.getInventory();
         int count = 0;
         int xp = 0;
+        java.util.List<EggRarity> secured = new java.util.ArrayList<>();
         for (int i = 0; i < inv.size(); i++) {
             ItemStack stack = inv.getStack(i);
             if (stack.getItem() instanceof SanctumEggItem egg && !SanctumEggItem.isSecured(stack)) {
                 SanctumEggItem.secure(stack);
                 count++;
+                secured.add(egg.rarity);
                 xp += Math.round(egg.rarity.extractionXp * inst.difficulty.loot);
             }
         }
         if (count == 0) return;
         player.addExperience(xp);
+        long shells = fr.sanctumcraft.profile.Profiles.onExtraction(player, secured, inst.difficulty);
+        player.sendMessage(Text.translatable("message.sanctumcraft.extraction_reward", count, shells)
+                .formatted(Formatting.GOLD));
         player.networkHandler.sendPacket(new TitleFadeS2CPacket(10, 60, 20));
         player.networkHandler.sendPacket(new SubtitleS2CPacket(
                 Text.translatable("subtitle.sanctumcraft.extracted", count, xp).formatted(Formatting.GRAY)));

@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.0-alpha.1] - Altar, Shells, Hunter levels and shop
+
+### Added
+- **Sanctum Altar** (craft: Sanctum Shard on top, Rune Stone / Lodestone / Rune Stone, 3 Rune Stones): opens the altar menu (home, shop, sell, profile).
+- **Shells**: per-player currency (a balance, not an item: it can't be lost). Earned by extracting eggs (50 / 120 / 300 / 800 per common / rare / epic / legendary egg × difficulty loot multiplier) and by selling loot.
+- **Hunter levels**: Hunter XP per extracted egg (25 / 60 / 140 / 350 × difficulty). Every level up gives a Chaos Ticket and 50 × level Shells. XP needed: 100 + 50 per level.
+- **Shop**: keys (600 / 1500 / 3500), Sanctum Shard (400), 8 Rune Stones (200), healing and strength potions, golden apple, arrows, torches, food. **Chaos Ticket**: 2500 Shells, ×1.5 for every ticket bought the same day, reset at midnight (Europe/Paris by default).
+- **Sell screen**: put items in the top area, the bottom row shows the total; confirm to sell. Unsellable items are given back when the screen closes. **Eggs can't be sold.**
+- **Profile**: level, XP bar, Shells, raids, extractions, eggs (altar or `/sanctum profile`).
+- Debug: `/sanctum debug shells <amount>`, `/sanctum debug hunterxp <amount>`.
+- Config: `chaosTicketPrice` (2500), `chaosTicketPriceMultiplier` (1.5), `dailyResetZone` (Europe/Paris).
+
 ## [0.4.0-alpha.2] - Fixes
 
 ### Fixed

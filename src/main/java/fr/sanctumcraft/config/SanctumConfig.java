@@ -41,6 +41,10 @@ public final class SanctumConfig {
     public static int maxMobsPerSanctum = 90;
     public static int riftsPerSanctum = 2;
     public static int trapChancePercent = 25;
+    /** Shop: base price of the Chaos Ticket, price multiplier per purchase of the day, reset time zone. */
+    public static int chaosTicketPrice = 2500;
+    public static double chaosTicketPriceMultiplier = 1.5;
+    public static String dailyResetZone = "Europe/Paris";
     /** Nobody can (re)enter a sanctum during its last N seconds. */
     public static int reentryLockSeconds = 60;
     /** Time to activate the destination mechanism, in seconds. */
@@ -89,6 +93,13 @@ public final class SanctumConfig {
         maxMobsPerSanctum = getInt(p, "maxMobsPerSanctum", maxMobsPerSanctum, 0, 400);
         riftsPerSanctum = getInt(p, "riftsPerSanctum", riftsPerSanctum, 0, 8);
         trapChancePercent = getInt(p, "trapChancePercent", trapChancePercent, 0, 100);
+        chaosTicketPrice = getInt(p, "chaosTicketPrice", chaosTicketPrice, 0, 10000000);
+        try {
+            chaosTicketPriceMultiplier = Math.max(1.0, Double.parseDouble(p.getProperty("chaosTicketPriceMultiplier",
+                    String.valueOf(chaosTicketPriceMultiplier)).trim()));
+        } catch (NumberFormatException ignored) {
+        }
+        dailyResetZone = p.getProperty("dailyResetZone", dailyResetZone).trim();
         reentryLockSeconds = getInt(p, "reentryLockSeconds", reentryLockSeconds, 0, 600);
         vaultRooms = getInt(p, "vaultRooms", vaultRooms, 0, 6);
         nestHits = getInt(p, "nestHits", nestHits, 1, 100);
@@ -127,6 +138,9 @@ public final class SanctumConfig {
         p.setProperty("maxMobsPerSanctum", String.valueOf(maxMobsPerSanctum));
         p.setProperty("riftsPerSanctum", String.valueOf(riftsPerSanctum));
         p.setProperty("trapChancePercent", String.valueOf(trapChancePercent));
+        p.setProperty("chaosTicketPrice", String.valueOf(chaosTicketPrice));
+        p.setProperty("chaosTicketPriceMultiplier", String.valueOf(chaosTicketPriceMultiplier));
+        p.setProperty("dailyResetZone", dailyResetZone);
         p.setProperty("reentryLockSeconds", String.valueOf(reentryLockSeconds));
         p.setProperty("vaultRooms", String.valueOf(vaultRooms));
         p.setProperty("nestHits", String.valueOf(nestHits));
