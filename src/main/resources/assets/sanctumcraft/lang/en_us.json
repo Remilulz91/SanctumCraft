@@ -68,7 +68,7 @@
   "message.sanctumcraft.destination.cancelled": "Activation interrupted: stay close to the mechanism.",
   "message.sanctumcraft.destination.activating": "Activating %s",
   "subtitle.sanctumcraft.destination.open": "Exit portal open",
-  "title.sanctumcraft.extracted": "Extraction successful!",
+  "title.sanctumcraft.extracted": "Extracted!",
   "subtitle.sanctumcraft.extracted": "%s egg(s) secured — +%s XP",
   "block.sanctumcraft.sanctum_chest_basic": "Basic Chest",
   "block.sanctumcraft.sanctum_chest_fine": "Fine Chest",

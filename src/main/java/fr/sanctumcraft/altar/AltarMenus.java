@@ -52,7 +52,7 @@ public final class AltarMenus {
                 List.of(Text.translatable("menu.sanctumcraft.showcase.count", prof.showcase.size(), Relic.values().length)
                         .formatted(Formatting.GRAY))), AltarMenus::openShowcase);
         b.set(22, ButtonMenu.icon(Items.SUNFLOWER, shellsLine(player), List.of()), null);
-        open(player, b, Text.translatable("menu.sanctumcraft.altar.title"));
+        open(player, b, Text.translatable("menu.sanctumcraft.altar.title"), "main");
     }
 
     // ------------------------------------------------------------------ talents
@@ -101,7 +101,7 @@ public final class AltarMenus {
             }
             openTalents(p);
         });
-        open(player, b, Text.translatable("menu.sanctumcraft.talents"));
+        open(player, b, Text.translatable("menu.sanctumcraft.talents"), "talents");
     }
 
     // ------------------------------------------------------------------ showcase
@@ -145,7 +145,7 @@ public final class AltarMenus {
         b.set(49, ButtonMenu.icon(Items.ITEM_FRAME, Text.translatable("menu.sanctumcraft.showcase.count2",
                 prof.showcaseClassic.size(), prof.showcase.size(), Relic.values().length).formatted(Formatting.YELLOW),
                 List.of(Text.translatable("menu.sanctumcraft.showcase.rule").formatted(Formatting.GRAY))), null);
-        open(player, b, Text.translatable("menu.sanctumcraft.showcase"));
+        open(player, b, Text.translatable("menu.sanctumcraft.showcase"), "showcase");
     }
 
     /** First the classic version, then the collector version on top. */
@@ -206,7 +206,7 @@ public final class AltarMenus {
         b.set(49, ButtonMenu.icon(ModItems.COMPANION_WHISTLE, Text.translatable("menu.sanctumcraft.companions.count",
                 prof.companions.size(), fr.sanctumcraft.config.SanctumConfig.companionSlots).formatted(Formatting.GREEN),
                 List.of(Text.translatable("menu.sanctumcraft.companions.help").formatted(Formatting.GRAY))), null);
-        open(player, b, Text.translatable("menu.sanctumcraft.companions"));
+        open(player, b, Text.translatable("menu.sanctumcraft.companions"), "companions");
     }
 
     private static String pct(double mult) {
@@ -250,7 +250,7 @@ public final class AltarMenus {
         b.set(45, ButtonMenu.icon(Items.ARROW, Text.translatable("menu.sanctumcraft.back").formatted(Formatting.GRAY), List.of()),
                 AltarMenus::openMain);
         b.set(49, ButtonMenu.icon(Items.SUNFLOWER, shellsLine(player), List.of()), null);
-        open(player, b, Text.translatable("menu.sanctumcraft.shop"));
+        open(player, b, Text.translatable("menu.sanctumcraft.shop"), "shop");
     }
 
     private static void buy(ServerPlayerEntity player, ItemStack stack, long price) {
@@ -285,7 +285,11 @@ public final class AltarMenus {
                 (syncId, inv, p) -> new SellMenu(syncId, inv, player), Text.translatable("menu.sanctumcraft.sell")));
     }
 
-    private static void open(ServerPlayerEntity player, ButtonMenu.Builder b, Text title) {
-        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inv, p) -> b.build(syncId, inv), title));
+    private static void open(ServerPlayerEntity player, ButtonMenu.Builder b, Text title, String id) {
+        if (player.currentScreenHandler instanceof ButtonMenu bm && bm.isSameMenu(id, b.rows)) {
+            bm.apply(b);
+            return;
+        }
+        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inv, p) -> b.build(syncId, inv, id), title));
     }
 }

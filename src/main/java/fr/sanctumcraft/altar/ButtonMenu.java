@@ -23,13 +23,16 @@ import java.util.function.Consumer;
 public class ButtonMenu extends GenericContainerScreenHandler {
 
     private final int rows;
+    private final String menuId;
     private final Map<Integer, Consumer<ServerPlayerEntity>> actions;
     private final Map<Integer, Consumer<ServerPlayerEntity>> rightActions;
 
     public ButtonMenu(int syncId, PlayerInventory inv, int rows, SimpleInventory icons,
-                      Map<Integer, Consumer<ServerPlayerEntity>> actions, Map<Integer, Consumer<ServerPlayerEntity>> rightActions) {
+                      Map<Integer, Consumer<ServerPlayerEntity>> actions, Map<Integer, Consumer<ServerPlayerEntity>> rightActions,
+                      String menuId) {
         super(rows == 6 ? ScreenHandlerType.GENERIC_9X6 : ScreenHandlerType.GENERIC_9X3, syncId, inv, icons, rows);
         this.rows = rows;
+        this.menuId = menuId;
         this.actions = actions;
         this.rightActions = rightActions;
     }
@@ -52,6 +55,21 @@ public class ButtonMenu extends GenericContainerScreenHandler {
             return;
         }
         super.onSlotClick(slotIndex, button, actionType, player);
+    }
+
+    /** True if this screen is the same menu (same id and size), so it can be refreshed in place. */
+    public boolean isSameMenu(String id, int rowCount) {
+        return menuId.equals(id) && rows == rowCount;
+    }
+
+    /** Refreshes icons and actions without reopening the screen (the mouse doesn't jump). */
+    public void apply(Builder b) {
+        for (int i = 0; i < rows * 9; i++) getInventory().setStack(i, b.icons.getStack(i));
+        actions.clear();
+        actions.putAll(b.actions);
+        rightActions.clear();
+        rightActions.putAll(b.rightActions);
+        sendContentUpdates();
     }
 
     @Override
@@ -92,8 +110,8 @@ public class ButtonMenu extends GenericContainerScreenHandler {
             return this;
         }
 
-        public ButtonMenu build(int syncId, PlayerInventory inv) {
-            return new ButtonMenu(syncId, inv, rows, icons, actions, rightActions);
+        public ButtonMenu build(int syncId, PlayerInventory inv, String id) {
+            return new ButtonMenu(syncId, inv, rows, icons, new HashMap<>(actions), new HashMap<>(rightActions), id);
         }
     }
 

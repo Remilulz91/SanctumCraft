@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1-alpha.2] - Fixes
+
+### Fixed
+- **Companions stealing items**: companions can't pick up items anymore (the allay no longer collects, the fox no longer grabs drops) and can't be handed items: right-clicking your companion with the whistle now calls it back instead of giving the whistle away.
+- **Mouse jumping in Altar menus**: clicking in the companions, talents, showcase or shop menu refreshes it in place instead of reopening it, so the cursor stays where it is.
+- **Titles too long**: "Extracted!" / "Extraction !" and "Generating…" / "Génération…" fit on screen.
+
 ## [0.6.1-alpha.1] - Companion collection, two-level showcase, egg ownership
 
 ### Changed

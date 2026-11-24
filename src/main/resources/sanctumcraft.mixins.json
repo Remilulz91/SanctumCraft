@@ -4,6 +4,7 @@
   "package": "fr.sanctumcraft.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AllayEntityMixin",
     "ExplosionMixin",
     "MobEntityAccessor",
     "PlayerEntityMixin",

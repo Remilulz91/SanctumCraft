@@ -271,6 +271,7 @@ public final class Companions {
         mob.addCommandTag("sc_cid_" + d.id);
         mob.setCustomName(describe(d));
         mob.setCustomNameVisible(false);
+        mob.setCanPickUpLoot(false);
 
         UUID ownerId = owner.getUuid();
         if (mob instanceof TameableEntity tame) {
@@ -348,6 +349,17 @@ public final class Companions {
     // ------------------------------------------------------------------ events
 
     public static void register() {
+        // Companions can't be given items (the allay would take the whistle) nor be interacted with;
+        // right-clicking your companion with the whistle calls it back.
+        net.fabricmc.fabric.api.event.player.UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> {
+            if (!entity.getCommandTags().contains(TAG)) return net.minecraft.util.ActionResult.PASS;
+            if (!world.isClient && player instanceof ServerPlayerEntity sp
+                    && player.getStackInHand(hand).isOf(ModItems.COMPANION_WHISTLE)) {
+                whistle(sp);
+            }
+            return net.minecraft.util.ActionResult.SUCCESS;
+        });
+
         // Defeated companion: no death, no drops; knocked out for a while.
         ServerLivingEntityEvents.ALLOW_DEATH.register((entity, source, amount) -> {
             UUID owner = OWNER_OF.get(entity.getUuid());
