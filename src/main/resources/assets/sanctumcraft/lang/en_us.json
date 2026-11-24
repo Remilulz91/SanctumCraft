@@ -30,5 +30,8 @@
   "command.sanctumcraft.list.header": "%s portal(s), %s Sanctum(s):",
   "command.sanctumcraft.closed": "%s Sanctum(s) collapsed.",
   "command.sanctumcraft.time_set": "Time left set to %s.",
-  "command.sanctumcraft.cooldown_reset": "Cooldown reset on %s portal(s)."
+  "command.sanctumcraft.cooldown_reset": "Cooldown reset on %s portal(s).",
+  "message.sanctumcraft.unbreakable": "The Sanctum's walls are indestructible.",
+  "message.sanctumcraft.forbidden_item": "This item doesn't work inside the Sanctum.",
+  "message.sanctumcraft.gamemode_locked": "You can't change game mode inside the Sanctum."
 }

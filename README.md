@@ -53,6 +53,7 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | `minGenerationTicks` | 40 | Min time of the "Generating…" screen |
 | `maxSimultaneousSanctums` | 16 | Sanctums open at the same time |
 | `loopChancePercent` | 15 | Extra doors between rooms |
+| `forceSurvival` | true | Survival forced and game mode locked inside the Sanctum (not in dev environment) |
 
 ## 🧱 Editing rooms
 

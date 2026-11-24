@@ -36,6 +36,9 @@ public final class SanctumConfig {
     /** Chance (0-100) to add an extra door between two adjacent rooms, creating loops. */
     public static int loopChancePercent = 15;
 
+    /** Players inside a sanctum are put in survival and can't change game mode (except in the dev environment). */
+    public static boolean forceSurvival = true;
+
     private static final String FILE = "sanctumcraft.properties";
 
     private SanctumConfig() {}
@@ -60,6 +63,7 @@ public final class SanctumConfig {
         minGenerationTicks = getInt(p, "minGenerationTicks", minGenerationTicks, 0, 400);
         maxSimultaneousSanctums = getInt(p, "maxSimultaneousSanctums", maxSimultaneousSanctums, 1, 128);
         loopChancePercent = getInt(p, "loopChancePercent", loopChancePercent, 0, 100);
+        forceSurvival = Boolean.parseBoolean(p.getProperty("forceSurvival", String.valueOf(forceSurvival)).trim());
         save(path);
     }
 
@@ -84,6 +88,7 @@ public final class SanctumConfig {
         p.setProperty("minGenerationTicks", String.valueOf(minGenerationTicks));
         p.setProperty("maxSimultaneousSanctums", String.valueOf(maxSimultaneousSanctums));
         p.setProperty("loopChancePercent", String.valueOf(loopChancePercent));
+        p.setProperty("forceSurvival", String.valueOf(forceSurvival));
         try {
             Files.createDirectories(path.getParent());
             try (OutputStream out = Files.newOutputStream(path)) {

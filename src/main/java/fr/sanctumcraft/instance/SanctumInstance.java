@@ -29,6 +29,8 @@ public final class SanctumInstance {
     /** Every player that entered this sanctum at least once (for the player cap). */
     public final Set<UUID> members = new LinkedHashSet<>();
     public final Map<UUID, ReturnPoint> returns = new HashMap<>();
+    /** Blocks placed by players (packed BlockPos): the only blocks survival players may break. */
+    public final Set<Long> playerPlaced = new HashSet<>();
 
     // ---- transient (not saved) ----
     /** Players frozen in front of the portal while the sanctum generates. */
@@ -88,6 +90,7 @@ public final class SanctumInstance {
             memberList.add(e);
         }
         tag.put("members", memberList);
+        tag.putLongArray("placed", playerPlaced.stream().mapToLong(Long::longValue).toArray());
         return tag;
     }
 
@@ -117,6 +120,7 @@ public final class SanctumInstance {
             inst.members.add(uuid);
             if (e.contains("return")) inst.returns.put(uuid, ReturnPoint.fromNbt(e.getCompound("return")));
         }
+        for (long l : tag.getLongArray("placed")) inst.playerPlaced.add(l);
         return inst;
     }
 }

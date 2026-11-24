@@ -22,6 +22,9 @@
       "fr.sanctumcraft.client.SanctumCraftClient"
     ]
   },
+  "mixins": [
+    "sanctumcraft.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",

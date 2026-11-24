@@ -32,6 +32,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.GameMode;
 import net.minecraft.world.World;
 
 import java.util.*;
@@ -234,6 +235,9 @@ public final class InstanceManager {
     private static void teleportIn(MinecraftServer server, SanctumInstance inst, ServerPlayerEntity player) {
         ServerWorld world = sanctumWorld(server);
         if (world == null || inst.spawn == null) return;
+        if (SanctumConfig.forceSurvival && player.interactionManager.getGameMode() != GameMode.SURVIVAL) {
+            player.changeGameMode(GameMode.SURVIVAL);
+        }
         player.teleport(world, inst.spawn.getX() + 0.5, inst.spawn.getY(), inst.spawn.getZ() + 0.5, inst.spawnYaw, 0.0F);
         PortalHandler.markContact(player);
         long remaining = inst.endTick - now(server);
@@ -455,6 +459,11 @@ public final class InstanceManager {
         for (ServerPlayerEntity p : inside) {
             if (!bar.getPlayers().contains(p)) bar.addPlayer(p);
         }
+        if (SanctumConfig.forceSurvival && !SanctumCraft.isDevEnvironment() && now(server) % 20 == 0) {
+            for (ServerPlayerEntity p : inside) {
+                if (p.interactionManager.getGameMode() != GameMode.SURVIVAL) p.changeGameMode(GameMode.SURVIVAL);
+            }
+        }
         bar.setName(Text.translatable("bossbar.sanctumcraft.timer", formatTime(remaining)));
         bar.setPercent(Math.max(0.0F, Math.min(1.0F, remaining / (SanctumConfig.raidDurationSeconds * 20.0F))));
         bar.setColor(remaining <= 60 * 20 ? BossBar.Color.RED : BossBar.Color.PURPLE);
@@ -524,6 +533,33 @@ public final class InstanceManager {
         for (Entity e : world.getEntitiesByClass(Entity.class, box, e -> !(e instanceof PlayerEntity))) {
             e.discard();
         }
+    }
+
+    // ------------------------------------------------------------------------------------------
+    // Player-placed blocks
+    // ------------------------------------------------------------------------------------------
+
+    public static void markPlaced(ServerWorld world, BlockPos pos) {
+        SanctumInstance inst = state(world.getServer()).findInstanceAt(pos);
+        if (inst != null && inst.playerPlaced.add(pos.asLong())) state(world.getServer()).markDirty();
+    }
+
+    public static void unmarkPlaced(ServerWorld world, BlockPos pos) {
+        SanctumInstance inst = state(world.getServer()).findInstanceAt(pos);
+        if (inst != null && inst.playerPlaced.remove(pos.asLong())) state(world.getServer()).markDirty();
+    }
+
+    public static boolean isPlayerPlaced(ServerWorld world, BlockPos pos) {
+        SanctumInstance inst = state(world.getServer()).findInstanceAt(pos);
+        return inst != null && inst.playerPlaced.contains(pos.asLong());
+    }
+
+    /** True if a game mode change must be refused for this player (inside a sanctum, production). */
+    public static boolean blocksGameModeChange(ServerPlayerEntity player, GameMode target) {
+        return SanctumConfig.forceSurvival
+                && target != GameMode.SURVIVAL
+                && !SanctumCraft.isDevEnvironment()
+                && ModDimensions.isSanctum(player.getWorld());
     }
 
     // ------------------------------------------------------------------------------------------

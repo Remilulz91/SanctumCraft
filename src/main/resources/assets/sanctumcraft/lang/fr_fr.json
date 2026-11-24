@@ -30,5 +30,8 @@
   "command.sanctumcraft.list.header": "%s portail(s), %s Sanctum(s) :",
   "command.sanctumcraft.closed": "%s Sanctum(s) effondré(s).",
   "command.sanctumcraft.time_set": "Temps restant réglé à %s.",
-  "command.sanctumcraft.cooldown_reset": "Recharge réinitialisée sur %s portail(s)."
+  "command.sanctumcraft.cooldown_reset": "Recharge réinitialisée sur %s portail(s).",
+  "message.sanctumcraft.unbreakable": "Les murs du Sanctum sont indestructibles.",
+  "message.sanctumcraft.forbidden_item": "Cet objet ne fonctionne pas dans le Sanctum.",
+  "message.sanctumcraft.gamemode_locked": "Impossible de changer de mode de jeu dans le Sanctum."
 }

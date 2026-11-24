@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.0-alpha.3] - Survival lock and block rules
+
+### Added
+- **Survival is forced inside the Sanctum**: entering switches the player to survival, and any game mode change (`/gamemode`, F3+F4…) is refused while inside. Disabled in the development environment (`gradlew runClient`) so the mod can be debugged in creative. Config: `forceSurvival` (default `true`).
+- **Placing blocks is now allowed** in the Sanctum. Blocks placed by players can be broken again; the Sanctum's own blocks stay unbreakable.
+- **Explosions** (TNT, beds, later creepers) only destroy player-placed blocks inside the Sanctum.
+
+### Changed
+- Still forbidden inside the Sanctum: buckets (fluids would wash the rooms), pistons (they would move the walls), hoe/shovel/axe conversions on Sanctum blocks.
+
 ## [0.1.0-alpha.2] - Fixes
 
 ### Fixed

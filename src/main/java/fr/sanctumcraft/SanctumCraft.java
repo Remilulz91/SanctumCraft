@@ -24,9 +24,14 @@ public class SanctumCraft implements ModInitializer {
     public static final String MOD_ID = "sanctumcraft";
     public static final Logger LOGGER = LoggerFactory.getLogger("SanctumCraft");
 
-    /** True when the jar was built with -PbuildType=debug, or when running from the IDE / gradlew runClient. */
+    /** True when the jar was built with -PbuildType=debug. */
     public static boolean DEBUG_BUILD = false;
     public static String VERSION = "unknown";
+
+    /** Running from IntelliJ / gradlew runClient (never true for a jar in a normal mods folder). */
+    public static boolean isDevEnvironment() {
+        return FabricLoader.getInstance().isDevelopmentEnvironment();
+    }
 
     public static Identifier id(String path) {
         return Identifier.of(MOD_ID, path);
