@@ -57,12 +57,22 @@ public class SanctumCraft implements ModInitializer {
         ServerLifecycleEvents.SERVER_STOPPING.register(InstanceManager::onServerStopping);
         ServerTickEvents.END_SERVER_TICK.register(InstanceManager::tick);
         ServerTickEvents.END_SERVER_TICK.register(fr.sanctumcraft.profile.SanctumBonuses::tick);
-        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
-                InstanceManager.onPlayerJoin(handler.player));
+        ServerTickEvents.END_SERVER_TICK.register(fr.sanctumcraft.hud.HudSync::tick);
+        ServerTickEvents.END_SERVER_TICK.register(fr.sanctumcraft.rolling.RollingEgg::tick);
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            InstanceManager.onPlayerJoin(handler.player);
+            fr.sanctumcraft.rolling.RollingEgg.onJoin(handler.player);
+        });
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             InstanceManager.onPlayerLeave(handler.player);
             fr.sanctumcraft.companion.Companions.onDisconnect(handler.player);
+            fr.sanctumcraft.rolling.RollingEgg.onDisconnect(handler.player);
+            fr.sanctumcraft.hud.HudSync.forget(handler.player);
         });
+
+        fr.sanctumcraft.net.SanctumNetwork.register();
+        // Before the other handlers: a rolling player can't dig, open or hit anything.
+        fr.sanctumcraft.rolling.RollingEgg.register();
 
         SanctumProtection.register();
         KeepInventoryHandler.register();

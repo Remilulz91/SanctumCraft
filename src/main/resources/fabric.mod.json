@@ -20,6 +20,9 @@
     ],
     "client": [
       "fr.sanctumcraft.client.SanctumCraftClient"
+    ],
+    "modmenu": [
+      "fr.sanctumcraft.compat.ModMenuIntegration"
     ]
   },
   "mixins": [
@@ -30,5 +33,9 @@
     "fabric-api": "*",
     "minecraft": "~${minecraft_version}",
     "java": ">=21"
+  },
+  "suggests": {
+    "modmenu": "*",
+    "cloth-config": "*"
   }
 }

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0-alpha.1] - HUD, config screen, rolling egg
+
+### Added
+- **Sanctum HUD** (top left, client): difficulty and timer, next reinforcement wave, unsecured eggs carried, team (health / dead / out), active companion (health or KO time), rolling egg dash, Shells and Hunter level. Sent by the server once per second and counted down locally. **H** toggles it; `hudEnabled` / `hudScalePercent` options.
+- **Config screen**: every option editable in game through Mod Menu when Cloth Config is installed (both optional, not bundled). `SanctumConfig.save()` is now public.
+- **Rolling egg** (**R**, inside a Sanctum only): the player is drawn as a large rolling egg (body, armor, held items and name hidden; no hand in first person), +50 % speed, sneak = dash (3 s cooldown). No attacking, digging, opening or using while rolling. Taking damage, dying, leaving the Sanctum or pressing R again stands the player back up. Not allowed while carrying an unsecured egg (`rollingWithEggs`).
+- Options `rollingSpeedPercent`, `rollingDashCooldownSeconds`, `rollingWithEggs`, `hudEnabled`, `hudScalePercent`.
+
 ## [0.6.1-alpha.5] - Fixes
 
 ### Fixed

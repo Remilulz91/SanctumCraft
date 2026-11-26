@@ -41,7 +41,7 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 
 ## ⚙ Configuration
 
-`config/sanctumcraft.properties` (restart after editing):
+`config/sanctumcraft.properties` (restart after editing), or in game through **Mod Menu** when **Cloth Config** is installed (both optional; in single player the values apply right away, on a dedicated server edit the server's file).
 
 | Key | Default | |
 |-----|---------|-|
@@ -73,6 +73,20 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | `maxSimultaneousSanctums` | 16 | Sanctums open at the same time |
 | `loopChancePercent` | 25 | Extra doors between rooms |
 | `forceSurvival` | true | Survival forced and game mode locked inside the Sanctum (not in dev environment) |
+| `rollingSpeedPercent` | 50 | Rolling egg speed bonus |
+| `rollingDashCooldownSeconds` | 3 | Rolling egg dash cooldown |
+| `rollingWithEggs` | false | Allow rolling while carrying an unsecured egg |
+| `hudEnabled` | true | Client: show the Sanctum HUD (H key) |
+| `hudScalePercent` | 100 | Client: HUD size |
+
+## 🎛 Controls
+
+| Key | Action |
+|-----|--------|
+| **R** | Rolling egg (inside a Sanctum): faster, sneak = dash, no attacking / digging / opening; a hit stands you back up |
+| **H** | Show / hide the Sanctum HUD (timer, next wave, eggs carried, team, companion, Shells) |
+
+Both can be rebound in Options → Controls → SanctumCraft.
 
 ## 🧱 Editing rooms
 
@@ -95,11 +109,10 @@ Requires JDK 21. See MurderCraft's SETUP.md for the IntelliJ steps, they are ide
 - [x] 0.2: varied rooms (great halls, corridors, small rooms), nest candidates, eggs, egg weight, destination portal, extraction
 - [x] 0.3: rarity-colored chests with progressive reveal, loot tables, keys and vault rooms, natural portal ruins
 - [x] 0.4: difficulties, monsters with fixed guards, reinforcement waves, rifts, arrow traps
-- [ ] 0.4.x: rolling egg
 - [x] 0.5: Sanctum Altar: Hunter levels, Shells, shop, selling, Chaos Ticket with daily reset
 - [x] 0.6: talents, incubator, companions, showcase with collector relics
 - [x] 0.6.1: companion collection with whistle and KO, two-level showcase, egg ownership
-- [ ] 0.7: HUD, Cloth Config screen, rolling egg
+- [x] 0.7: HUD, Cloth Config screen (Mod Menu), rolling egg
 
 ## 📜 License
 

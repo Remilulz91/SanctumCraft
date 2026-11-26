@@ -11,7 +11,7 @@ import java.util.Properties;
 
 /**
  * Simple properties-based config: config/sanctumcraft.properties.
- * A Cloth Config screen will be added later (0.7).
+ * Also editable in game through Mod Menu when Cloth Config is installed (see SanctumConfigScreen).
  */
 public final class SanctumConfig {
 
@@ -70,6 +70,15 @@ public final class SanctumConfig {
     /** Players who die inside a sanctum keep their inventory and XP (does not touch the keepInventory gamerule). */
     public static boolean sanctumKeepInventory = false;
 
+    /** Rolling egg: speed bonus in percent, dash cooldown, and whether a player carrying an egg may roll. */
+    public static int rollingSpeedPercent = 50;
+    public static int rollingDashCooldownSeconds = 3;
+    public static boolean rollingWithEggs = false;
+
+    /** Client only: show the sanctum HUD, and its scale in percent. */
+    public static boolean hudEnabled = true;
+    public static int hudScalePercent = 100;
+
     private static final String FILE = "sanctumcraft.properties";
 
     private SanctumConfig() {}
@@ -117,6 +126,11 @@ public final class SanctumConfig {
         loopChancePercent = getInt(p, "loopChancePercent", loopChancePercent, 0, 100);
         forceSurvival = Boolean.parseBoolean(p.getProperty("forceSurvival", String.valueOf(forceSurvival)).trim());
         sanctumKeepInventory = Boolean.parseBoolean(p.getProperty("sanctumKeepInventory", String.valueOf(sanctumKeepInventory)).trim());
+        rollingSpeedPercent = getInt(p, "rollingSpeedPercent", rollingSpeedPercent, 0, 300);
+        rollingDashCooldownSeconds = getInt(p, "rollingDashCooldownSeconds", rollingDashCooldownSeconds, 0, 60);
+        rollingWithEggs = Boolean.parseBoolean(p.getProperty("rollingWithEggs", String.valueOf(rollingWithEggs)).trim());
+        hudEnabled = Boolean.parseBoolean(p.getProperty("hudEnabled", String.valueOf(hudEnabled)).trim());
+        hudScalePercent = getInt(p, "hudScalePercent", hudScalePercent, 50, 200);
         save(path);
     }
 
@@ -127,6 +141,11 @@ public final class SanctumConfig {
         } catch (NumberFormatException e) {
             return def;
         }
+    }
+
+    /** Writes the current values (used by the config screen). */
+    public static void save() {
+        save(FabricLoader.getInstance().getConfigDir().resolve(FILE));
     }
 
     private static void save(Path path) {
@@ -160,6 +179,11 @@ public final class SanctumConfig {
         p.setProperty("loopChancePercent", String.valueOf(loopChancePercent));
         p.setProperty("sanctumKeepInventory", String.valueOf(sanctumKeepInventory));
         p.setProperty("forceSurvival", String.valueOf(forceSurvival));
+        p.setProperty("rollingSpeedPercent", String.valueOf(rollingSpeedPercent));
+        p.setProperty("rollingDashCooldownSeconds", String.valueOf(rollingDashCooldownSeconds));
+        p.setProperty("rollingWithEggs", String.valueOf(rollingWithEggs));
+        p.setProperty("hudEnabled", String.valueOf(hudEnabled));
+        p.setProperty("hudScalePercent", String.valueOf(hudScalePercent));
         try {
             Files.createDirectories(path.getParent());
             try (OutputStream out = Files.newOutputStream(path)) {

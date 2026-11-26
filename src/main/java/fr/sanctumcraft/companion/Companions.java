@@ -359,7 +359,7 @@ public final class Companions {
         return true;
     }
 
-    private static CompanionData activeData(ServerPlayerEntity player) {
+    public static CompanionData activeData(ServerPlayerEntity player) {
         HunterProfile p = Profiles.of(player);
         return p.activeCompanion != null ? find(p, p.activeCompanion) : null;
     }

@@ -16,6 +16,8 @@
     "defaultRequire": 1
   },
   "client": [
-    "IntegratedServerLoaderMixin"
+    "GameRendererMixin",
+    "IntegratedServerLoaderMixin",
+    "PlayerEntityRendererMixin"
   ]
 }
