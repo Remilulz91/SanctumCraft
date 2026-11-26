@@ -63,6 +63,18 @@ public final class Companions {
 
     /** Tag of summoned companion entities (0.6.0 wolves / cats use another tag and stay normal pets). */
     public static final String TAG = "sanctumcraft_pet";
+    /**
+     * Scoreboard team of summoned companions. Unlike command tags, team membership is sent to the
+     * client, so the client also knows an entity is a companion (no fake "allay takes the item").
+     */
+    public static final String TEAM = "sc_companions";
+
+    /** Works on both sides (server: tag, client: team). */
+    public static boolean isCompanion(Entity e) {
+        if (e.getCommandTags().contains(TAG)) return true;
+        var team = e.getScoreboardTeam();
+        return team != null && TEAM.equals(team.getName());
+    }
     private static final Identifier HEALTH_ID = SanctumCraft.id("companion_health");
     private static final Identifier DAMAGE_ID = SanctumCraft.id("companion_damage");
     private static final Identifier SPEED_ID = SanctumCraft.id("companion_speed");
@@ -309,6 +321,10 @@ public final class Companions {
 
         SUMMONED.put(ownerId, mob.getUuid());
         OWNER_OF.put(mob.getUuid(), ownerId);
+        var scoreboard = world.getScoreboard();
+        var team = scoreboard.getTeam(TEAM);
+        if (team == null) team = scoreboard.addTeam(TEAM);
+        scoreboard.addScoreHolderToTeam(mob.getUuidAsString(), team);
         world.spawnEntity(mob);
         world.spawnParticles(ParticleTypes.CLOUD, pos.x, pos.y + 0.5, pos.z, 10, 0.3, 0.3, 0.3, 0.02);
         world.playSound(null, BlockPos.ofFloored(pos), SoundEvents.ENTITY_ALLAY_ITEM_GIVEN, SoundCategory.NEUTRAL, 1.0F, 1.0F);
@@ -337,6 +353,7 @@ public final class Companions {
         giveBackHeld(player, m);
         SUMMONED.remove(player.getUuid());
         OWNER_OF.remove(m.getUuid());
+        m.getWorld().getScoreboard().clearTeam(m.getUuidAsString());
         ((ServerWorld) m.getWorld()).spawnParticles(ParticleTypes.CLOUD, m.getX(), m.getY() + 0.5, m.getZ(), 8, 0.3, 0.3, 0.3, 0.02);
         m.discard();
         return true;
@@ -353,7 +370,7 @@ public final class Companions {
         // Companions can't be given items (the allay would take the whistle) nor be interacted with;
         // right-clicking your companion with the whistle calls it back.
         net.fabricmc.fabric.api.event.player.UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> {
-            if (!entity.getCommandTags().contains(TAG)) return net.minecraft.util.ActionResult.PASS;
+            if (!isCompanion(entity)) return net.minecraft.util.ActionResult.PASS;
             // Never hand an item to a companion.
             if (!world.isClient && player instanceof ServerPlayerEntity sp
                     && player.getStackInHand(hand).isOf(ModItems.COMPANION_WHISTLE)) {
@@ -384,6 +401,7 @@ public final class Companions {
             }
             SUMMONED.remove(owner);
             OWNER_OF.remove(entity.getUuid());
+            entity.getWorld().getScoreboard().clearTeam(entity.getUuidAsString());
             ((ServerWorld) entity.getWorld()).spawnParticles(ParticleTypes.POOF, entity.getX(), entity.getY() + 0.5,
                     entity.getZ(), 12, 0.3, 0.3, 0.3, 0.02);
             entity.discard();
@@ -393,6 +411,7 @@ public final class Companions {
         // A companion saved in a chunk (server stop...) is never "loaded back": remove it.
         ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
             if (entity.getCommandTags().contains(TAG) && !OWNER_OF.containsKey(entity.getUuid())) {
+                world.getScoreboard().clearTeam(entity.getUuidAsString());
                 entity.discard();
             }
         });
@@ -437,6 +456,11 @@ public final class Companions {
         MobEntity mob = summoned(owner);
         if (mob == null) return;
         giveBackHeld(owner, mob);
+        // Regeneration: 1 heart every 2 s when not hurt for 5 s and not fighting.
+        if (mob.getHealth() < mob.getMaxHealth() && mob.getTarget() == null
+                && mob.age - mob.getLastAttackedTime() > 100 && serverTicks % 40 == 0) {
+            mob.heal(2.0F);
+        }
         if (!owner.isAlive() || mob.getWorld() != owner.getWorld()) {
             despawn(owner);
             return;

@@ -15,11 +15,11 @@ public abstract class AllayEntityMixin {
 
     @Inject(method = "canPickUpLoot", at = @At("HEAD"), cancellable = true)
     private void sanctumcraft$noLoot(CallbackInfoReturnable<Boolean> cir) {
-        if (((Entity) (Object) this).getCommandTags().contains(Companions.TAG)) cir.setReturnValue(false);
+        if (Companions.isCompanion((Entity) (Object) this)) cir.setReturnValue(false);
     }
 
     @Inject(method = "canGather", at = @At("HEAD"), cancellable = true)
     private void sanctumcraft$noGather(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        if (((Entity) (Object) this).getCommandTags().contains(Companions.TAG)) cir.setReturnValue(false);
+        if (Companions.isCompanion((Entity) (Object) this)) cir.setReturnValue(false);
     }
 }

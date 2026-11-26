@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.1-alpha.5] - Fixes
+
+### Fixed
+- **Allay companion "taking" the held item**: the server already refused it, but the client didn't know the allay was a companion (command tags are server-only) and showed the item in its hands, which then vanished. Summoned companions now join a scoreboard team (`sc_companions`) that the client also knows, so the client blocks the interaction too.
+
+### Added
+- **Companions regenerate**: 1 heart every 2 s when they haven't been hurt for 5 s and aren't fighting.
+
 ## [0.6.1-alpha.4] - Fixes
 
 ### Fixed
