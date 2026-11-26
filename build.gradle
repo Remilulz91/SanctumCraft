@@ -24,6 +24,16 @@ repositories {
     mavenCentral()
 }
 
+// Fixed dev username: without it, "gradlew runClient" uses a random PlayerXXX each launch,
+// so a new UUID and an empty Hunter profile (Shells, companions...) every time.
+loom {
+    runs {
+        client {
+            programArgs "--username", "Remilulz_91"
+        }
+    }
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"

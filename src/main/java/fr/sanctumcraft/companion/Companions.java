@@ -413,14 +413,24 @@ public final class Companions {
 
     // ------------------------------------------------------------------ every second
 
-    /** Safety net: if a companion somehow holds an item, hand it back to its owner. */
+    /**
+     * Safety net: whatever a companion holds (hands, and the allay's own inventory) goes back to its
+     * owner; and a companion is never in love mode (no breeding).
+     */
     private static void giveBackHeld(ServerPlayerEntity owner, MobEntity mob) {
+        List<ItemStack> back = new ArrayList<>();
         for (net.minecraft.util.Hand hand : net.minecraft.util.Hand.values()) {
             ItemStack held = mob.getStackInHand(hand);
             if (held.isEmpty()) continue;
             mob.setStackInHand(hand, ItemStack.EMPTY);
-            if (!owner.getInventory().insertStack(held)) owner.dropItem(held, false);
+            back.add(held);
         }
+        if (mob instanceof net.minecraft.entity.InventoryOwner io) back.addAll(io.getInventory().clearToList());
+        for (ItemStack st : back) {
+            if (st.isEmpty()) continue;
+            if (!owner.getInventory().insertStack(st)) owner.dropItem(st, false);
+        }
+        if (mob instanceof net.minecraft.entity.passive.AnimalEntity animal && animal.isInLove()) animal.resetLoveTicks();
     }
 
     public static void tick(ServerPlayerEntity owner, SanctumInstance inst, int serverTicks) {

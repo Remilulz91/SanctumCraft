@@ -76,7 +76,7 @@ public class IncubatorBlock extends Block implements BlockEntityProvider {
         if (!(stack.getItem() instanceof SanctumEggItem egg)) return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (state.get(STAGE) != 0) return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (world.isClient) return ItemActionResult.SUCCESS;
-        if (!SanctumEggItem.isSecured(stack)) {
+        if (!SanctumEggItem.isSecured(stack) && !player.getAbilities().creativeMode) {
             player.sendMessage(Text.translatable("message.sanctumcraft.incubator.unsecured").formatted(Formatting.RED), true);
             return ItemActionResult.FAIL;
         }

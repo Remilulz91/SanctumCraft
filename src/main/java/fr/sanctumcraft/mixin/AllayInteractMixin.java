@@ -17,6 +17,11 @@ public abstract class AllayInteractMixin {
 
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
     private void sanctumcraft$noGift(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        if (((Entity) (Object) this).getCommandTags().contains(Companions.TAG)) cir.setReturnValue(ActionResult.PASS);
+        if (((Entity) (Object) this).getCommandTags().contains(Companions.TAG)) cir.setReturnValue(ActionResult.SUCCESS);
+    }
+
+    @Inject(method = "loot", at = @At("HEAD"), cancellable = true)
+    private void sanctumcraft$noLoot(net.minecraft.entity.ItemEntity item, org.spongepowered.asm.mixin.injection.callback.CallbackInfo ci) {
+        if (((Entity) (Object) this).getCommandTags().contains(Companions.TAG)) ci.cancel();
     }
 }

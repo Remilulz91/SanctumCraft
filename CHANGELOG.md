@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.6.1-alpha.4] - Fixes
+
+### Fixed
+- **Profile "lost" at every launch in dev**: `gradlew runClient` used a random `PlayerXXX` name, so a new UUID and an empty profile each time. The dev client now always uses the same name (`build.gradle`, `loom.runs.client`).
+- **Allay companion kept items**: it can no longer collect items at all, interacting with it does nothing, and anything held (hands or its own inventory) is given back to the owner every second and when it's recalled, instead of vanishing.
+- **Creative eggs**: in creative mode, any egg can go in the incubator (the player becomes the owner).
+
+### Changed
+- Companions can never breed (interaction blocked + love mode reset every second).
+
 ## [0.6.1-alpha.3] - Fixes
 
 ### Added
