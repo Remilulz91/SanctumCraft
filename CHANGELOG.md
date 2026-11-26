@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.8.0-alpha.1] - Guide book, welcome message, update check
+
+### Added
+- **Sanctum Guide**: a book given once on first join, with a French part and an English part. The cover and the clickable contents jump straight to each chapter (portal, recipes, raid, difficulties, eggs, chests and keys, monsters and traps, Altar, talents, relics and showcase, incubator, companions, rolling egg and HUD, commands, tips); every page links back to the contents. Lost it? `/sanctum guide` (everyone) gives a new one. Books in the inventory are updated to the installed version's text on join and when opened. Text in `src/main/resources/sanctumcraft/guide.txt`, layout checked by `tools/check_guide.py`.
+- **Welcome message** on joining a world: mod name, version, author, short description, clickable `/sanctum guide` and GitHub link (`welcomeMessage`).
+- **Update check**: looks at the GitHub releases (pre-releases included) once at startup, in the background; if a newer version exists, the welcome message says so with a download link, and the server log too (`updateCheck`).
+
+### Changed
+- Unsecured eggs can't go in the incubator anymore, even in creative mode. Secured eggs (creative tab or `/sanctum egg`) still can.
+
 ## [0.7.0-alpha.2] - Fixes
 
 ### Fixed

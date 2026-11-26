@@ -24,6 +24,8 @@ public final class HunterProfile {
     public final java.util.List<fr.sanctumcraft.companion.CompanionData> companions = new java.util.ArrayList<>();
     public java.util.UUID activeCompanion;
     public boolean whistleGiven;
+    /** The guide book was given on first join. */
+    public boolean guideGiven;
 
     public int rank(Talent t) {
         return talents.getOrDefault(t.name(), 0);
@@ -69,6 +71,7 @@ public final class HunterProfile {
         t.put("companions", comps);
         if (activeCompanion != null) t.putUuid("activeCompanion", activeCompanion);
         t.putBoolean("whistleGiven", whistleGiven);
+        t.putBoolean("guideGiven", guideGiven);
         return t;
     }
 
@@ -94,6 +97,7 @@ public final class HunterProfile {
         for (int i = 0; i < comps.size(); i++) p.companions.add(fr.sanctumcraft.companion.CompanionData.fromNbt(comps.getCompound(i)));
         if (t.containsUuid("activeCompanion")) p.activeCompanion = t.getUuid("activeCompanion");
         p.whistleGiven = t.getBoolean("whistleGiven");
+        p.guideGiven = t.getBoolean("guideGiven");
         return p;
     }
 }

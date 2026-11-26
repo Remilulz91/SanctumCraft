@@ -79,6 +79,10 @@ public final class SanctumConfig {
     public static boolean hudEnabled = true;
     public static int hudScalePercent = 100;
 
+    /** Welcome message on joining a world, and check GitHub for a newer release. */
+    public static boolean welcomeMessage = true;
+    public static boolean updateCheck = true;
+
     private static final String FILE = "sanctumcraft.properties";
 
     private SanctumConfig() {}
@@ -131,6 +135,8 @@ public final class SanctumConfig {
         rollingWithEggs = Boolean.parseBoolean(p.getProperty("rollingWithEggs", String.valueOf(rollingWithEggs)).trim());
         hudEnabled = Boolean.parseBoolean(p.getProperty("hudEnabled", String.valueOf(hudEnabled)).trim());
         hudScalePercent = getInt(p, "hudScalePercent", hudScalePercent, 50, 200);
+        welcomeMessage = Boolean.parseBoolean(p.getProperty("welcomeMessage", String.valueOf(welcomeMessage)).trim());
+        updateCheck = Boolean.parseBoolean(p.getProperty("updateCheck", String.valueOf(updateCheck)).trim());
         save(path);
     }
 
@@ -184,6 +190,8 @@ public final class SanctumConfig {
         p.setProperty("rollingWithEggs", String.valueOf(rollingWithEggs));
         p.setProperty("hudEnabled", String.valueOf(hudEnabled));
         p.setProperty("hudScalePercent", String.valueOf(hudScalePercent));
+        p.setProperty("welcomeMessage", String.valueOf(welcomeMessage));
+        p.setProperty("updateCheck", String.valueOf(updateCheck));
         try {
             Files.createDirectories(path.getParent());
             try (OutputStream out = Files.newOutputStream(path)) {

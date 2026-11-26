@@ -40,6 +40,10 @@ public final class SanctumCommand {
                 .then(CommandManager.literal("status").executes(SanctumCommand::status))
                 .then(CommandManager.literal("leave").executes(SanctumCommand::leave))
                 .then(CommandManager.literal("profile").executes(SanctumCommand::profile))
+                .then(CommandManager.literal("guide").executes(ctx -> {
+                    fr.sanctumcraft.guide.SanctumGuide.give(ctx.getSource().getPlayerOrThrow());
+                    return 1;
+                }))
                 .then(CommandManager.literal("list").requires(s -> s.hasPermissionLevel(2)).executes(SanctumCommand::list))
                 .then(eggCommand());
 

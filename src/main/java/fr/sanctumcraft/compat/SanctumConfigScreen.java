@@ -28,6 +28,8 @@ public final class SanctumConfigScreen {
         ConfigCategory hud = cat(builder, "hud");
         bool(hud, e, "hudEnabled", SanctumConfig.hudEnabled, true, v -> SanctumConfig.hudEnabled = v);
         integer(hud, e, "hudScalePercent", SanctumConfig.hudScalePercent, 100, 50, 200, v -> SanctumConfig.hudScalePercent = v);
+        bool(hud, e, "welcomeMessage", SanctumConfig.welcomeMessage, true, v -> SanctumConfig.welcomeMessage = v);
+        bool(hud, e, "updateCheck", SanctumConfig.updateCheck, true, v -> SanctumConfig.updateCheck = v);
 
         ConfigCategory raid = cat(builder, "raid");
         integer(raid, e, "raidDurationSeconds", SanctumConfig.raidDurationSeconds, 1800, 60, 7200, v -> SanctumConfig.raidDurationSeconds = v);

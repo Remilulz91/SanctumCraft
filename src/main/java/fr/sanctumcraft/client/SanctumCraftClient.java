@@ -22,6 +22,8 @@ public class SanctumCraftClient implements ClientModInitializer {
     private static final String CATEGORY = "key.categories.sanctumcraft";
     private static KeyBinding rollKey;
     private static KeyBinding hudKey;
+    private static int welcomeIn;
+    private static int welcomeWait;
 
     @Override
     public void onInitializeClient() {
@@ -38,6 +40,7 @@ public class SanctumCraftClient implements ClientModInitializer {
             if (payload.rolling()) RollingEgg.CLIENT_ROLLING.add(payload.player());
             else RollingEgg.CLIENT_ROLLING.remove(payload.player());
         });
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> welcomeIn = 60);
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             SanctumHud.clear();
             RollingEgg.CLIENT_ROLLING.clear();
@@ -47,6 +50,12 @@ public class SanctumCraftClient implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             SanctumHud.tick();
+            if (welcomeIn > 0 && client.player != null) {
+                welcomeIn--;
+                // Give the update check a few more seconds if it hasn't answered yet.
+                if (welcomeIn == 0 && !fr.sanctumcraft.update.UpdateChecker.done && welcomeWait++ < 200) welcomeIn = 1;
+                if (welcomeIn == 0) Welcome.show(client);
+            }
             while (rollKey.wasPressed()) {
                 if (client.player != null && ClientPlayNetworking.canSend(SanctumNetwork.RollTogglePayload.ID)) {
                     ClientPlayNetworking.send(new SanctumNetwork.RollTogglePayload());

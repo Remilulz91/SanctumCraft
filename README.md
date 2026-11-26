@@ -16,6 +16,10 @@ SanctumCraft works on a **regular survival world**. Craft Rune Stones, build a f
 
 You have **30 minutes**. Leave whenever you want through the exit portal, but anyone still inside when the timer hits zero **dies**, and everything they carried is lost with the sanctum. The portal then needs to recharge before opening a new sanctum. Every portal in the world is independent: if one is recharging, go use another.
 
+## 📖 Guide
+
+Every player gets a **Sanctum Guide** on first join (French and English, clickable contents). `/sanctum guide` gives a new one. The text lives in `src/main/resources/sanctumcraft/guide.txt`; run `python tools/check_guide.py` after editing it to check that no page overflows.
+
 ## ⚒ Crafting
 
 | Item | Recipe |
@@ -32,6 +36,7 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | `/sanctum status` | Time left (inside) or state of the nearest portal | Everyone |
 | `/sanctum leave` | Leave the sanctum (same as the exit portal) | Everyone |
 | `/sanctum profile` | Hunter level, Shells and stats | Everyone |
+| `/sanctum guide` | Get a new Sanctum Guide book | Everyone |
 | `/sanctum list` | List portals and sanctums | OP |
 | `/sanctum egg <rarity> [player]` | Give a secured egg owned by the player | OP |
 | `/sanctum debug generate [normal\|nightmare\|chaos]` | Open a sanctum without portal | OP, debug build |
@@ -78,6 +83,8 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | `rollingWithEggs` | false | Allow rolling while carrying an unsecured egg |
 | `hudEnabled` | true | Client: show the Sanctum HUD (H key) |
 | `hudScalePercent` | 100 | Client: HUD size |
+| `welcomeMessage` | true | Client: welcome message when joining a world |
+| `updateCheck` | true | Look for a newer release on GitHub at startup |
 
 ## 🎛 Controls
 
@@ -113,6 +120,7 @@ Requires JDK 21. See MurderCraft's SETUP.md for the IntelliJ steps, they are ide
 - [x] 0.6: talents, incubator, companions, showcase with collector relics
 - [x] 0.6.1: companion collection with whistle and KO, two-level showcase, egg ownership
 - [x] 0.7: HUD, Cloth Config screen (Mod Menu), rolling egg
+- [x] 0.8: guide book, welcome message, update check
 
 ## 📜 License
 

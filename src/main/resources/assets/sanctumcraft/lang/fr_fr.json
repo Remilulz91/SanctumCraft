@@ -350,5 +350,17 @@
   "config.sanctumcraft.blocksClearedPerTick": "Blocs effacés par tick",
   "config.sanctumcraft.blocksClearedPerTick.tooltip": "Blocs effacés par tick",
   "config.sanctumcraft.minGenerationTicks": "Écran de génération min (ticks)",
-  "config.sanctumcraft.minGenerationTicks.tooltip": "Écran de génération min (ticks)"
+  "config.sanctumcraft.minGenerationTicks.tooltip": "Écran de génération min (ticks)",
+  "item.sanctumcraft.sanctum_guide": "Guide du Sanctum",
+  "message.sanctumcraft.guide.given": "Tu reçois le Guide du Sanctum (clic droit pour l'ouvrir).",
+  "welcome.sanctumcraft.by": "par %s",
+  "welcome.sanctumcraft.desc": "Construis un portail runique, pille un Sanctum flottant dans le vide et ramène un œuf rare avant qu'il ne s'effondre.",
+  "welcome.sanctumcraft.links": "Guide : %s · Projet : %s",
+  "welcome.sanctumcraft.guide_hover": "Recevoir un Guide du Sanctum",
+  "welcome.sanctumcraft.update": "Mise à jour disponible : %s (tu as %s) — %s",
+  "welcome.sanctumcraft.download": "Télécharger",
+  "config.sanctumcraft.welcomeMessage": "Message de bienvenue",
+  "config.sanctumcraft.welcomeMessage.tooltip": "Message dans le tchat en rejoignant un monde.",
+  "config.sanctumcraft.updateCheck": "Vérifier les mises à jour",
+  "config.sanctumcraft.updateCheck.tooltip": "Cherche une nouvelle version sur GitHub au lancement du jeu."
 }

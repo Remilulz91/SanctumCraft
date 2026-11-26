@@ -350,5 +350,17 @@
   "config.sanctumcraft.blocksClearedPerTick": "Blocks cleared per tick",
   "config.sanctumcraft.blocksClearedPerTick.tooltip": "Blocks cleared per tick",
   "config.sanctumcraft.minGenerationTicks": "Min generation screen (ticks)",
-  "config.sanctumcraft.minGenerationTicks.tooltip": "Min generation screen (ticks)"
+  "config.sanctumcraft.minGenerationTicks.tooltip": "Min generation screen (ticks)",
+  "item.sanctumcraft.sanctum_guide": "Sanctum Guide",
+  "message.sanctumcraft.guide.given": "You receive the Sanctum Guide (right-click to open it).",
+  "welcome.sanctumcraft.by": "by %s",
+  "welcome.sanctumcraft.desc": "Build a rune portal, raid a Sanctum floating in the void and bring back a rare egg before it collapses.",
+  "welcome.sanctumcraft.links": "Guide: %s · Project: %s",
+  "welcome.sanctumcraft.guide_hover": "Get a Sanctum Guide",
+  "welcome.sanctumcraft.update": "Update available: %s (you have %s) — %s",
+  "welcome.sanctumcraft.download": "Download",
+  "config.sanctumcraft.welcomeMessage": "Welcome message",
+  "config.sanctumcraft.welcomeMessage.tooltip": "Chat message when joining a world.",
+  "config.sanctumcraft.updateCheck": "Check for updates",
+  "config.sanctumcraft.updateCheck.tooltip": "Looks for a new version on GitHub when the game starts."
 }

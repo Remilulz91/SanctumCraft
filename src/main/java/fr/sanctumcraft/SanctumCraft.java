@@ -47,6 +47,8 @@ public class SanctumCraft implements ModInitializer {
         }
         SanctumConfig.load();
 
+        fr.sanctumcraft.update.UpdateChecker.start();
+
         ModBlocks.register();
         ModItems.register();
 
@@ -62,6 +64,7 @@ public class SanctumCraft implements ModInitializer {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             InstanceManager.onPlayerJoin(handler.player);
             fr.sanctumcraft.rolling.RollingEgg.onJoin(handler.player);
+            fr.sanctumcraft.guide.SanctumGuide.onJoin(handler.player);
         });
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             InstanceManager.onPlayerLeave(handler.player);
