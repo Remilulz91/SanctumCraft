@@ -7,7 +7,12 @@ import com.mojang.brigadier.context.CommandContext;
 import fr.sanctumcraft.SanctumCraft;
 import fr.sanctumcraft.instance.InstanceManager;
 import fr.sanctumcraft.instance.PortalRecord;
+import fr.sanctumcraft.egg.EggRarity;
+import fr.sanctumcraft.egg.SanctumEggItem;
 import fr.sanctumcraft.instance.SanctumDifficulty;
+import fr.sanctumcraft.registry.ModItems;
+import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.item.ItemStack;
 import fr.sanctumcraft.profile.HunterProfile;
 import fr.sanctumcraft.profile.Profiles;
 import fr.sanctumcraft.instance.SanctumInstance;
@@ -35,7 +40,8 @@ public final class SanctumCommand {
                 .then(CommandManager.literal("status").executes(SanctumCommand::status))
                 .then(CommandManager.literal("leave").executes(SanctumCommand::leave))
                 .then(CommandManager.literal("profile").executes(SanctumCommand::profile))
-                .then(CommandManager.literal("list").requires(s -> s.hasPermissionLevel(2)).executes(SanctumCommand::list));
+                .then(CommandManager.literal("list").requires(s -> s.hasPermissionLevel(2)).executes(SanctumCommand::list))
+                .then(eggCommand());
 
         if (SanctumCraft.DEBUG_BUILD) {
             root.then(CommandManager.literal("debug").requires(s -> s.hasPermissionLevel(2))
@@ -87,6 +93,28 @@ public final class SanctumCommand {
         } else {
             src.sendFeedback(() -> Text.translatable("command.sanctumcraft.status.portal_ready").formatted(Formatting.GREEN), false);
         }
+        return 1;
+    }
+
+    /** /sanctum egg <rarity> [player]: gives a secured egg owned by the target (OP). */
+    private static LiteralArgumentBuilder<ServerCommandSource> eggCommand() {
+        LiteralArgumentBuilder<ServerCommandSource> egg = CommandManager.literal("egg").requires(s -> s.hasPermissionLevel(2));
+        for (EggRarity r : EggRarity.values()) {
+            egg.then(CommandManager.literal(r.name().toLowerCase())
+                    .executes(ctx -> giveEgg(ctx, r, ctx.getSource().getPlayer()))
+                    .then(CommandManager.argument("player", EntityArgumentType.player())
+                            .executes(ctx -> giveEgg(ctx, r, EntityArgumentType.getPlayer(ctx, "player")))));
+        }
+        return egg;
+    }
+
+    private static int giveEgg(CommandContext<ServerCommandSource> ctx, EggRarity rarity, ServerPlayerEntity target) {
+        if (target == null) return 0;
+        ItemStack stack = new ItemStack(ModItems.eggFor(rarity));
+        SanctumEggItem.secure(stack, target);
+        if (!target.getInventory().insertStack(stack)) target.dropItem(stack, false);
+        ctx.getSource().sendFeedback(() -> Text.translatable("command.sanctumcraft.egg_given",
+                Text.translatable(rarity.key()), target.getDisplayName()), true);
         return 1;
     }
 

@@ -55,6 +55,11 @@ public final class ModItems {
                         entries.add(EGG_RARE);
                         entries.add(EGG_EPIC);
                         entries.add(EGG_LEGENDARY);
+                        for (SanctumEggItem egg : new SanctumEggItem[]{EGG_COMMON, EGG_RARE, EGG_EPIC, EGG_LEGENDARY}) {
+                            ItemStack secured = new ItemStack(egg);
+                            SanctumEggItem.secure(secured);
+                            entries.add(secured);
+                        }
                         entries.add(RUSTED_KEY);
                         entries.add(SILVER_KEY);
                         entries.add(GILDED_KEY);

@@ -246,5 +246,8 @@
   "menu.sanctumcraft.showcase.count2": "%s classic, %s collector / %s",
   "menu.sanctumcraft.showcase.row0.classic": "4 classic: +1 heart in the Sanctum",
   "menu.sanctumcraft.showcase.row1.classic": "4 classic: +2 armor in the Sanctum",
-  "menu.sanctumcraft.showcase.row2.classic": "4 classic: +10% Shells"
+  "menu.sanctumcraft.showcase.row2.classic": "4 classic: +10% Shells",
+  "command.sanctumcraft.egg_given": "Secured %s egg given to %s.",
+  "menu.sanctumcraft.companions.whistle_again": "Click: a new Whistle if you lost yours",
+  "menu.sanctumcraft.companions.whistle_have": "You already have a Whistle."
 }

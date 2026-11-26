@@ -246,5 +246,8 @@
   "menu.sanctumcraft.showcase.count2": "%s classiques, %s collector / %s",
   "menu.sanctumcraft.showcase.row0.classic": "4 classiques : +1 cœur dans le Sanctum",
   "menu.sanctumcraft.showcase.row1.classic": "4 classiques : +2 armure dans le Sanctum",
-  "menu.sanctumcraft.showcase.row2.classic": "4 classiques : +10 % de Coquilles"
+  "menu.sanctumcraft.showcase.row2.classic": "4 classiques : +10 % de Coquilles",
+  "command.sanctumcraft.egg_given": "Œuf %s sécurisé donné à %s.",
+  "menu.sanctumcraft.companions.whistle_again": "Clic : un nouveau Sifflet si tu as perdu le tien",
+  "menu.sanctumcraft.companions.whistle_have": "Tu as déjà un Sifflet."
 }

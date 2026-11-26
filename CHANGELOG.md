@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.6.1-alpha.3] - Fixes
+
+### Added
+- `/sanctum egg <common|rare|epic|legendary> [player]` (OP): gives a **secured** egg owned by the target, ready for the incubator.
+- The creative tab also contains secured eggs (no owner: the player who incubates it becomes the owner).
+- Companions menu: clicking the whistle icon gives a new Companion Whistle if you lost yours.
+
+### Fixed
+- **Allay companion still took items** handed to it: its interaction is now blocked at the source, and any item a companion holds is given back to its owner (every second and when it's recalled).
+- **"Experimental settings" warning** when creating or loading a world: caused by the sanctum dimension being declared by data pack. The world is now reported as stable, so the warning no longer appears.
+
 ## [0.6.1-alpha.2] - Fixes
 
 ### Fixed

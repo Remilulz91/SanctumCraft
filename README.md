@@ -33,6 +33,7 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | `/sanctum leave` | Leave the sanctum (same as the exit portal) | Everyone |
 | `/sanctum profile` | Hunter level, Shells and stats | Everyone |
 | `/sanctum list` | List portals and sanctums | OP |
+| `/sanctum egg <rarity> [player]` | Give a secured egg owned by the player | OP |
 | `/sanctum debug generate [normal\|nightmare\|chaos]` | Open a sanctum without portal | OP, debug build |
 | `/sanctum debug close` / `closeall` | Collapse your sanctum / all sanctums | OP, debug build |
 | `/sanctum debug time <seconds>` | Set the time left of your sanctum | OP, debug build |

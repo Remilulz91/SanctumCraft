@@ -205,7 +205,16 @@ public final class AltarMenus {
                 AltarMenus::openMain);
         b.set(49, ButtonMenu.icon(ModItems.COMPANION_WHISTLE, Text.translatable("menu.sanctumcraft.companions.count",
                 prof.companions.size(), fr.sanctumcraft.config.SanctumConfig.companionSlots).formatted(Formatting.GREEN),
-                List.of(Text.translatable("menu.sanctumcraft.companions.help").formatted(Formatting.GRAY))), null);
+                List.of(Text.translatable("menu.sanctumcraft.companions.help").formatted(Formatting.GRAY),
+                        Text.translatable("menu.sanctumcraft.companions.whistle_again").formatted(Formatting.DARK_GRAY))), p -> {
+            if (p.getInventory().count(ModItems.COMPANION_WHISTLE) > 0) {
+                p.sendMessage(Text.translatable("menu.sanctumcraft.companions.whistle_have").formatted(Formatting.GRAY), true);
+                return;
+            }
+            ItemStack whistle = new ItemStack(ModItems.COMPANION_WHISTLE);
+            if (!p.getInventory().insertStack(whistle)) p.dropItem(whistle, false);
+            p.playSoundToPlayer(SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.MASTER, 1.0F, 1.0F);
+        });
         open(player, b, Text.translatable("menu.sanctumcraft.companions"), "companions");
     }
 

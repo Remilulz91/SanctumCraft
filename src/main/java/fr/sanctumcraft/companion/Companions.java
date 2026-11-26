@@ -334,6 +334,7 @@ public final class Companions {
     public static boolean despawn(ServerPlayerEntity player) {
         MobEntity m = summoned(player);
         if (m == null) return false;
+        giveBackHeld(player, m);
         SUMMONED.remove(player.getUuid());
         OWNER_OF.remove(m.getUuid());
         ((ServerWorld) m.getWorld()).spawnParticles(ParticleTypes.CLOUD, m.getX(), m.getY() + 0.5, m.getZ(), 8, 0.3, 0.3, 0.3, 0.02);
@@ -353,6 +354,7 @@ public final class Companions {
         // right-clicking your companion with the whistle calls it back.
         net.fabricmc.fabric.api.event.player.UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> {
             if (!entity.getCommandTags().contains(TAG)) return net.minecraft.util.ActionResult.PASS;
+            // Never hand an item to a companion.
             if (!world.isClient && player instanceof ServerPlayerEntity sp
                     && player.getStackInHand(hand).isOf(ModItems.COMPANION_WHISTLE)) {
                 whistle(sp);
@@ -411,9 +413,20 @@ public final class Companions {
 
     // ------------------------------------------------------------------ every second
 
+    /** Safety net: if a companion somehow holds an item, hand it back to its owner. */
+    private static void giveBackHeld(ServerPlayerEntity owner, MobEntity mob) {
+        for (net.minecraft.util.Hand hand : net.minecraft.util.Hand.values()) {
+            ItemStack held = mob.getStackInHand(hand);
+            if (held.isEmpty()) continue;
+            mob.setStackInHand(hand, ItemStack.EMPTY);
+            if (!owner.getInventory().insertStack(held)) owner.dropItem(held, false);
+        }
+    }
+
     public static void tick(ServerPlayerEntity owner, SanctumInstance inst, int serverTicks) {
         MobEntity mob = summoned(owner);
         if (mob == null) return;
+        giveBackHeld(owner, mob);
         if (!owner.isAlive() || mob.getWorld() != owner.getWorld()) {
             despawn(owner);
             return;
