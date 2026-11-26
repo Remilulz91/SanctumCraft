@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.7.0-alpha.2] - Fixes
+
+### Fixed
+- **Free arrows from traps**: a trap dispenser overwritten during generation spilled its 16 arrows on the floor. Items spilled while a sanctum is being generated or cleared are now removed, and arrows shot by trap dispensers can no longer be picked up.
+
 ## [0.7.0-alpha.1] - HUD, config screen, rolling egg
 
 ### Added

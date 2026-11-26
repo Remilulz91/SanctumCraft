@@ -98,8 +98,21 @@ public final class SanctumProtection {
 
         // Safety net: no creeper may exist in the sanctum (spawners, commands, portals...).
         ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
-            if (entity instanceof CreeperEntity && ModDimensions.isSanctum(world)) {
+            if (!ModDimensions.isSanctum(world)) return;
+            if (entity instanceof CreeperEntity) {
                 entity.discard();
+                return;
+            }
+            // Arrows shot by trap dispensers (no owner) can't be picked up: no free arrows from traps.
+            if (entity instanceof net.minecraft.entity.projectile.PersistentProjectileEntity arrow && arrow.getOwner() == null) {
+                arrow.pickupType = net.minecraft.entity.projectile.PersistentProjectileEntity.PickupPermission.DISALLOWED;
+                return;
+            }
+            // Items spilled while a sanctum is being built or cleared (a trap dispenser overwritten by a
+            // neighbouring room drops its arrows): never left lying around.
+            if (entity instanceof net.minecraft.entity.ItemEntity) {
+                SanctumInstance inst = InstanceManager.instanceAt(world, entity.getBlockPos());
+                if (inst != null && inst.status != SanctumInstance.Status.ACTIVE) entity.discard();
             }
         });
 
