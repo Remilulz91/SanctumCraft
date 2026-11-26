@@ -60,16 +60,20 @@ Des ruines de portail existent aussi dans le monde.
 B B B
 B A B
 B B B
-B : brique d'ardoise
-des abîmes
+B : brique d'ardoise des abîmes
 A : éclat d'améthyste
 
+Sert au cadre du portail, à l'Autel et à l'incubateur.
+=== fr_recipes2
 §lÉclat de Sanctum§r
 - A -
 A P A
 - A -
+A : éclat d'améthyste
 P : perle de l'Ender
-=== fr_recipes2
+
+Allume le portail. Aussi vendu à l'Autel.
+=== fr_recipes3
 §lAutel du Sanctum§r
 - E -
 R M R
@@ -77,13 +81,16 @@ R R R
 E : Éclat de Sanctum
 R : Pierre runique
 M : magnétite
-
+=== fr_recipes4
 §lIncubateur§r
 A V A
 V F V
 R R R
-V : verre, F : foin
-=== fr_recipes3
+A : éclat d'améthyste
+V : verre
+F : botte de foin
+R : Pierre runique
+=== fr_recipes5
 §lSifflet§r
 Sans forme : lingot d'or, éclat d'améthyste et ficelle.
 Ton premier compagnon t'en donne un.
@@ -95,7 +102,7 @@ pour en recevoir un nouveau.
 === fr_raid
 §lLe raid§r
 Chrono : 30 min (Normal), 25 (Cauchemar), 20 (Chaos).
-Sors quand tu veux par le portail d'arrivée ou §1/sanctum leave§0.
+Sors quand tu veux par le portail d'arrivée.
 Le mécanisme de destination (reste 5 s à côté) ouvre une sortie au fond.
 === fr_raid2
 §lLe raid (suite)§r
@@ -105,7 +112,7 @@ Tu peux poser des blocs.
 Survie forcée. Personne n'entre pendant la dernière minute.
 === fr_diff
 §lDifficultés§r
-§aNormal§0 : le Sanctum tel quel.
+§2Normal§0 : le Sanctum tel quel.
 §cCauchemar§0 : monstres plus forts, butin ×1,5, œufs plus rares.
 §5Chaos§0 : très dur, butin ×2. Coûte un §5Ticket Chaos§0 (montée de niveau ou boutique).
 === fr_eggs
@@ -117,7 +124,7 @@ Raretés : commun, rare, épique, légendaire.
 §lLes œufs (suite)§r
 Un œuf est §clourd§0 : il ralentit (épique et légendaire encore plus).
 
-Tu meurs ? Tu le lâches. Sors vivant : il devient §asécurisé§0, à ton nom, et rapporte XP et Coquilles.
+Tu meurs ? Tu le lâches. Sors vivant : il devient §2sécurisé§0, à ton nom, et rapporte XP et Coquilles.
 Les œufs ne se vendent pas.
 === fr_loot
 §lCoffres et clés§r
@@ -127,7 +134,7 @@ La fouille prend du temps : les objets apparaissent un à un.
 Un coffre peut donner une clé ou une relique.
 === fr_loot2
 §lClés et salles fortes§r
-Clé §7rouillée§0 (Normal), §fargent§0 (Cauchemar), §6dorée§0 (Chaos) : clic droit sur la porte verrouillée de la difficulté du raid.
+Clé §4rouillée§0 (Normal), §8argent§0 (Cauchemar), §6dorée§0 (Chaos) : clic droit sur la porte verrouillée de la difficulté du raid.
 
 Derrière : de meilleurs coffres.
 === fr_mobs
@@ -166,7 +173,7 @@ Expose la version classique (+1 % de Coquilles chacune), puis sublime-la avec la
 Une rangée complète donne un bonus. Exposition définitive.
 === fr_incubator
 §lL'incubateur§r
-Pose un œuf §asécurisé§0 dedans : 10 min (commun), 20, 40 ou 60 min (légendaire).
+Pose un œuf §2sécurisé§0 dedans : 10 min (commun), 20, 40 ou 60 min (légendaire).
 Quand il est prêt, un clic le fait éclore.
 
 Un ami peut couver ton œuf : le compagnon reste à toi.
@@ -192,8 +199,6 @@ Options : Mod Menu avec Cloth Config.
 §lCommandes§r
 §1/sanctum status§0
 temps restant
-§1/sanctum leave§0
-sortir du Sanctum
 §1/sanctum profile§0
 ton profil
 §1/sanctum guide§0
@@ -205,6 +210,15 @@ nouveau guide
 - Sors avec l'œuf avant les derniers renforts.
 - Passe à l'Autel après chaque raid.
 §5Bonne chasse !§0
+=== fr_end
+§5§l  Fin de la partie
+     française§r
+
+
+
+   [[English version »|en_toc]]
+
+   [[« Couverture|cover]]
 === en_toc
 §lContents§r
 
@@ -254,12 +268,17 @@ B B B
 B: deepslate bricks
 A: amethyst shard
 
+Used for the portal frame, the Altar and the incubator.
+=== en_recipes2
 §lSanctum Shard§r
 - A -
 A P A
 - A -
+A: amethyst shard
 P: ender pearl
-=== en_recipes2
+
+Lights the portal. Also sold at the Altar.
+=== en_recipes3
 §lSanctum Altar§r
 - S -
 R L R
@@ -267,13 +286,16 @@ R R R
 S: Sanctum Shard
 R: Rune Stone
 L: lodestone
-
+=== en_recipes4
 §lIncubator§r
 A G A
 G H G
 R R R
-G: glass, H: hay bale
-=== en_recipes3
+A: amethyst shard
+G: glass
+H: hay bale
+R: Rune Stone
+=== en_recipes5
 §lWhistle§r
 Shapeless: gold ingot, amethyst shard and string.
 Your first companion also gives you one.
@@ -285,7 +307,7 @@ to get a new one.
 === en_raid
 §lThe raid§r
 Timer: 30 min (Normal), 25 (Nightmare), 20 (Chaos).
-Leave any time through the arrival portal or §1/sanctum leave§0.
+Leave any time through the arrival portal.
 The destination mechanism (stay 5 s next to it) opens an exit deeper in.
 === en_raid2
 §lThe raid (more)§r
@@ -295,7 +317,7 @@ You can place blocks.
 Survival is forced. Nobody enters during the last minute.
 === en_diff
 §lDifficulties§r
-§aNormal§0: the Sanctum as it is.
+§2Normal§0: the Sanctum as it is.
 §cNightmare§0: stronger monsters, loot ×1.5, better eggs.
 §5Chaos§0: very hard, loot ×2. Costs a §5Chaos Ticket§0 (level up or shop).
 === en_eggs
@@ -307,7 +329,7 @@ Rarities: common, rare, epic, legendary.
 §lEggs (more)§r
 An egg is §cheavy§0: it slows you down (epic and legendary even more).
 
-You die? You drop it. Get out alive: it becomes §asecured§0, in your name, and pays XP and Shells.
+You die? You drop it. Get out alive: it becomes §2secured§0, in your name, and pays XP and Shells.
 Eggs can't be sold.
 === en_loot
 §lChests and keys§r
@@ -317,7 +339,7 @@ Searching takes time: items appear one by one.
 A chest may hold a key or a relic.
 === en_loot2
 §lKeys and vaults§r
-§7Rusted§0 (Normal), §fsilver§0 (Nightmare), §6gilded§0 (Chaos) key: right-click the locked door matching the raid's difficulty.
+§4Rusted§0 (Normal), §8silver§0 (Nightmare), §6gilded§0 (Chaos) key: right-click the locked door matching the raid's difficulty.
 
 Behind it: better chests.
 === en_mobs
@@ -357,7 +379,7 @@ Display the classic version (+1 % Shells each), then upgrade it with the collect
 A full row gives a bonus. Displays are permanent.
 === en_incubator
 §lThe incubator§r
-Put a §asecured§0 egg in it: 10 min (common), 20, 40 or 60 min (legendary).
+Put a §2secured§0 egg in it: 10 min (common), 20, 40 or 60 min (legendary).
 When it's ready, one click hatches it.
 
 A friend can hatch your egg: the companion stays yours.
@@ -383,8 +405,6 @@ Options: Mod Menu with Cloth Config.
 §lCommands§r
 §1/sanctum status§0
 time left
-§1/sanctum leave§0
-leave the Sanctum
 §1/sanctum profile§0
 your profile
 §1/sanctum guide§0
@@ -397,3 +417,12 @@ a new guide
 - Visit the Altar after each raid.
 
 §5Happy hunting!§0
+=== en_end
+§5§l  End of the English
+        part§r
+
+
+
+   [[Version française »|fr_toc]]
+
+   [[« Cover|cover]]

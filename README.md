@@ -34,7 +34,6 @@ Portal frame: a Rune Stone rectangle, interior from 2×3 to 21×21, corners opti
 | Command | Description | Permission |
 |---------|-------------|------------|
 | `/sanctum status` | Time left (inside) or state of the nearest portal | Everyone |
-| `/sanctum leave` | Leave the sanctum (same as the exit portal) | Everyone |
 | `/sanctum profile` | Hunter level, Shells and stats | Everyone |
 | `/sanctum guide` | Get a new Sanctum Guide book | Everyone |
 | `/sanctum list` | List portals and sanctums | OP |

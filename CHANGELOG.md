@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.8.0-alpha.2] - Guide fixes
+
+### Changed
+- **`/sanctum leave` removed**: the only ways out are the arrival portal and the exit portal opened by the destination mechanism. Manage your time.
+- Guide: one recipe per page with the full legend for every letter, readable colors for the keys (no more white text on the page), and an end page closing each language with a link to the other language and to the cover.
+
 ## [0.8.0-alpha.1] - Guide book, welcome message, update check
 
 ### Added

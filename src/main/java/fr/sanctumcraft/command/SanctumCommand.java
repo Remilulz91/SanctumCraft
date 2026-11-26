@@ -27,7 +27,6 @@ import java.util.ArrayList;
 
 /**
  * /sanctum status            - everyone
- * /sanctum leave             - everyone (inside a sanctum: same as the exit portal)
  * /sanctum list              - OP
  * /sanctum debug ...         - OP, debug build only
  */
@@ -38,7 +37,6 @@ public final class SanctumCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         LiteralArgumentBuilder<ServerCommandSource> root = CommandManager.literal("sanctum")
                 .then(CommandManager.literal("status").executes(SanctumCommand::status))
-                .then(CommandManager.literal("leave").executes(SanctumCommand::leave))
                 .then(CommandManager.literal("profile").executes(SanctumCommand::profile))
                 .then(CommandManager.literal("guide").executes(ctx -> {
                     fr.sanctumcraft.guide.SanctumGuide.give(ctx.getSource().getPlayerOrThrow());
@@ -143,17 +141,6 @@ public final class SanctumCommand {
         ServerPlayerEntity player = ctx.getSource().getPlayer();
         if (player == null) return 0;
         Profiles.addHunterXp(player, amount);
-        return 1;
-    }
-
-    private static int leave(CommandContext<ServerCommandSource> ctx) {
-        ServerPlayerEntity player = ctx.getSource().getPlayer();
-        if (player == null) return 0;
-        if (InstanceManager.instanceOf(player) == null) {
-            ctx.getSource().sendError(Text.translatable("command.sanctumcraft.not_inside"));
-            return 0;
-        }
-        InstanceManager.exitSanctum(player);
         return 1;
     }
 
