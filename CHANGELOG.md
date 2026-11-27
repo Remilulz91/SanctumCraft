@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.8.0] - First public release
+
+Everything from 0.1 to 0.8.0-alpha.7: rune portal and Sanctum dimension, procedurally assembled dungeon, three difficulties, eggs and extraction, chests, keys and vaults, monsters, waves, rifts and traps, the Sanctum Altar (shop, sell, profile, talents, showcase), relics, incubator and companions, HUD, rolling egg, config screen, Patchouli guide, welcome message and update check, and the new textures.
+
 ## [0.8.0-alpha.7] - Last textures
 
 ### Changed
