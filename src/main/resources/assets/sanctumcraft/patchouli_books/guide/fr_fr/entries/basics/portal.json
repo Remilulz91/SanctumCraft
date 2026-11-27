@@ -1,0 +1,47 @@
+{
+  "name": "Le portail runique",
+  "icon": "sanctumcraft:sanctum_shard",
+  "category": "sanctumcraft:basics",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Fais un cadre en $(l:basics/recipes)Pierres runiques$() comme un portail du Nether : intérieur de $(thing)2×3$() à $(thing)21×21$(), les coins sont facultatifs.$(br2)Fais un clic droit sur le cadre avec un $(item)Éclat de Sanctum$() (il est consommé) pour l'allumer."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "name": "Portail minimal",
+      "multiblock": {
+        "mapping": {
+          "R": "sanctumcraft:rune_stone",
+          "0": "sanctumcraft:rune_stone",
+          "P": "sanctumcraft:sanctum_portal[axis=x]"
+        },
+        "pattern": [
+          [
+            "RRRR"
+          ],
+          [
+            "RPPR"
+          ],
+          [
+            "RPPR"
+          ],
+          [
+            "RPPR"
+          ],
+          [
+            "RR0R"
+          ]
+        ],
+        "symmetrical": true
+      },
+      "text": "Un cadre de 4×5 avec un intérieur de 2×3."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Entre dans le portail et choisis la $(l:raid/difficulties)difficulté$() : le Sanctum se génère pendant quelques secondes.$(br2)Après l'effondrement, ce portail doit se recharger ($(thing)30 min$()). Chaque portail est indépendant : construis-en un autre pour repartir tout de suite.$(br2)Des ruines de portail existent aussi dans le monde.",
+      "title": "Recharge"
+    }
+  ]
+}

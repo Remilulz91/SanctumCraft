@@ -1,0 +1,22 @@
+{
+  "name": "Eggs",
+  "icon": "sanctumcraft:sanctum_egg_epic",
+  "category": "sanctumcraft:raid",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The Sanctum hides $(thing)1 to 3 active nests$() among 5 nest rooms. Hit a nest ($(thing)10 hits$()) to dig up its egg.$(br2)Four rarities: common, rare, epic and legendary."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "sanctumcraft:sanctum_egg_legendary",
+      "text": "An egg is $(bad)heavy$(): it slows you down, even more if it's epic or legendary. If you die, you drop it."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Get out alive with the egg: it becomes $(good)secured$(), in your name, and gives you Hunter XP and Shells.$(br2)Eggs can't be sold: hatch them in an $(l:companions/incubator)incubator$().",
+      "title": "Extraction"
+    }
+  ]
+}

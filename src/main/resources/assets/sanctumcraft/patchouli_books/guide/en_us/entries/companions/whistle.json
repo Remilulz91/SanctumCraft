@@ -1,0 +1,18 @@
+{
+  "name": "The whistle",
+  "icon": "sanctumcraft:companion_whistle",
+  "category": "sanctumcraft:companions",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "sanctumcraft:companion_whistle",
+      "text": "Right-click: call or recall your active companion. Your first companion gives you one."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanctumcraft:companion_whistle",
+      "text": "Shapeless: gold ingot, amethyst shard and string."
+    }
+  ]
+}

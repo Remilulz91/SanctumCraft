@@ -1,0 +1,17 @@
+{
+  "name": "The Sanctum Altar",
+  "icon": "sanctumcraft:sanctum_altar",
+  "category": "sanctumcraft:progress",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Right-click the Altar:$(li)$(item)Shop$(): keys, shards, rune stones, Chaos Ticket...$(li)$(item)Sell$(): your loot for Shells$(li)$(item)Profile$(), $(l:progress/talents)talents$(), $(l:loot/relics)showcase$() and $(l:companions/companions)companions$()"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanctumcraft:sanctum_altar",
+      "text": "Your profile follows you from one Altar to another."
+    }
+  ]
+}

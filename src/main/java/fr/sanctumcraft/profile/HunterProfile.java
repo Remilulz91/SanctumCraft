@@ -71,7 +71,7 @@ public final class HunterProfile {
         t.put("companions", comps);
         if (activeCompanion != null) t.putUuid("activeCompanion", activeCompanion);
         t.putBoolean("whistleGiven", whistleGiven);
-        t.putBoolean("guideGiven", guideGiven);
+        t.putBoolean("patchouliGuideGiven", guideGiven);
         return t;
     }
 
@@ -97,7 +97,7 @@ public final class HunterProfile {
         for (int i = 0; i < comps.size(); i++) p.companions.add(fr.sanctumcraft.companion.CompanionData.fromNbt(comps.getCompound(i)));
         if (t.containsUuid("activeCompanion")) p.activeCompanion = t.getUuid("activeCompanion");
         p.whistleGiven = t.getBoolean("whistleGiven");
-        p.guideGiven = t.getBoolean("guideGiven");
+        p.guideGiven = t.getBoolean("patchouliGuideGiven");
         return p;
     }
 }

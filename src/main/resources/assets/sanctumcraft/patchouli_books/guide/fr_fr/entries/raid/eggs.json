@@ -1,0 +1,22 @@
+{
+  "name": "Les œufs",
+  "icon": "sanctumcraft:sanctum_egg_epic",
+  "category": "sanctumcraft:raid",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Le Sanctum cache $(thing)1 à 3 nids actifs$() parmi 5 salles de nid. Frappe un nid ($(thing)10 coups$()) pour déterrer son œuf.$(br2)Quatre raretés : commun, rare, épique et légendaire."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "sanctumcraft:sanctum_egg_legendary",
+      "text": "Un œuf est $(bad)lourd$() : il te ralentit, encore plus s'il est épique ou légendaire. Si tu meurs, tu le lâches."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ressors vivant avec l'œuf : il devient $(good)sécurisé$(), à ton nom, et te rapporte de l'XP de chasseur et des Coquilles.$(br2)Les œufs ne se vendent pas : fais-les éclore dans un $(l:companions/incubator)incubateur$().",
+      "title": "Extraction"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Hunter levels",
+  "icon": "minecraft:experience_bottle",
+  "category": "sanctumcraft:progress",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Extracting eggs gives you $(item)Hunter XP$(). Each level gives you:$(li)a $(l:raid/difficulties)Chaos Ticket$()$(li)Shells$(li)$(thing)1$() $(l:progress/talents)talent$() point$(br2)$(thing)/sanctum profile$() shows your level and stats."
+    }
+  ]
+}

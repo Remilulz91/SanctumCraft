@@ -1,0 +1,22 @@
+{
+  "name": "Monsters and traps",
+  "icon": "minecraft:iron_sword",
+  "category": "sanctumcraft:raid",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Guardians protect the rooms. Reinforcements arrive during the raid: in Nightmare and Chaos from $(thing)30%$() of the time, then $(thing)5 min$() and $(thing)2 min$() before the end, with damage $(bad)+25%$() then $(bad)+50%$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A rift releases waves of monsters. Close it: a chest appears.",
+      "title": "Rifts"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A plate on a corridor floor? It's probably an $(bad)arrow trap$(). Trap arrows can't be picked up.",
+      "title": "Traps"
+    }
+  ]
+}

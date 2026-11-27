@@ -1,0 +1,17 @@
+{
+  "name": "Clés et salles fortes",
+  "icon": "sanctumcraft:gilded_key",
+  "category": "sanctumcraft:loot",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Chaque Sanctum a des $(item)salles fortes$() fermées par une porte verrouillée. La clé dépend de la difficulté du raid :$(li)$(#8b2500)rouillée$() en Normal$(li)$(#555555)argent$() en Cauchemar$(li)$(#b8860b)dorée$() en Chaos$(br2)Clic droit sur la porte avec la bonne clé : derrière, de meilleurs coffres."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "sanctumcraft:rusted_key",
+      "text": "Trouvée dans les coffres, ou achetée à l'$(l:progress/altar)Autel$()."
+    }
+  ]
+}

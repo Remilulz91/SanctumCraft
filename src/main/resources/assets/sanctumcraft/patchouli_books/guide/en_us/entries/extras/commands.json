@@ -1,0 +1,17 @@
+{
+  "name": "Commands",
+  "icon": "minecraft:command_block",
+  "category": "sanctumcraft:extras",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)/sanctum status$(): time left$(br)$(thing)/sanctum profile$(): your profile$(br)$(thing)/sanctum guide$(): a new guide if you lost this one$(br2)For operators:$(br)$(thing)/sanctum list$(): open Sanctums$(br)$(thing)/sanctum egg <rarity>$(): a secured egg"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Keep an eye on the timer.$(li)Portal recharging? Build another one.$(li)Get out with the egg before the last reinforcements.$(li)Visit the Altar after each raid.$(br2)$(#6a1b9a)Happy hunting!$()",
+      "title": "Tips"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Loot",
+  "description": "Chests, keys, vaults and relics.",
+  "icon": "minecraft:chest",
+  "sortnum": 2
+}

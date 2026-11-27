@@ -1,0 +1,12 @@
+{
+  "name": "Le HUD",
+  "icon": "minecraft:compass",
+  "category": "sanctumcraft:extras",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "En haut à gauche dans le Sanctum : difficulté et chrono, prochains renforts, œufs portés, équipe, compagnon, Coquilles et niveau.$(br2)$(k:sanctumcraft.hud)$() l'affiche ou le masque.$(br2)Toutes les options se règlent dans $(thing)Mod Menu$() si $(thing)Cloth Config$() est installé."
+    }
+  ]
+}

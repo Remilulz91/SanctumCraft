@@ -1,0 +1,22 @@
+{
+  "name": "How a raid works",
+  "icon": "minecraft:clock",
+  "category": "sanctumcraft:raid",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Timer: $(thing)30 min$() in Normal, $(thing)25$() in Nightmare, $(thing)20$() in Chaos. It shows at the top of the screen and in the $(l:extras/hud)HUD$().$(br2)To get out: go back through the $(item)arrival portal$(), or activate the $(item)destination mechanism$() (stay 5 s next to it) to open an exit deeper in."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Stay next to it for 5 seconds to open the destination room's exit portal.",
+      "title": "Destination"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Inside the Sanctum, $(thing)Survival$() is forced. You can $(good)place blocks$() but not break them.$(br2)$(bad)Forbidden$(): buckets, pistons, TNT, beds, ender chests, tools on dungeon blocks.$(br2)Nobody can enter during the last minute.",
+      "title": "Rules"
+    }
+  ]
+}

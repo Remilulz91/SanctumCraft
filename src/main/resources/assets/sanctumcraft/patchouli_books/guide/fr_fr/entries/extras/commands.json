@@ -1,0 +1,17 @@
+{
+  "name": "Commandes",
+  "icon": "minecraft:command_block",
+  "category": "sanctumcraft:extras",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)/sanctum status$() : temps restant$(br)$(thing)/sanctum profile$() : ton profil$(br)$(thing)/sanctum guide$() : un nouveau guide si tu as perdu celui-ci$(br2)Pour les opérateurs :$(br)$(thing)/sanctum list$() : Sanctums ouverts$(br)$(thing)/sanctum egg <rareté>$() : un œuf sécurisé"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(li)Garde un œil sur le chrono.$(li)Un portail en recharge ? Construis-en un autre.$(li)Sors avec l'œuf avant les derniers renforts.$(li)Passe à l'Autel après chaque raid.$(br2)$(#6a1b9a)Bonne chasse !$()",
+      "title": "Astuces"
+    }
+  ]
+}

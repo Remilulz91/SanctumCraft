@@ -1,0 +1,17 @@
+{
+  "name": "The idea",
+  "icon": "sanctumcraft:sanctum_egg_legendary",
+  "category": "sanctumcraft:basics",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Build a $(l:basics/portal)rune portal$() and step into a $(item)Sanctum$(): a dungeon floating in the void, generated just for you and up to 2 friends.$(br2)Your goal: dig up a $(l:raid/eggs)rare egg$(), loot the chests and get back out alive."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The Sanctum has a $(l:raid/raid)timer$(). When it hits zero, the Sanctum collapses: $(bad)everyone still inside dies$() and loses what they carried.$(br2)Manage your time, and remember to head back.",
+      "title": "Watch out!"
+    }
+  ]
+}

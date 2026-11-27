@@ -1,0 +1,12 @@
+{
+  "name": "The HUD",
+  "icon": "minecraft:compass",
+  "category": "sanctumcraft:extras",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Top left inside the Sanctum: difficulty and timer, next reinforcements, eggs carried, team, companion, Shells and level.$(br2)$(k:sanctumcraft.hud)$() shows or hides it.$(br2)Every option can be set in $(thing)Mod Menu$() when $(thing)Cloth Config$() is installed."
+    }
+  ]
+}

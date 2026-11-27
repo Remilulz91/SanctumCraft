@@ -1,0 +1,12 @@
+{
+  "name": "Rolling egg",
+  "icon": "sanctumcraft:sanctum_egg_common",
+  "category": "sanctumcraft:extras",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Inside a Sanctum, press $(k:sanctumcraft.roll)$(): you curl up into an egg and go $(good)faster$(). Sneak to $(item)dash$() (3 s cooldown).$(br2)While rolling, you $(bad)can't$() attack, dig, open or use anything. A hit stands you up. Not possible while carrying an egg."
+    }
+  ]
+}

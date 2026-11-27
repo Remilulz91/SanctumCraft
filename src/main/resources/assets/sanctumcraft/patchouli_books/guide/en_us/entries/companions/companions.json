@@ -1,0 +1,23 @@
+{
+  "name": "Companions",
+  "icon": "minecraft:bone",
+  "category": "sanctumcraft:companions",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Each hatch adds a companion to your collection ($(thing)10 slots$()): wolf, fox, allay, or iron golem for epic and legendary eggs.$(br2)Each one has random stats and $(thing)1 to 3 traits$(): ferocious, sturdy, swift, healer, tracker, guardian."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "minecraft:wolf",
+      "name": "Your companion",
+      "text": "Pick the active companion or release one at the $(l:progress/altar)Altar$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Your companion follows you everywhere, even through portals. It heals when out of combat.$(br2)$(bad)Knocked out$()? It rests a few minutes before it can come back.",
+      "title": "In combat"
+    }
+  ]
+}

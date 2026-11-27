@@ -1,0 +1,23 @@
+{
+  "name": "Compagnons",
+  "icon": "minecraft:bone",
+  "category": "sanctumcraft:companions",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Chaque éclosion ajoute un compagnon à ta collection ($(thing)10 places$()) : loup, renard, allay, ou golem de fer pour les œufs épiques et légendaires.$(br2)Chacun a des stats aléatoires et $(thing)1 à 3 traits$() : féroce, robuste, vif, guérisseur, pisteur, gardien."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "minecraft:wolf",
+      "name": "Ton compagnon",
+      "text": "Choisis le compagnon actif ou libère-en un à l'$(l:progress/altar)Autel$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Ton compagnon te suit partout, même à travers les portails. Il se soigne quand il n'est plus en combat.$(br2)$(bad)K.O.$() ? Il se repose quelques minutes avant de pouvoir revenir.",
+      "title": "Au combat"
+    }
+  ]
+}

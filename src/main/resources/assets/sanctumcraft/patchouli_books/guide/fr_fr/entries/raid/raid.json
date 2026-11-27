@@ -1,0 +1,22 @@
+{
+  "name": "Déroulement du raid",
+  "icon": "minecraft:clock",
+  "category": "sanctumcraft:raid",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Chrono : $(thing)30 min$() en Normal, $(thing)25$() en Cauchemar, $(thing)20$() en Chaos. Il s'affiche en haut de l'écran et dans le $(l:extras/hud)HUD$().$(br2)Pour sortir : repasse par le $(item)portail d'arrivée$(), ou active le $(item)mécanisme de destination$() (reste 5 s à côté) pour ouvrir une sortie plus loin."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Reste à côté 5 secondes pour ouvrir le portail de sortie de la salle de destination.",
+      "title": "Destination"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Dans le Sanctum, le mode $(thing)Survie$() est forcé. Tu peux $(good)poser des blocs$() mais pas en casser.$(br2)$(bad)Interdits$() : seaux, pistons, TNT, lits, coffres de l'Ender, outils sur les blocs du donjon.$(br2)Personne ne peut entrer pendant la dernière minute.",
+      "title": "Règles"
+    }
+  ]
+}

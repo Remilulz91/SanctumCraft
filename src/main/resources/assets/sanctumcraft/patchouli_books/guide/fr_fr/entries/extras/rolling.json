@@ -1,0 +1,12 @@
+{
+  "name": "Œuf roulant",
+  "icon": "sanctumcraft:sanctum_egg_common",
+  "category": "sanctumcraft:extras",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Dans un Sanctum, appuie sur $(k:sanctumcraft.roll)$() : tu te roules en œuf et tu vas $(good)plus vite$(). Accroupis-toi pour un $(item)dash$() (recharge de 3 s).$(br2)En roulant, $(bad)impossible$() d'attaquer, creuser, ouvrir ou utiliser quoi que ce soit. Un coup te relève. Pas possible en portant un œuf."
+    }
+  ]
+}

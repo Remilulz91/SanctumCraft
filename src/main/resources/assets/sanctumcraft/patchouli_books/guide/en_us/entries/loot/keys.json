@@ -1,0 +1,17 @@
+{
+  "name": "Keys and vaults",
+  "icon": "sanctumcraft:gilded_key",
+  "category": "sanctumcraft:loot",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Every Sanctum has $(item)vaults$() behind a locked door. The key depends on the raid's difficulty:$(li)$(#8b2500)rusted$() in Normal$(li)$(#555555)silver$() in Nightmare$(li)$(#b8860b)gilded$() in Chaos$(br2)Right-click the door with the right key: better chests wait behind it."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "sanctumcraft:rusted_key",
+      "text": "Found in chests, or bought at the $(l:progress/altar)Altar$()."
+    }
+  ]
+}

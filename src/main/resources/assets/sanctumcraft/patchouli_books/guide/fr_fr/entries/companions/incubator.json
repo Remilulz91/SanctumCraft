@@ -1,0 +1,17 @@
+{
+  "name": "L'incubateur",
+  "icon": "sanctumcraft:incubator",
+  "category": "sanctumcraft:companions",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Pose un œuf $(good)sécurisé$() dans l'incubateur. Durées : $(thing)10 min$() (commun), $(thing)20$() (rare), $(thing)40$() (épique), $(thing)60$() (légendaire).$(br2)Quand il est prêt, un clic le fait éclore. Un ami peut couver ton œuf : le compagnon reste à toi.$(br2)Les œufs non sécurisés sont refusés."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanctumcraft:incubator",
+      "text": "Fonctionne n'importe où."
+    }
+  ]
+}

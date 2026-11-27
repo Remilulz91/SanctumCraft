@@ -1,0 +1,17 @@
+{
+  "name": "L'Autel du Sanctum",
+  "icon": "sanctumcraft:sanctum_altar",
+  "category": "sanctumcraft:progress",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Clic droit sur l'Autel :$(li)$(item)Boutique$() : clés, éclats, pierres runiques, Ticket Chaos...$(li)$(item)Vente$() : ton butin contre des Coquilles$(li)$(item)Profil$(), $(l:progress/talents)talents$(), $(l:loot/relics)vitrine$() et $(l:companions/companions)compagnons$()"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanctumcraft:sanctum_altar",
+      "text": "Ton profil te suit d'un Autel à l'autre."
+    }
+  ]
+}

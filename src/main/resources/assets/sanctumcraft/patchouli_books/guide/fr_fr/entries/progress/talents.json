@@ -1,0 +1,12 @@
+{
+  "name": "Talents",
+  "icon": "minecraft:enchanted_book",
+  "category": "sanctumcraft:progress",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Trois branches, chaque talent jusqu'au $(thing)rang 3$() :$(li)$(#c62828)Survie$() : vie, armure, vitesse, second souffle$(li)$(good)Exploration$() : fouille, nids, poids des œufs, vision$(li)$(#b8860b)Butin$() : Coquilles, clés, trésors, collector$(br2)Les points se dépensent à l'$(l:progress/altar)Autel$()."
+    }
+  ]
+}

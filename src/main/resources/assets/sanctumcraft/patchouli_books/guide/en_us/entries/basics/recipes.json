@@ -1,0 +1,18 @@
+{
+  "name": "Portal recipes",
+  "icon": "sanctumcraft:rune_stone",
+  "category": "sanctumcraft:basics",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanctumcraft:rune_stone",
+      "text": "For the portal frame, the Altar and the incubator."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanctumcraft:sanctum_shard",
+      "text": "Lights the portal. Also sold at the $(l:progress/altar)Altar$()."
+    }
+  ]
+}

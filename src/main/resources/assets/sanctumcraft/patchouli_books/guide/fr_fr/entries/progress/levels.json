@@ -1,0 +1,12 @@
+{
+  "name": "Niveaux de chasseur",
+  "icon": "minecraft:experience_bottle",
+  "category": "sanctumcraft:progress",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Extraire des œufs te donne de l'$(item)XP de chasseur$(). À chaque niveau, tu gagnes :$(li)un $(l:raid/difficulties)Ticket Chaos$()$(li)des Coquilles$(li)$(thing)1 point$() de $(l:progress/talents)talent$()$(br2)$(thing)/sanctum profile$() affiche ton niveau et tes statistiques."
+    }
+  ]
+}

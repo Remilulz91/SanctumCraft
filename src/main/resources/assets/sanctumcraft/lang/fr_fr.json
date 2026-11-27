@@ -351,7 +351,6 @@
   "config.sanctumcraft.blocksClearedPerTick.tooltip": "Blocs effacés par tick",
   "config.sanctumcraft.minGenerationTicks": "Écran de génération min (ticks)",
   "config.sanctumcraft.minGenerationTicks.tooltip": "Écran de génération min (ticks)",
-  "item.sanctumcraft.sanctum_guide": "Guide du Sanctum",
   "message.sanctumcraft.guide.given": "Tu reçois le Guide du Sanctum (clic droit pour l'ouvrir).",
   "welcome.sanctumcraft.by": "par %s",
   "welcome.sanctumcraft.desc": "Construis un portail runique, pille un Sanctum flottant dans le vide et ramène un œuf rare avant qu'il ne s'effondre.",
@@ -362,5 +361,9 @@
   "config.sanctumcraft.welcomeMessage": "Message de bienvenue",
   "config.sanctumcraft.welcomeMessage.tooltip": "Message dans le tchat en rejoignant un monde.",
   "config.sanctumcraft.updateCheck": "Vérifier les mises à jour",
-  "config.sanctumcraft.updateCheck.tooltip": "Cherche une nouvelle version sur GitHub au lancement du jeu."
+  "config.sanctumcraft.updateCheck.tooltip": "Cherche une nouvelle version sur GitHub au lancement du jeu.",
+  "book.sanctumcraft.guide.name": "Guide du Sanctum",
+  "book.sanctumcraft.guide.subtitle": "SanctumCraft, par Remilulz_91",
+  "book.sanctumcraft.guide.landing": "Bienvenue, chasseur !$(br2)Ce guide explique tout $(item)SanctumCraft$() : le portail runique, le raid dans le Sanctum, les œufs, le butin, l'Autel, les talents et les compagnons.$(br2)Commence par $(l:basics/welcome)Le principe$(). Perdu ce livre ? $(thing)/sanctum guide$().",
+  "message.sanctumcraft.guide.missing": "Le guide demande le mod Patchouli."
 }

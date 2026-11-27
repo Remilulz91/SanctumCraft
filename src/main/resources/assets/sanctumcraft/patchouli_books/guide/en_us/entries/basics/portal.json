@@ -1,0 +1,47 @@
+{
+  "name": "The rune portal",
+  "icon": "sanctumcraft:sanctum_shard",
+  "category": "sanctumcraft:basics",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Build a $(l:basics/recipes)Rune Stone$() frame like a Nether portal: inside from $(thing)2×3$() to $(thing)21×21$(), corners are optional.$(br2)Right-click the frame with a $(item)Sanctum Shard$() (used up) to light it."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "name": "Smallest portal",
+      "multiblock": {
+        "mapping": {
+          "R": "sanctumcraft:rune_stone",
+          "0": "sanctumcraft:rune_stone",
+          "P": "sanctumcraft:sanctum_portal[axis=x]"
+        },
+        "pattern": [
+          [
+            "RRRR"
+          ],
+          [
+            "RPPR"
+          ],
+          [
+            "RPPR"
+          ],
+          [
+            "RPPR"
+          ],
+          [
+            "RR0R"
+          ]
+        ],
+        "symmetrical": true
+      },
+      "text": "A 4×5 frame with a 2×3 inside."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Step into the portal and pick a $(l:raid/difficulties)difficulty$(): the Sanctum is generated over a few seconds.$(br2)After the collapse, that portal has to recharge ($(thing)30 min$()). Every portal is independent: build another one to go again right away.$(br2)Portal ruins also exist in the world.",
+      "title": "Recharge"
+    }
+  ]
+}

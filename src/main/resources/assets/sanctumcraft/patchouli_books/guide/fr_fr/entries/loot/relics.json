@@ -1,0 +1,22 @@
+{
+  "name": "Reliques et vitrine",
+  "icon": "sanctumcraft:relic_sanctum_crown",
+  "category": "sanctumcraft:loot",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)12 reliques$() en 3 collections de 4 : Ruines, Profondeurs et Nid. Elles tombent de tous les coffres, plus souvent dans les coffres rares. Rarement, c'est la version $(#b8860b)collector$()."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "sanctumcraft:relic_golden_nest",
+      "text": "Expose une relique classique dans ta vitrine à l'$(l:progress/altar)Autel$() : $(good)+1 %$() de Coquilles. Sublime-la ensuite avec la collector : $(good)+3 %$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Une rangée complète de la vitrine donne un bonus en plus. L'exposition est définitive : la relique ne ressort plus.$(br2)Les reliques classiques se vendent, pas les collector.",
+      "title": "Vitrine"
+    }
+  ]
+}

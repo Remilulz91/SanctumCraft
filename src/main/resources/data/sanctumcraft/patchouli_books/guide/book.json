@@ -1,0 +1,22 @@
+{
+  "name": "book.sanctumcraft.guide.name",
+  "landing_text": "book.sanctumcraft.guide.landing",
+  "subtitle": "book.sanctumcraft.guide.subtitle",
+  "use_resource_pack": true,
+  "i18n": true,
+  "book_texture": "patchouli:textures/gui/book_purple.png",
+  "model": "sanctumcraft:sanctum_guide",
+  "creative_tab": "sanctumcraft:main",
+  "show_progress": false,
+  "show_toasts": false,
+  "text_overflow_mode": "resize",
+  "nameplate_color": "D9A3FF",
+  "link_color": "6A1B9A",
+  "link_hover_color": "B23CFF",
+  "macros": {
+    "$(item)": "$(#6a1b9a)",
+    "$(thing)": "$(#8a5a00)",
+    "$(bad)": "$(#b00020)",
+    "$(good)": "$(#1b7a1b)"
+  }
+}

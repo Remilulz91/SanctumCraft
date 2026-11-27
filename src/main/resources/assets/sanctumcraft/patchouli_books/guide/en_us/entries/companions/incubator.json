@@ -1,0 +1,17 @@
+{
+  "name": "The incubator",
+  "icon": "sanctumcraft:incubator",
+  "category": "sanctumcraft:companions",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Put a $(good)secured$() egg in the incubator. Times: $(thing)10 min$() (common), $(thing)20$() (rare), $(thing)40$() (epic), $(thing)60$() (legendary).$(br2)When it's ready, one click hatches it. A friend can hatch your egg: the companion stays yours.$(br2)Unsecured eggs are refused."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanctumcraft:incubator",
+      "text": "Works anywhere."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Le principe",
+  "icon": "sanctumcraft:sanctum_egg_legendary",
+  "category": "sanctumcraft:basics",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Construis un $(l:basics/portal)portail runique$() et entre dans un $(item)Sanctum$() : un donjon flottant dans le vide, généré rien que pour toi et jusqu'à 2 amis.$(br2)Ton but : déterrer un $(l:raid/eggs)œuf rare$(), piller les coffres et ressortir vivant."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Le Sanctum a un $(l:raid/raid)chrono$(). Quand il tombe à zéro, le Sanctum s'effondre : $(bad)tous ceux qui sont encore dedans meurent$() et perdent ce qu'ils portaient.$(br2)Gère ton temps, et pense à rentrer.",
+      "title": "Attention !"
+    }
+  ]
+}

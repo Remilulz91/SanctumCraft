@@ -1,0 +1,18 @@
+{
+  "name": "Recettes du portail",
+  "icon": "sanctumcraft:rune_stone",
+  "category": "sanctumcraft:basics",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanctumcraft:rune_stone",
+      "text": "Pour le cadre du portail, l'Autel et l'incubateur."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "sanctumcraft:sanctum_shard",
+      "text": "Allume le portail. Aussi vendu à l'$(l:progress/altar)Autel$()."
+    }
+  ]
+}

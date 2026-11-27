@@ -1,0 +1,17 @@
+{
+  "name": "Difficultés",
+  "icon": "sanctumcraft:chaos_ticket",
+  "category": "sanctumcraft:raid",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(good)Normal$() : le Sanctum tel quel.$(br2)$(#c62828)Cauchemar$() : monstres plus forts, butin $(thing)×1,5$(), meilleurs œufs, chrono plus court.$(br2)$(#6a1b9a)Chaos$() : très dur, butin $(thing)×2$(), chrono le plus court."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "sanctumcraft:chaos_ticket",
+      "text": "Consommé pour entrer en Chaos. Tu en gagnes un à chaque $(l:progress/levels)niveau de chasseur$(), ou à l'$(l:progress/altar)Autel$() (le prix monte à chaque achat et revient à la normale chaque jour)."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Relics and showcase",
+  "icon": "sanctumcraft:relic_sanctum_crown",
+  "category": "sanctumcraft:loot",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)12 relics$() in 3 collections of 4: Ruins, Depths and Nest. They drop from every chest, more often from rare chests. Rarely, you get the $(#b8860b)collector$() version."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "sanctumcraft:relic_golden_nest",
+      "text": "Display a classic relic in your showcase at the $(l:progress/altar)Altar$(): $(good)+1%$() Shells. Then upgrade it with the collector: $(good)+3%$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A complete showcase row gives an extra bonus. Displaying is permanent: the relic doesn't come back out.$(br2)Classic relics can be sold, collector ones can't.",
+      "title": "Showcase"
+    }
+  ]
+}

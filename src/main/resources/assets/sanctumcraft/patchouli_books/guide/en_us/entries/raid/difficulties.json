@@ -1,0 +1,17 @@
+{
+  "name": "Difficulties",
+  "icon": "sanctumcraft:chaos_ticket",
+  "category": "sanctumcraft:raid",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(good)Normal$(): the Sanctum as it is.$(br2)$(#c62828)Nightmare$(): stronger monsters, loot $(thing)×1.5$(), better eggs, shorter timer.$(br2)$(#6a1b9a)Chaos$(): very hard, loot $(thing)×2$(), shortest timer."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "sanctumcraft:chaos_ticket",
+      "text": "Used up to enter Chaos. You get one each $(l:progress/levels)Hunter level$(), or at the $(l:progress/altar)Altar$() (the price rises with each purchase and resets every day)."
+    }
+  ]
+}

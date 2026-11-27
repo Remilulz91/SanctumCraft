@@ -1,0 +1,17 @@
+{
+  "name": "Coffres",
+  "icon": "minecraft:chest",
+  "category": "sanctumcraft:loot",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "La couleur d'un coffre donne sa rareté : $(#777777)basique$(), $(#1b7a1b)raffiné$(), $(#1565c0)rare$(), $(#6a1b9a)épique$(), $(#b8860b)légendaire$().$(br2)La fouille prend du temps : les objets apparaissent un à un, d'autant plus lentement qu'ils sont précieux."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Un coffre peut contenir une $(l:loot/keys)clé$() ou une $(l:loot/relics)relique$().",
+      "title": "Contenu"
+    }
+  ]
+}

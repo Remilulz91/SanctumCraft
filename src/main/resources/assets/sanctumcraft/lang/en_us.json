@@ -351,7 +351,6 @@
   "config.sanctumcraft.blocksClearedPerTick.tooltip": "Blocks cleared per tick",
   "config.sanctumcraft.minGenerationTicks": "Min generation screen (ticks)",
   "config.sanctumcraft.minGenerationTicks.tooltip": "Min generation screen (ticks)",
-  "item.sanctumcraft.sanctum_guide": "Sanctum Guide",
   "message.sanctumcraft.guide.given": "You receive the Sanctum Guide (right-click to open it).",
   "welcome.sanctumcraft.by": "by %s",
   "welcome.sanctumcraft.desc": "Build a rune portal, raid a Sanctum floating in the void and bring back a rare egg before it collapses.",
@@ -362,5 +361,9 @@
   "config.sanctumcraft.welcomeMessage": "Welcome message",
   "config.sanctumcraft.welcomeMessage.tooltip": "Chat message when joining a world.",
   "config.sanctumcraft.updateCheck": "Check for updates",
-  "config.sanctumcraft.updateCheck.tooltip": "Looks for a new version on GitHub when the game starts."
+  "config.sanctumcraft.updateCheck.tooltip": "Looks for a new version on GitHub when the game starts.",
+  "book.sanctumcraft.guide.name": "Sanctum Guide",
+  "book.sanctumcraft.guide.subtitle": "SanctumCraft, by Remilulz_91",
+  "book.sanctumcraft.guide.landing": "Welcome, hunter!$(br2)This guide covers all of $(item)SanctumCraft$(): the rune portal, the Sanctum raid, eggs, loot, the Altar, talents and companions.$(br2)Start with $(l:basics/welcome)The idea$(). Lost this book? $(thing)/sanctum guide$().",
+  "message.sanctumcraft.guide.missing": "The guide needs the Patchouli mod."
 }

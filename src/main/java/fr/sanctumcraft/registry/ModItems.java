@@ -42,16 +42,11 @@ public final class ModItems {
     public static final Item COMPANION_WHISTLE = Registry.register(Registries.ITEM, SanctumCraft.id("companion_whistle"),
             new fr.sanctumcraft.companion.CompanionWhistleItem(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON)));
 
-    /** The Sanctum Guide (written book content, opens on right-click). */
-    public static final Item SANCTUM_GUIDE = Registry.register(Registries.ITEM, SanctumCraft.id("sanctum_guide"),
-            new fr.sanctumcraft.guide.SanctumGuideItem(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON)));
-
     public static final ItemGroup GROUP = Registry.register(Registries.ITEM_GROUP, SanctumCraft.id("main"),
             FabricItemGroup.builder()
                     .icon(() -> new ItemStack(SANCTUM_SHARD))
                     .displayName(Text.translatable("itemGroup.sanctumcraft.main"))
                     .entries((context, entries) -> {
-                        entries.add(fr.sanctumcraft.guide.SanctumGuide.create());
                         entries.add(ModBlocks.RUNE_STONE);
                         entries.add(ModBlocks.ALTAR);
                         entries.add(SANCTUM_SHARD);

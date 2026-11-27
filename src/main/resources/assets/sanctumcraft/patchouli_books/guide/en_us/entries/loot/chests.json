@@ -1,0 +1,17 @@
+{
+  "name": "Chests",
+  "icon": "minecraft:chest",
+  "category": "sanctumcraft:loot",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "A chest's color is its rarity: $(#777777)basic$(), $(#1b7a1b)fine$(), $(#1565c0)rare$(), $(#6a1b9a)epic$(), $(#b8860b)legendary$().$(br2)Searching takes time: items appear one by one, slower when they're valuable."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A chest may hold a $(l:loot/keys)key$() or a $(l:loot/relics)relic$().",
+      "title": "Contents"
+    }
+  ]
+}
