@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.0-alpha.6] - Textures, companion fix
+
+### Changed
+- New 32×32 textures for the rune stone and the incubator side.
+
+### Fixed
+- Companions no longer go after creepers (like vanilla tamed wolves), so a creeper isn't set off next to the owner.
+
 ## [0.8.0-alpha.5] - New textures
 
 ### Changed

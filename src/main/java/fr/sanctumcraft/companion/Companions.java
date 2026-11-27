@@ -480,6 +480,9 @@ public final class Companions {
         }
         // The allay has no attack: it only supports.
         boolean fighter = mob.getAttributeInstance(EntityAttributes.GENERIC_ATTACK_DAMAGE) != null;
+        // Like vanilla tamed wolves: never go after a creeper (it would blow up next to the owner).
+        if (threat instanceof net.minecraft.entity.mob.CreeperEntity) threat = null;
+        if (mob.getTarget() instanceof net.minecraft.entity.mob.CreeperEntity) mob.setTarget(null);
         if (fighter && threat != null && !(threat instanceof PlayerEntity) && mob.getTarget() == null) mob.setTarget(threat);
 
         if (inst == null) return;
