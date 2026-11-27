@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.8.0-alpha.5] - New textures
+
+### Changed
+- New 32×32 textures for every item (eggs, keys, shard, Chaos Ticket, whistle, guide, 12 relics) and for the Altar, incubator top (3 stages), egg nest top, vault doors, destination mechanism and rift side.
+
 ## [0.8.0-alpha.4] - Guide fix
 
 ### Fixed
