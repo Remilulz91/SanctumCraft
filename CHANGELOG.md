@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.8.0-alpha.7] - Last textures
+
+### Changed
+- New 32×32 textures for the five chests (side, lid, latch, inside), the egg in the nest, the portal (32-frame flowing vortex) and the rift top (pulsing glow, dimmer when the rift is closed).
+
 ## [0.8.0-alpha.6] - Textures, companion fix
 
 ### Changed
