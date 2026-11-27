@@ -15,7 +15,7 @@
         "mapping": {
           "R": "sanctumcraft:rune_stone",
           "0": "sanctumcraft:rune_stone",
-          "P": "sanctumcraft:sanctum_portal[axis=x]"
+          "P": "sanctumcraft:sanctum_portal[axis=z]"
         },
         "pattern": [
           [

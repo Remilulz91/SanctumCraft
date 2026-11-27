@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.8.0-alpha.4] - Guide fix
+
+### Fixed
+- Guide: the portal preview showed the portal blocks edge-on (thin purple stripes); they now face the frame.
+
 ## [0.8.0-alpha.3] - Patchouli guide
 
 ### Changed

@@ -2,7 +2,7 @@
 Run from the project root: python tools/gen_guide.py
 Writes data/sanctumcraft/patchouli_books/guide/book.json and
 assets/sanctumcraft/patchouli_books/guide/<lang>/{categories,entries}/..."""
-import json, pathlib, shutil
+import json, pathlib
 
 ROOT = pathlib.Path("src/main/resources")
 BOOK = "guide"
@@ -55,7 +55,7 @@ CATEGORIES = {
 
 PORTAL_MB = {
     "mapping": {"R": "sanctumcraft:rune_stone", "0": "sanctumcraft:rune_stone",
-                "P": "sanctumcraft:sanctum_portal[axis=x]"},
+                "P": "sanctumcraft:sanctum_portal[axis=z]"},
     "pattern": [["RRRR"], ["RPPR"], ["RPPR"], ["RPPR"], ["RR0R"]],
     "symmetrical": True,
 }
@@ -209,8 +209,7 @@ data_dir.mkdir(parents=True, exist_ok=True)
 (data_dir / "book.json").write_text(json.dumps(book, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 assets = ROOT / "assets" / NS / "patchouli_books" / BOOK
-if assets.exists():
-    shutil.rmtree(assets)
+# Files are overwritten in place; delete a removed entry's JSON by hand.
 for lang in ("fr_fr", "en_us"):
     for cid, (icon, sort, names) in CATEGORIES.items():
         f = assets / lang / "categories" / f"{cid}.json"
